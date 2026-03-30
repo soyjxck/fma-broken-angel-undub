@@ -1,0 +1,26 @@
+[Script Info]
+Title: FMA Undub Subtitles
+ScriptType: v4.00+
+PlayResX: 512
+PlayResY: 448
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,2.5,0,2,20,20,25,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,The time has come. Finally.
+Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,Daddy and Dad.
+Dialogue: 0,0:00:14.00,0:00:18.00,Default,,0,0,0,,Now give me the Philosopher's Catalyst.
+Dialogue: 0,0:00:31.00,0:00:33.00,Default,,0,0,0,,Help!
+Dialogue: 0,0:00:34.00,0:00:36.00,Default,,0,0,0,,Help!
+Dialogue: 0,0:00:36.00,0:00:38.00,Default,,0,0,0,,Help!
+Dialogue: 0,0:00:58.00,0:01:01.00,Default,,0,0,0,,It hurts, doesn't it, Camilla?
+Dialogue: 0,0:01:01.00,0:01:05.00,Default,,0,0,0,,But you should already know that flower's catalytic energy.
+Dialogue: 0,0:01:07.00,0:01:08.00,Default,,0,0,0,,Help!
+Dialogue: 0,0:01:11.00,0:01:13.00,Default,,0,0,0,,My beauty.
+Dialogue: 0,0:01:14.00,0:01:17.00,Default,,0,0,0,,My sweet beauty.
+Dialogue: 0,0:01:23.00,0:01:26.00,Default,,0,0,0,,Ah, damn you!
+Dialogue: 0,0:01:36.00,0:01:38.00,Default,,0,0,0,,Help!

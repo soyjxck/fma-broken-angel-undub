@@ -1,0 +1,65 @@
+[Script Info]
+Title: FMA Undub Subtitles
+ScriptType: v4.00+
+PlayResX: 512
+PlayResY: 448
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,2.5,0,2,20,20,25,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:01.00,0:00:02.50,Default,,0,0,0,,What was that?
+Dialogue: 0,0:00:02.50,0:00:04.00,Default,,0,0,0,,An explosion?
+Dialogue: 0,0:00:06.00,0:00:09.00,Default,,0,0,0,,We are the People's Eastern Revolution Front.
+Dialogue: 0,0:00:09.00,0:00:12.00,Default,,0,0,0,,We have assumed control of this train.
+Dialogue: 0,0:00:12.00,0:00:16.00,Default,,0,0,0,,I repeat, we are the People's Eastern Revolution Front.
+Dialogue: 0,0:00:16.00,0:00:19.00,Default,,0,0,0,,Sounds like a bunch of names cut and pasted together.
+Dialogue: 0,0:00:19.00,0:00:21.00,Default,,0,0,0,,I certainly haven't heard of it.
+Dialogue: 0,0:00:21.00,0:00:24.00,Default,,0,0,0,,I'll bet it's another new radical group.
+Dialogue: 0,0:00:24.00,0:00:27.00,Default,,0,0,0,,Jeez, what is this world coming to?
+Dialogue: 0,0:00:31.00,0:00:35.00,Default,,0,0,0,,Aren't you going to do something?
+Dialogue: 0,0:00:35.00,0:00:37.00,Default,,0,0,0,,Why do I have to?
+Dialogue: 0,0:00:42.00,0:00:46.00,Default,,0,0,0,,I mean, you can take those guys\Nall by yourself, right, Major?
+Dialogue: 0,0:00:48.00,0:00:50.00,Default,,0,0,0,,Indeed!
+Dialogue: 0,0:00:50.00,0:00:56.00,Default,,0,0,0,,As if they could hijack a train with the strong arm alchemist\NAlex Louis Armstrong on board!
+Dialogue: 0,0:00:59.00,0:01:04.00,Default,,0,0,0,,Come here, you crooks!\NYou shall regret your bad luck, I assure you!
+Dialogue: 0,0:01:04.00,0:01:05.50,Default,,0,0,0,,All right, you!
+Dialogue: 0,0:01:05.50,0:01:06.00,Default,,0,0,0,,What?
+Dialogue: 0,0:01:06.00,0:01:08.00,Default,,0,0,0,,Who are you, freaks?
+Dialogue: 0,0:01:08.00,0:01:09.50,Default,,0,0,0,,You heard the announcement, didn't you?
+Dialogue: 0,0:01:09.50,0:01:12.00,Default,,0,0,0,,This train's now under the control\Nof the Eastern Liberation Federation.
+Dialogue: 0,0:01:12.00,0:01:15.00,Default,,0,0,0,,I guess they've changed their names since the announcement.
+Dialogue: 0,0:01:15.00,0:01:17.00,Default,,0,0,0,,I just can't take this anymore.
+Dialogue: 0,0:01:18.00,0:01:21.00,Default,,0,0,0,,Hey, wait. Weren't we just in a situation like this?
+Dialogue: 0,0:01:21.00,0:01:22.00,Default,,0,0,0,,Yeah, we were.
+Dialogue: 0,0:01:22.00,0:01:24.00,Default,,0,0,0,,Someone must have put a curse on us.
+Dialogue: 0,0:01:24.00,0:01:26.50,Default,,0,0,0,,Hey, you and the armor man, Shorty!
+Dialogue: 0,0:01:26.50,0:01:28.00,Default,,0,0,0,,Who gave you permission to chat?
+Dialogue: 0,0:01:28.00,0:01:30.00,Default,,0,0,0,,Just shut up and fork over the valuables!
+Dialogue: 0,0:01:30.00,0:01:31.00,Default,,0,0,0,,This is perfect.
+Dialogue: 0,0:01:31.00,0:01:34.00,Default,,0,0,0,,Okay, you take the goods from the\Nmuffler man and the armor.
+Dialogue: 0,0:01:34.00,0:01:36.00,Default,,0,0,0,,Then get your butt over here, Shorty!
+Dialogue: 0,0:01:37.00,0:01:39.00,Default,,0,0,0,,Who are you calling Shorty?!
+Dialogue: 0,0:01:39.00,0:01:41.00,Default,,0,0,0,,Ha! You, of course!
+Dialogue: 0,0:01:41.00,0:01:43.00,Default,,0,0,0,,Who the heck else is there, you Shorty?
+Dialogue: 0,0:01:48.00,0:01:51.00,Default,,0,0,0,,Who are you calling a runt so tiny\Nhe could only be seen with a magnifying glass?!
+Dialogue: 0,0:01:52.00,0:01:54.00,Default,,0,0,0,,Impressive, Edward Elric.
+Dialogue: 0,0:01:54.00,0:01:56.00,Default,,0,0,0,,An alchemist?
+Dialogue: 0,0:02:06.00,0:02:08.00,Default,,0,0,0,,That was pitiful.
+Dialogue: 0,0:02:08.00,0:02:11.00,Default,,0,0,0,,Just who are these people anyway?
+Dialogue: 0,0:02:11.00,0:02:13.00,Default,,0,0,0,,I'm telling you, it's a curse.
+Dialogue: 0,0:02:13.00,0:02:16.00,Default,,0,0,0,,Or maybe they want your autograph.
+Dialogue: 0,0:02:16.00,0:02:17.00,Default,,0,0,0,,What? Who?
+Dialogue: 0,0:02:17.00,0:02:19.00,Default,,0,0,0,,Hey, what's going on in here?
+Dialogue: 0,0:02:22.00,0:02:25.00,Default,,0,0,0,,Maybe he's a fan of yours.
+Dialogue: 0,0:02:25.00,0:02:26.00,Default,,0,0,0,,Very funny.
+Dialogue: 0,0:02:26.00,0:02:28.00,Default,,0,0,0,,All right, Major.
+Dialogue: 0,0:02:28.00,0:02:31.00,Default,,0,0,0,,You go check out the cars in the back\Nand find out what that explosion was.
+Dialogue: 0,0:02:31.00,0:02:34.00,Default,,0,0,0,,Don't worry about it. I'm already on it.
+Dialogue: 0,0:02:36.00,0:02:39.00,Default,,0,0,0,,Looks like we've got alchemists among us.
+Dialogue: 0,0:02:39.00,0:02:41.00,Default,,0,0,0,,So everybody watch your backs, okay?
+Dialogue: 0,0:02:42.00,0:02:44.00,Default,,0,0,0,,Hmm, I know it all too well.
+Dialogue: 0,0:02:49.00,0:02:50.00,Default,,0,0,0,,Let's go!

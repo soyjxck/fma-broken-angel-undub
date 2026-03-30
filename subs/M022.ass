@@ -1,0 +1,48 @@
+[Script Info]
+Title: FMA Undub Subtitles
+ScriptType: v4.00+
+PlayResX: 512
+PlayResY: 448
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,2.5,0,2,20,20,25,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:00:07.00,Default,,0,0,0,,Where's Armony?
+Dialogue: 0,0:00:07.00,0:00:12.00,Default,,0,0,0,,...
+Dialogue: 0,0:00:12.00,0:00:13.00,Default,,0,0,0,,Thank you.
+Dialogue: 0,0:00:13.00,0:00:17.00,Default,,0,0,0,,Hold it right there.
+Dialogue: 0,0:00:17.00,0:00:19.00,Default,,0,0,0,,Hey, if you can't tell, we're in a hurry.
+Dialogue: 0,0:00:19.00,0:00:21.00,Default,,0,0,0,,The report will have to wait.
+Dialogue: 0,0:00:21.00,0:00:26.00,Default,,0,0,0,,Hold it, I said.
+Dialogue: 0,0:00:26.00,0:00:28.00,Default,,0,0,0,,What's gotten into you?
+Dialogue: 0,0:00:28.00,0:00:32.00,Default,,0,0,0,,I was specifically asked not to allow your entry.
+Dialogue: 0,0:00:32.00,0:00:35.00,Default,,0,0,0,,By who?
+Dialogue: 0,0:00:35.00,0:00:36.00,Default,,0,0,0,,Is that so?
+Dialogue: 0,0:00:36.00,0:00:39.00,Default,,0,0,0,,Well, then we're just gonna have\Nto force ourselves in.
+Dialogue: 0,0:00:39.00,0:00:42.00,Default,,0,0,0,,I'm sorry to do this,\Nbut we're not gonna hold back.
+Dialogue: 0,0:00:42.00,0:00:44.00,Default,,0,0,0,,Edward, you have to listen to us.
+Dialogue: 0,0:00:44.00,0:00:47.00,Default,,0,0,0,,There's no time. Armony's in danger.
+Dialogue: 0,0:00:47.00,0:00:49.00,Default,,0,0,0,,You never stop to think, do you?
+Dialogue: 0,0:00:49.00,0:00:51.00,Default,,0,0,0,,Think about Armony's feelings.
+Dialogue: 0,0:00:51.00,0:00:54.00,Default,,0,0,0,,Armony's feelings?
+Dialogue: 0,0:00:54.00,0:00:56.00,Default,,0,0,0,,Who cares?
+Dialogue: 0,0:00:56.00,0:00:58.00,Default,,0,0,0,,She's my...
+Dialogue: 0,0:00:58.00,0:01:00.00,Default,,0,0,0,,She's my...
+Dialogue: 0,0:01:00.00,0:01:02.00,Default,,0,0,0,,My apprentice.
+Dialogue: 0,0:01:02.00,0:01:04.00,Default,,0,0,0,,I have to help.
+Dialogue: 0,0:01:04.00,0:01:06.00,Default,,0,0,0,,I have to save her.
+Dialogue: 0,0:01:06.00,0:01:08.00,Default,,0,0,0,,What good is a master\Nwho can't help his apprentice?
+Dialogue: 0,0:01:08.00,0:01:11.00,Default,,0,0,0,,What good is alchemy then?
+Dialogue: 0,0:01:11.00,0:01:12.00,Default,,0,0,0,,So you have to.
+Dialogue: 0,0:01:12.00,0:01:15.00,Default,,0,0,0,,Yes, I have to.
+Dialogue: 0,0:01:15.00,0:01:20.00,Default,,0,0,0,,Then you give me no choice.
+Dialogue: 0,0:01:20.00,0:01:23.00,Default,,0,0,0,,You think we're only kids, don't you?
+Dialogue: 0,0:01:23.00,0:01:25.00,Default,,0,0,0,,And we'll grow up soon enough.
+Dialogue: 0,0:01:25.00,0:01:28.00,Default,,0,0,0,,But that's not true for Armony.
+Dialogue: 0,0:01:28.00,0:01:31.00,Default,,0,0,0,,Now is all she has!
+Dialogue: 0,0:01:31.00,0:01:34.00,Default,,0,0,0,,I figured this day would come around sometime.
+Dialogue: 0,0:01:34.00,0:01:38.00,Default,,0,0,0,,Get out of the way!

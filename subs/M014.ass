@@ -1,0 +1,22 @@
+[Script Info]
+Title: FMA Undub Subtitles
+ScriptType: v4.00+
+PlayResX: 512
+PlayResY: 448
+WrapStyle: 0
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100,100,0,0,1,2.5,0,2,20,20,25,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:0.10,0:00:3.10,Default,,0,0,0,,Are you alright, miss?
+Dialogue: 0,0:00:20.00,0:00:24.44,Default,,0,0,0,,I'm terribly sorry about that.
+Dialogue: 0,0:00:24.44,0:00:28.28,Default,,0,0,0,,I hope you will allow me\Nto pay for the cleaning.
+Dialogue: 0,0:00:28.28,0:00:32.72,Default,,0,0,0,,If you'll accept, I'd like to make amends\Nby offering a ride.
+Dialogue: 0,0:00:32.72,0:00:36.84,Default,,0,0,0,,We can take you wherever\Nit is you wish to go.
+Dialogue: 0,0:00:36.80,0:00:40.80,Default,,0,0,0,,I suppose that sounds like a fair offer.\NI accept.
+Dialogue: 0,0:00:48.16,0:00:49.68,Default,,0,0,0,,Why are you laughing?
+Dialogue: 0,0:00:49.68,0:00:51.88,Default,,0,0,0,,Do you find something amusing, Major?
+Dialogue: 0,0:00:51.88,0:00:54.92,Default,,0,0,0,,Of course not.\NYou look splendid, Lieutenant.

@@ -1,1 +1,4 @@
 FMA_Undub.xdelta
+*.iso
+__pycache__/
+*.pyc

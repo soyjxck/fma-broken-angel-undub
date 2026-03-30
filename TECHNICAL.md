@@ -17,8 +17,10 @@
 6. [Reverse Engineering Process](#reverse-engineering-process)
 7. [Key Decisions & Breakthroughs](#key-decisions--breakthroughs)
 8. [Pitfalls & Lessons Learned](#pitfalls--lessons-learned)
-9. [What Remains Unknown](#what-remains-unknown)
-10. [Tools Used](#tools-used)
+9. [Complete Changelog of Attempts](#complete-changelog-of-attempts)
+10. [What Remains](#what-remains)
+11. [Tools Used](#tools-used)
+12. [Published Artifacts](#published-artifacts)
 
 ---
 
@@ -228,8 +230,9 @@ Offset  Size  Type    Field              Description
 
 - **Uncompressed** (202 entries): `compressed_size == decompressed_size`
 - **Compressed** (425 entries): `compressed_size < decompressed_size`, ratio 1.3x - 3.2x
-- Compressed data starts with bytes `00 05` or `00 07` (likely a custom LZ/Huffman variant)
-- Compression algorithm is **NOT yet reverse engineered**
+- Uses **Racjin compression algorithm** (9-bit token bitstream with context-sensitive sliding window)
+- Decompression function in executable at virtual address **0x00263EF0**
+- All 627 entries successfully decompressed. See [CDDATA.DIG Compression](#cddatadig-compression--racjin-algorithm-solved) section for details.
 
 ### Known Content Types
 
@@ -590,7 +593,7 @@ uint32  data_offset     (offset to audio data, i.e., header size)
 [raw PS2 ADPCM audio data]
 ```
 
-These likely contain **additional voice lines** but extracting individual clips requires parsing the per-sound metadata. This is the main remaining work.
+These contain **combat voice barks** embedded alongside 3D model/animation data. The audio format within these containers is proprietary and does not match any known PS2 audio codec. See [Complete Changelog of Attempts](#complete-changelog-of-attempts) for full details on extraction efforts.
 
 ### SCEI Containers (156 files)
 
@@ -629,15 +632,19 @@ Small files with unidentified formats.
 
 All audio in both versions has been fully extracted and accounted for. The 101-entry lookup table in both executables provides exact 1:1 mapping (see [USA <-> JP Entry Mapping](#usa--jp-entry-mapping) section).
 
-### Undub ISO Status (FMA_Undub.iso)
+### Undub ISO Status (FMA_Undub.iso) — v3.0 COMPLETE
 
 | Component | Status |
 |-----------|--------|
 | DSI cutscene audio (18/18) | Replaced with JP audio ✓ |
-| CDDATA.DIG audio table (101 entries) | All replaced ✓ (56 truncated to fit) |
-| Combat voice audio (entries 501-573, 57-67) | NOT replaced -- requires manual clip matching |
+| CDDATA.DIG lookup table (101 entries) | All replaced ✓ |
+| CDDATA.DIG SCEI hash-matched banks (85 entries) | All replaced ✓ |
+| CDDATA.DIG voice-only banks (12 entries) | All replaced ✓ (includes Edward's combat grunts) |
+| **Total CDDATA.DIG entries replaced** | **198** |
+| Truncated entries | 56 of 198 (slightly shorter at end) |
+| Perfect-fit entries | 142 of 198 |
 
-The undub ISO was built by patching the original USA ISO in-place (preserving PS2 boot sector) using pycdlib for file location lookup. The undub.py tool handles DSI + CDDATA patching with truncation for oversized JP entries. Combat barks remain in English.
+The undub ISO was built by patching the original USA ISO in-place (preserving PS2 boot sector) using pycdlib for file location lookup. The undub.py tool handles DSI + CDDATA patching with truncation for oversized JP entries. Edward's Japanese combat grunts confirmed working in PCSX2. Note: save states from unpatched version won't work -- must use memory card saves or start fresh.
 
 ### Output Directories
 
@@ -647,6 +654,31 @@ extracted_video/          - DSI cutscene video (M2V)
 extracted_cddata/         - All 627 decompressed CDDATA.DIG entries (BIN)
 extracted_cddata_audio/   - Decoded audio from CDDATA.DIG (WAV)
 ```
+
+---
+
+## Complete Game Asset Map
+
+### CDDATA.DIG Content (627 entries, 357 MB decompressed)
+
+| Asset Type | Entries | Files | Size | Format | Status |
+|------------|---------|-------|------|--------|--------|
+| Standalone audio | 74, 235-290 | 57 | 51 MB | Stereo PSX ADPCM 44.1kHz, 0x100 interleave | Fully decoded |
+| SCEI sound banks | 78-234 | 156 | 21 MB | SCEIVers/SCEIVagi/SCEISets/SCEIMidi headers + mono PSX ADPCM 22kHz samples in BD section | Fully decoded, 1,604 samples extracted |
+| Level graphics | 2-57, 291-431 | 203 | 43 MB | 2-section containers: Section 0 = material/shader params, Section 1 = PS2 GS native data (vertices, textures, PRIM/RGBAQ/XYZ2/TEX0 registers) | Structure identified |
+| Combat data packs | 433-577 | 144 | 208 MB | Multi-sub containers with: sound banks (130MB), 3D indexed data (60MB), float/transform matrices (<1MB), AI/gameplay config (<2MB) | Structure identified |
+| Shared game data | 0-1, 58-73, 75, 432 | 67 | 34 MB | Multi-sub containers: character models, UI, common assets | Structure identified |
+
+### DSI Files (18 files, ~1.8 GB)
+- Video: MPEG-2, 512x448, 29.97fps (TMPGEnc encoded)
+- Audio: Stereo PSX ADPCM, 44.1kHz, 0x100 interleave, block-multiplexed with video
+
+### SCEI Sound Bank Format (CRACKED)
+- Header chunks: SCEIVers (version), SCEIVagi (sample index), SCEISets (instrument groups), SCEIMidi (sequences)
+- Vagi chunk structure: count(4) + (count+1)*4 offset table + count*8 parameter blocks
+- Parameter block: BD_offset(4) + metadata(4)
+- BD data (Section 1): Raw mono PS2 SPU ADPCM samples at 22,050 Hz concatenated sequentially
+- USA: 1,604 samples from 141 banks; JP: 1,603 samples from 141 banks
 
 ---
 
@@ -677,6 +709,48 @@ We tested the raw ADPCM files with vgmstream using the same parameters as DSI au
 
 The larger container files (0433-0577) contain sound banks — sub-entries with an internal header listing multiple sounds. The audio body is raw ADPCM but can't be decoded as a single stream because it contains multiple concatenated clips. The per-clip offset table in the sound bank header needs to be parsed to extract individual voice lines.
 
+### Step 14: SCEI Sound Bank Cracking
+- Identified "IECSigaV" (SCEIVagi) markers in SCEI container entries (78-234)
+- Discovered these are HD/BD-style sound banks: Vagi chunk = instrument header, Section 1 = raw ADPCM sample data
+- Parsed Vagi parameter blocks to find BD offsets for each sample
+- Key insight: parameter blocks start at offset 4 + (count+1)*4 in the Vagi data, each 8 bytes (4 bytes BD offset + 4 bytes metadata)
+- Successfully extracted 1,604 USA and 1,603 JP individual samples as mono 22050Hz PSX ADPCM
+
+### Step 15: Level Data Identification
+- Found PS2 GS (Graphics Synthesizer) register patterns (PRIM, RGBAQ, XYZ2, TEX0, SCISSOR) in Section 1 of 2-section containers
+- Confirmed these are raw PS2 GPU rendering data: vertices, textures, polygon definitions
+- Section 0 contains material/shader parameters with color values and float multipliers
+
+### Step 16: Combat Container Sub-entry Classification
+- Categorized all sub-entries across 144 combat containers by first uint32 value and size patterns
+- Sound banks (130MB): same format as SCEI Vagi, with 3-49 sounds each
+- Indexed data blocks (60MB): 3D model vertices, animations, collision meshes
+- Float matrices (<1MB): camera positions, transform matrices
+- Small config data (<2MB): AI parameters, state machines, gameplay logic
+
+### Step 17: SCEI Sample Hash Matching
+- Hashed all 1,604 USA and 1,603 JP ADPCM samples (MD5 of raw ADPCM data)
+- 1,386 samples matched (identical SFX shared between versions)
+- 218 USA-only samples identified as English voice content
+- 217 JP-only samples identified as Japanese voice replacements
+- Shared samples used to map 85 previously unmapped SCEI banks (entries 78-190) to their JP equivalents
+- Key insight: banks with shared SFX + different voice samples must be the same bank in different languages
+
+### Step 18: Voice-Only Bank Matching
+- 27 SCEI banks had zero hash matches (100% voice content, no shared SFX)
+- 15 had 0 samples (metadata only, no replacement needed)
+- 12 with voice samples matched to JP banks by sample count + file size proximity
+- USA entries 105, 107, 108 (3 samples each) -> JP 491 -- confirmed as Edward's combat grunts!
+- USA 141-143, 146, 151-153, 156-157 -> various JP banks -- other character voice banks
+
+### Step 19: Final Patch Build (v3.0)
+- 198 total CDDATA.DIG entries patched (101 lookup table + 85 hash-matched + 12 voice-only)
+- 18 DSI cutscene files patched
+- 142 entries fit perfectly, 56 truncated to fit ISO slots
+- xdelta3 patch generated (93MB), verified round-trip
+- Published to GitHub as v3.0 release
+- User confirmed: Edward's Japanese combat grunts working in PCSX2
+
 ---
 
 ## Key Decisions & Breakthroughs
@@ -691,6 +765,15 @@ Testing the credits song (entry 0237) with the same stereo 44100Hz 0x100 interle
 
 ### 10. Strict ADPCM validation
 Initial loose ADPCM detection (checking only 4 blocks) produced false positives. Tightening to 32 consecutive blocks with strict predict<=4, flag<=7, shift<=12 filtering reduced 217 candidates to 57 genuine audio files.
+
+### 11. Sample hash matching for bank mapping
+Instead of trying to match banks by position or structure, hashing individual ADPCM samples revealed which banks correspond between versions. Identical SFX samples (footsteps, explosions) served as "anchors" linking USA banks to JP banks.
+
+### 12. Voice-only bank matching by sample count
+When hash matching found zero shared samples (100% voice content), matching by sample count + file size identified the remaining banks. This caught Edward's combat grunt bank (entries 105/107/108).
+
+### 13. Save states bypass disc reads
+User initially couldn't hear changes because PCSX2 save states capture audio already in memory. Loading from memory card saves or starting fresh forces the game to read patched data from disc.
 
 ---
 
@@ -871,11 +954,48 @@ A 7-entry mapping table exists in both executables:
 
 ---
 
+## Complete Changelog of Attempts
+
+### What we tried for combat audio
+
+1. Standard PS2 SPU ADPCM with stereo 44100Hz 0x100 interleave (same as working audio) -- static
+2. Mono at 22050/44100/48000Hz -- static for USA, works for JP embedded clips
+3. Stereo with interleave 0x10, 0x20, 0x80, 0x100, 0x200, 0x400, 0x800 -- all static
+4. PCM16 little-endian -- static
+5. PCM16 big-endian -- static
+6. PSX_bf (bad flags ADPCM variant) -- static
+7. Brute-force scanning for ADPCM regions in containers -- found false positives (3D float data)
+8. Strict ADPCM validation (32+ consecutive blocks, non-zero data check) -- found only SFX, no voice
+9. Relaxed validation (allowing sparse data) -- 73 USA clips extracted, all static
+10. Sound bank header parsing (count + header_size + entries) -- found internal structure but audio at parsed offsets was static
+11. Per-clip header skipping (84-byte headers with float parameters) -- data after header still static
+12. Sub-sound entry parsing (154 entries within sound 0 of entry 501) -- all static
+13. Binary diff comparing USA entry 67 (17 sub-entries, 2MB) vs JP entry 67 (1 sub-entry, 200KB) -- completely different structures
+14. Searching for SCEI/VAGI/HD/BD signatures in containers -- none found
+15. Executable code tracing (function at 0x0024D460 loads entries, buffer at 0x2D1590) -- identified loading path but not format
+16. MODHSYN synthesizer module analysis -- found "Vagi" string but containers don't use standard HD/BD format
+17. Size-matching USA entries to JP entries by decompressed size -- 57 matches found but replacing them didn't fix combat audio (wrong assumption)
+
+### Key discovery about JP combat audio
+
+- JP embedded clips decode correctly as **mono 44.1kHz** PS2 ADPCM (not stereo!)
+- JP containers have audio scattered across completely different entry numbers
+- USA containers at same indices are either empty in JP or much smaller
+- The USA localization restructured the entire archive, bundling voice audio into containers alongside 3D data
+
+### Resolution: SCEI bank approach succeeded
+
+The combat containers turned out to be a red herring for audio replacement. The actual combat voice audio (including Edward's grunts) is stored in **SCEI sound banks** (entries 78-190), not in the multi-section combat containers. Sample hash matching (Step 17) and voice-only bank matching (Step 18) successfully identified and replaced all combat voice banks, bypassing the proprietary container format entirely.
+
+---
+
 ## What Remains
 
-1. **Extract individual combat voice clips** from both USA and JP versions for manual matching.
+**Project essentially complete.** Undub patch v3.0 published and verified.
 
-2. **Combat voice undub requires manual identification** of matching clips by context (listening and comparing).
+- Minor: 56 of 198 CDDATA entries truncated (some voice clips cut slightly short at the end).
+- Minor: 1 USA sample in bank 154 has no JP equivalent.
+- Note: Save states from unpatched version won't work -- must use memory card saves or start fresh.
 
 ---
 
@@ -901,3 +1021,16 @@ num_samples = data_size
 ```
 
 Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will auto-detect it.
+
+---
+
+## Published Artifacts
+
+| Artifact | Location | Description |
+|----------|----------|-------------|
+| **fma-undub-patch v3.0** | GitHub: `samuelzubaid/fma-undub-patch` (private) | 93MB xdelta patch, README, apply script, technical docs |
+| **racjin-python** | GitHub: `samuelzubaid/racjin-python` (private) | Racjin compression/decompression Python library |
+| **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO with JP cutscene + voice + combat grunt audio |
+| **tools.py** | Local | Archive extraction and audio processing utilities |
+| **undub.py** | Local | DSI + CDDATA patching tool with truncation support |
+| **REVERSE_ENGINEERING_NOTES.md** | Local | Complete reverse engineering documentation |

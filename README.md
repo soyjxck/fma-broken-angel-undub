@@ -16,7 +16,9 @@ If this helped you, consider [buying me a coffee](https://ko-fi.com/soyjack) ☕
 
 ## How to Patch
 
-### Option 1: xdelta (simplest)
+### Option 1: xdelta (recommended)
+
+Pre-built patch with Japanese audio **and** English subtitles on all cutscenes. No build tools needed.
 
 **Requirements**: USA ISO + [DeltaPatcher](https://github.com/marco-calautti/DeltaPatcher/releases) (Windows/Mac/Linux)
 
@@ -33,9 +35,9 @@ xdelta3 -d -s "usa.iso" FMA_Undub.xdelta "FMA_Undub.iso"
 
 ---
 
-### Option 2: Full pipeline (with subtitles)
+### Option 2: Full pipeline (build it yourself — with subtitles)
 
-Builds the complete undub from both ISOs, including burned-in English subtitles on cutscene video. First run will auto-build ffmpeg with subtitle support.
+Only needed if you want to build the xdelta patch yourself from both ISOs. Produces the same result as Option 1, including burned-in English subtitles. First run will auto-build ffmpeg with subtitle support.
 
 **Requirements**:
 - Python 3.9+
@@ -86,9 +88,9 @@ The script will automatically download and compile ffmpeg 7.1.1 with libass on f
 
 ---
 
-### Option 3: Audio-only (no subtitles)
+### Option 3: Audio-only (build it yourself — no subtitles)
 
-Replaces all audio with Japanese but skips subtitle burning. No ffmpeg or build tools needed — just Python.
+Same as Option 2 but skips subtitle burning. No ffmpeg or build tools needed — just Python.
 
 **Requirements**: Python 3.9+ + USA ISO + JP ISO
 

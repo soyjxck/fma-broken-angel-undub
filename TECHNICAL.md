@@ -632,7 +632,7 @@ Small files with unidentified formats.
 
 All audio in both versions has been fully extracted and accounted for. The 101-entry lookup table in both executables provides exact 1:1 mapping (see [USA <-> JP Entry Mapping](#usa--jp-entry-mapping) section).
 
-### Undub ISO Status (FMA_Undub.iso) — v3.0 COMPLETE
+### Undub ISO Status (FMA_Undub.iso) — v4.2 COMPLETE
 
 | Component | Status |
 |-----------|--------|
@@ -787,6 +787,19 @@ The larger container files (0433-0577) contain sound banks — sub-entries with 
 - Used for encoding sped-up audio for other cutscenes: WAV -> ffmpeg atempo=1.22x -> psxavenc -t spui -i 256 -> PS2 ADPCM
 - This completes the full encode/decode pipeline for PS2 audio (previously could only decode, not encode)
 
+### Step 25: Unified Cross-Platform Patcher (v4.2)
+- Built `patch.py` with 3 operating modes:
+  - **full**: Subtitles + audio undub. Auto-builds ffmpeg with libass on first run (cached for subsequent runs). Burns ASS subtitles from `subs/` directory into MPEG-2 video. M000 opening gets full JP DSI replacement (overflows into DATA0, ISO directory patched). 17 other cutscenes: USA video re-encoded as CBR MPEG-2 with burned subtitles + JP audio. MPEG-2 end-of-sequence markers (0x000001B7) required for PS2 decoder. CBR encoding (minrate=maxrate) needed to match original video sizes for DSI block compatibility.
+  - **audio**: Audio-only undub. Requires only Python -- no ffmpeg build needed. Replaces all audio (DSI + CDDATA) with JP equivalents.
+  - **xdelta**: Apply pre-built xdelta patch. Simplest mode for end users.
+- Cross-platform support: macOS (brew), Linux (apt/dnf), Windows (MSYS2)
+- ffmpeg auto-built with libass on first run, cached for subsequent runs
+- MD5 verification of source ISOs: USA `e074fae418feff31ee9b4c6422527cab`, JP `39ee7c7c9773731b9aa6dae943faaec3`
+- Full pipeline produces byte-identical ISO to xdelta patch output (verified MD5: `51960c109e7be4636a5c0a82759db984`)
+- ASS subtitle files bundled in `subs/` directory
+- 198 CDDATA.DIG entries: 101 from executable lookup table + 85 hash-matched SCEI banks + 12 voice-only banks
+- 1,604 SCEI sound bank samples extracted per version (mono PSX ADPCM, per-sample rates from Vagi metadata)
+
 ---
 
 ## Key Decisions & Breakthroughs
@@ -816,6 +829,9 @@ The DSI block extraction produces audio ~8.9% longer than video because SPU2 pad
 
 ### 15. Direct DSI replacement with ISO directory patching
 Instead of re-encoding JP video to fit the smaller USA slot (which caused PS2 MPEG decoder stutter), writing the full JP DSI and overflowing into the adjacent DATA0 zero-space preserves native stream structure. Patching the ISO9660 directory entry to reflect the true file size makes this transparent to the game.
+
+### 16. Reproducible byte-identical builds
+The full pipeline (patch.py `full` mode) produces an ISO that is byte-identical to the xdelta patch output. This was verified by MD5: `51960c109e7be4636a5c0a82759db984`. This means users can trust that building from source yields the exact same result as the pre-built patch -- no non-determinism from encoding parameters, timestamps, or tool versions.
 
 ---
 
@@ -1033,7 +1049,7 @@ The combat containers turned out to be a red herring for audio replacement. The 
 
 ## What Remains
 
-**Project essentially complete.** Undub patch v4.1 published and verified.
+**PROJECT COMPLETE.** Undub patch v4.2 published, verified, and fully reproducible.
 
 - Minor: 56 of 198 CDDATA entries truncated (some voice clips cut slightly short at the end).
 - Minor: 1 USA sample in bank 154 has no JP equivalent.
@@ -1071,10 +1087,10 @@ Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will
 
 | Artifact | Location | Description |
 |----------|----------|-------------|
-| **fma-broken-angel-undub v4.1** | GitHub: `soyjxck/fma-broken-angel-undub` | 93MB xdelta patch, README, apply script, technical docs. v4.1: full JP opening (native DSI replacement with ISO directory patching), psxavenc for PS2 ADPCM encoding |
+| **fma-broken-angel-undub v4.2** | GitHub: `soyjxck/fma-broken-angel-undub` | xdelta patch, patch.py (3-mode unified patcher: full/audio/xdelta), ASS subtitles in `subs/`, technical docs. Cross-platform (macOS/Linux/Windows via MSYS2). Full pipeline produces byte-identical ISO to xdelta patch (MD5: `51960c109e7be4636a5c0a82759db984`) |
 | **racjin-python** | GitHub: `soyjxck/racjin-python` | Racjin compression/decompression Python library |
-| **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO with JP cutscene + voice + combat grunt audio |
+| **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO (MD5: `51960c109e7be4636a5c0a82759db984`) with JP cutscene + voice + combat grunt audio + burned English subtitles |
+| **patch.py** | GitHub repo | Unified patcher: `full` (subs+audio, auto-builds ffmpeg with libass), `audio` (audio-only, just Python), `xdelta` (apply pre-built patch) |
 | **tools.py** | Local | Archive extraction and audio processing utilities |
-| **undub.py** | Local | DSI + CDDATA patching tool with truncation support |
-| **Subtitled cutscene videos** | Local: `output/cutscene_final/` (511MB) | 18 MKV files with JP audio + English ASS subtitles, Whisper-transcribed and manually corrected |
-| **REVERSE_ENGINEERING_NOTES.md** | Local | Complete reverse engineering documentation |
+| **REVERSE_ENGINEERING_NOTES.md** | Local + GitHub repo (as TECHNICAL.md) | Complete reverse engineering documentation |
+| **MD5 hashes** | -- | USA ISO: `e074fae418feff31ee9b4c6422527cab`, JP ISO: `39ee7c7c9773731b9aa6dae943faaec3` |

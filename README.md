@@ -2,6 +2,8 @@
 
 Replaces English voice audio with Japanese voice audio in the USA release of **Fullmetal Alchemist and the Broken Angel** (PS2).
 
+**[Download latest patch from Releases](https://github.com/soyjxck/fma-broken-angel-undub/releases/latest)**
+
 ## What's Changed
 
 | Content | Status |

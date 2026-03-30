@@ -774,6 +774,19 @@ The larger container files (0433-0577) contain sound banks — sub-entries with 
 - Soft subtitles (ASS track) for rendering in VLC/media players
 - 511MB total output in output/cutscene_final/
 
+### Step 23: M000 Opening Cutscene -- Full JP DSI Replacement
+- JP M000.DSI is ~69MB, USA slot is ~64MB -- JP file is ~5MB larger
+- Solution: write full JP DSI at M000.DSI's ISO position, overflowing into DATA0 (16MB all-zeros runtime scratchpad that follows M000.DSI on disc)
+- ISO9660 directory entry patched to reflect the new (larger) file size so the game reads the correct number of bytes
+- No re-encoding needed -- native PS2 MPEG-2 video + ADPCM audio preserved exactly as authored
+- Previous attempts re-encoded the JP video sped up 1.22x to fit the USA slot, but this caused stutter because the PS2 hardware MPEG decoder is picky about stream structure and timing
+
+### Step 24: PS2 ADPCM Encoding with psxavenc
+- Found open-source psxavenc tool (WonderfulToolchain/psxavenc) for encoding PS2 SPU-ADPCM
+- Supports stereo interleaved SPU-ADPCM output (`-t spui` mode)
+- Used for encoding sped-up audio for other cutscenes: WAV -> ffmpeg atempo=1.22x -> psxavenc -t spui -i 256 -> PS2 ADPCM
+- This completes the full encode/decode pipeline for PS2 audio (previously could only decode, not encode)
+
 ---
 
 ## Key Decisions & Breakthroughs
@@ -800,6 +813,9 @@ User initially couldn't hear changes because PCSX2 save states capture audio alr
 
 ### 14. Audio tempo sync for subtitle timing
 The DSI block extraction produces audio ~8.9% longer than video because SPU2 padding accumulates when blocks are concatenated. Squeezing the audio with atempo=1.0886 before transcription ensures Whisper timestamps match video frames perfectly.
+
+### 15. Direct DSI replacement with ISO directory patching
+Instead of re-encoding JP video to fit the smaller USA slot (which caused PS2 MPEG decoder stutter), writing the full JP DSI and overflowing into the adjacent DATA0 zero-space preserves native stream structure. Patching the ISO9660 directory entry to reflect the true file size makes this transparent to the game.
 
 ---
 
@@ -1017,7 +1033,7 @@ The combat containers turned out to be a red herring for audio replacement. The 
 
 ## What Remains
 
-**Project essentially complete.** Undub patch v3.0 published and verified.
+**Project essentially complete.** Undub patch v4.1 published and verified.
 
 - Minor: 56 of 198 CDDATA entries truncated (some voice clips cut slightly short at the end).
 - Minor: 1 USA sample in bank 154 has no JP equivalent.
@@ -1055,7 +1071,7 @@ Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will
 
 | Artifact | Location | Description |
 |----------|----------|-------------|
-| **fma-broken-angel-undub v3.0** | GitHub: `soyjxck/fma-broken-angel-undub` | 93MB xdelta patch, README, apply script, technical docs |
+| **fma-broken-angel-undub v4.1** | GitHub: `soyjxck/fma-broken-angel-undub` | 93MB xdelta patch, README, apply script, technical docs. v4.1: full JP opening (native DSI replacement with ISO directory patching), psxavenc for PS2 ADPCM encoding |
 | **racjin-python** | GitHub: `soyjxck/racjin-python` | Racjin compression/decompression Python library |
 | **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO with JP cutscene + voice + combat grunt audio |
 | **tools.py** | Local | Archive extraction and audio processing utilities |

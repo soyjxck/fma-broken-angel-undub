@@ -8,7 +8,7 @@ Replaces English voice audio with Japanese voice audio in the USA release of **F
 
 | Content | Status |
 |---------|--------|
-| Cutscene dialogue (18 FMVs, ~30 min) | Fully Japanese |
+| Cutscene dialogue (18 FMVs, ~30 min) | Fully Japanese (v4.1: opening uses native JP video) |
 | In-game voice lines & SFX (101 entries) | Fully Japanese |
 | Music (4 tracks) | Japanese |
 | Combat voice barks | Remains English* |
@@ -91,7 +91,7 @@ In addition to the undub patch, 18 subtitled cutscene videos are available as st
 
 ## Credits
 
-- Reverse engineering and patch creation: Automated with Claude Code
+- Reverse engineering and patch creation: Built with Claude Code
 - [Racjin-de-compression](https://github.com/Raw-man/Racjin-de-compression) by Raw-man — Reference C++ implementation of the Racjin compression algorithm
 - [vgmstream](https://github.com/vgmstream/vgmstream) — Used for audio format verification
 - [pycdlib](https://github.com/clalancette/pycdlib) — ISO filesystem analysis

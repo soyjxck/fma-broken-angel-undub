@@ -11,7 +11,7 @@ Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:0.10,0:00:3.10,Default,,0,0,0,,Are you alright, miss?
+Dialogue: 0,0:00:00.10,0:00:03.10,Default,,0,0,0,,Are you all right, miss?
 Dialogue: 0,0:00:20.00,0:00:24.44,Default,,0,0,0,,I'm terribly sorry about that.
 Dialogue: 0,0:00:24.44,0:00:28.28,Default,,0,0,0,,I hope you will allow me\Nto pay for the cleaning.
 Dialogue: 0,0:00:28.28,0:00:32.72,Default,,0,0,0,,If you'll accept, I'd like to make amends\Nby offering a ride.

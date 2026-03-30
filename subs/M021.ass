@@ -12,7 +12,7 @@ Style: Default,Arial,22,&H00FFFFFF,&H000000FF,&H00000000,&H96000000,-1,0,0,0,100
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:00.00,0:00:05.00,Default,,0,0,0,,The time has come. Finally.
-Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,Daddy and Dad.
+Dialogue: 0,0:00:11.00,0:00:13.00,Default,,0,0,0,,Daddy... Dad!
 Dialogue: 0,0:00:14.00,0:00:18.00,Default,,0,0,0,,Now give me the Philosopher's Catalyst.
 Dialogue: 0,0:00:31.00,0:00:33.00,Default,,0,0,0,,Help!
 Dialogue: 0,0:00:34.00,0:00:36.00,Default,,0,0,0,,Help!

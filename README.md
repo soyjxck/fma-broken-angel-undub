@@ -2,6 +2,8 @@
 
 Replaces English audio with Japanese audio in the USA PS2 release. Includes English subtitles on cutscenes.
 
+If this helped you, consider [buying me a coffee](https://ko-fi.com/soyjack) ☕
+
 ## What's Changed
 
 | Content | Status |

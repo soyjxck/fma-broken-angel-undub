@@ -1055,8 +1055,8 @@ Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will
 
 | Artifact | Location | Description |
 |----------|----------|-------------|
-| **fma-undub-patch v3.0** | GitHub: `samuelzubaid/fma-undub-patch` (private) | 93MB xdelta patch, README, apply script, technical docs |
-| **racjin-python** | GitHub: `samuelzubaid/racjin-python` (private) | Racjin compression/decompression Python library |
+| **fma-broken-angel-undub v3.0** | GitHub: `soyjxck/fma-broken-angel-undub` | 93MB xdelta patch, README, apply script, technical docs |
+| **racjin-python** | GitHub: `soyjxck/racjin-python` | Racjin compression/decompression Python library |
 | **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO with JP cutscene + voice + combat grunt audio |
 | **tools.py** | Local | Archive extraction and audio processing utilities |
 | **undub.py** | Local | DSI + CDDATA patching tool with truncation support |

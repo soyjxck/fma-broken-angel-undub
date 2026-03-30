@@ -10,6 +10,7 @@ Replaces English voice audio with Japanese voice audio in the USA release of **F
 | In-game voice lines & SFX (101 entries) | Fully Japanese |
 | Music (4 tracks) | Japanese |
 | Combat voice barks | Remains English* |
+| Cutscene subtitles (18 MKVs) | English subs on JP audio (standalone files) |
 
 \*Combat voice audio is stored in a proprietary format embedded within multi-purpose game data containers. See [TECHNICAL.md](TECHNICAL.md) for details.
 
@@ -69,6 +70,17 @@ This patch was created by reverse engineering the game's archive formats:
 
 See [TECHNICAL.md](TECHNICAL.md) for the complete reverse engineering documentation.
 
+## Subtitled Cutscene Videos
+
+In addition to the undub patch, 18 subtitled cutscene videos are available as standalone MKV files. These combine the original PS2 video with Japanese audio and English subtitles.
+
+**Note**: These are provided separately from the xdelta patch -- subtitle tracks cannot be baked into the PS2 ISO since the game's DSI container format has no subtitle stream support. The MKVs are intended for reference and enjoyment outside of gameplay (e.g., watching cutscenes in VLC or any media player).
+
+- **Format**: MKV with H.264 video, Japanese audio, and soft English ASS subtitles
+- **Subtitles**: Transcribed from English audio using Whisper AI, then manually corrected for character names (Edward Elric, Armony Eiselstein, etc.) and dialogue accuracy
+- **Styling**: Anime/Crunchyroll-style formatting (Arial bold, white text, black outline)
+- **Total size**: 511MB (18 files)
+
 ## Known Limitations
 
 - **Combat voice barks remain English**: These are embedded in large multi-purpose containers (entries 501-573) alongside 3D models and animations, using a proprietary format that couldn't be decoded through static analysis. The Japanese version stores combat data in a completely different structure, making automated mapping impossible.
@@ -81,6 +93,7 @@ See [TECHNICAL.md](TECHNICAL.md) for the complete reverse engineering documentat
 - [Racjin-de-compression](https://github.com/Raw-man/Racjin-de-compression) by Raw-man — Reference C++ implementation of the Racjin compression algorithm
 - [vgmstream](https://github.com/vgmstream/vgmstream) — Used for audio format verification
 - [pycdlib](https://github.com/clalancette/pycdlib) — ISO filesystem analysis
+- [OpenAI Whisper](https://github.com/openai/whisper) — Speech-to-text for cutscene subtitle generation
 
 ## License
 

@@ -751,6 +751,29 @@ The larger container files (0433-0577) contain sound banks — sub-entries with 
 - Published to GitHub as v3.0 release
 - User confirmed: Edward's Japanese combat grunts working in PCSX2
 
+### Step 20: Cutscene Subtitle Generation
+- Used OpenAI Whisper (small model) to transcribe English cutscene audio to SRT
+- Key discovery: extracted audio is ~8.9% longer than video due to DSI block padding accumulation
+- Solution: squeeze audio with ffmpeg atempo filter (factor ~1.0886) before transcription
+- This ensures subtitle timestamps match video perfectly
+
+### Step 21: Subtitle Correction & Formatting
+- Converted SRT to ASS with anime-style formatting (Crunchyroll-like: Arial bold, white, black outline 2.5px)
+- Manual corrections across all 18 cutscenes:
+  - Character names: Armini -> Armony (Armony Eiselstein), Edward Eric -> Edward Elric
+  - Ed's classic short rants restored (Whisper garbled these)
+  - Merged speaker lines split into separate subtitle entries
+  - Armstrong's verbose dialogue cleaned up
+  - Professor name: Aselstein -> Eiselstein
+- Waveform verification: RMS envelope analysis flagged subtitles during silence (false timing) and overly long durations
+- Fixed M010 and M014 using speech onset detection to tighten subtitle windows
+
+### Step 22: Final Cutscene Video Build
+- All 18 cutscenes built as MKV: original PS2 video + squeezed JP audio + corrected English ASS subtitles
+- VideoToolbox H.264 hardware acceleration on Apple Silicon
+- Soft subtitles (ASS track) for rendering in VLC/media players
+- 511MB total output in output/cutscene_final/
+
 ---
 
 ## Key Decisions & Breakthroughs
@@ -774,6 +797,9 @@ When hash matching found zero shared samples (100% voice content), matching by s
 
 ### 13. Save states bypass disc reads
 User initially couldn't hear changes because PCSX2 save states capture audio already in memory. Loading from memory card saves or starting fresh forces the game to read patched data from disc.
+
+### 14. Audio tempo sync for subtitle timing
+The DSI block extraction produces audio ~8.9% longer than video because SPU2 padding accumulates when blocks are concatenated. Squeezing the audio with atempo=1.0886 before transcription ensures Whisper timestamps match video frames perfectly.
 
 ---
 
@@ -1009,6 +1035,7 @@ The combat containers turned out to be a red herring for audio replacement. The 
 | **xxd** | Quick hex dumps of file headers |
 | **TXTH format** | vgmstream's text-based header descriptor for headerless audio files |
 | **Racjin-de-compression** | Reference C++ implementation. Clone: `git clone https://github.com/Raw-man/Racjin-de-compression.git` |
+| **OpenAI Whisper** (small model) | Speech-to-text transcription for cutscene subtitles. Install: `pip install openai-whisper` |
 
 ### TXTH Template (works for ALL audio in this game)
 
@@ -1033,4 +1060,5 @@ Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will
 | **FMA_Undub.iso** | Local (1.8GB) | Complete undub ISO with JP cutscene + voice + combat grunt audio |
 | **tools.py** | Local | Archive extraction and audio processing utilities |
 | **undub.py** | Local | DSI + CDDATA patching tool with truncation support |
+| **Subtitled cutscene videos** | Local: `output/cutscene_final/` (511MB) | 18 MKV files with JP audio + English ASS subtitles, Whisper-transcribed and manually corrected |
 | **REVERSE_ENGINEERING_NOTES.md** | Local | Complete reverse engineering documentation |

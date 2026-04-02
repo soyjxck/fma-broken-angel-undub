@@ -19,26 +19,12 @@ import subprocess
 
 from .constants import DSI_BLOCK_SIZE, AUDIO_TYPE_TAG, VIDEO_TYPE_TAG
 
-# Try to import dsi_muxer package; fall back to inline if unavailable
-try:
-    from dsi_muxer.container import _count_markers
-except ImportError:
-    _count_markers = None
+from dsi_muxer.container import _count_markers
 
 
 def _count_pics(data):
     """Count MPEG-2 picture start codes (00 00 01 00) in video data."""
-    if _count_markers:
-        return _count_markers(data, b'\x00\x00\x01\x00')
-    count = 0
-    pos = 0
-    while pos < len(data) - 3:
-        if data[pos] == 0 and data[pos + 1] == 0 and data[pos + 2] == 1 and data[pos + 3] == 0:
-            count += 1
-            pos += 4
-        else:
-            pos += 1
-    return count
+    return _count_markers(data, b'\x00\x00\x01\x00')
 
 
 # =============================================================================

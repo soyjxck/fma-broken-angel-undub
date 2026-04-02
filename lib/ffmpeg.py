@@ -35,7 +35,7 @@ def find_or_build_ffmpeg():
     for path in candidates:
         if path and os.path.exists(path):
             r = subprocess.run([path, '-filters'], capture_output=True, text=True)
-            if 'subtitles' in r.stdout or 'ass' in r.stdout:
+            if 'subtitles' in r.stdout:
                 return path
 
     # Need to build ffmpeg with libass
@@ -81,15 +81,19 @@ def find_or_build_ffmpeg():
 
     # Configure
     print("  Configuring ffmpeg...")
+    extra_cflags = ass_cflags
+    extra_ldflags = ass_libs
+    if system == 'Darwin':
+        extra_cflags += ' -I/opt/homebrew/include'
+        extra_ldflags += ' -L/opt/homebrew/lib'
+
     configure_args = [
         './configure', '--prefix=/tmp/ffmpeg-custom',
         '--enable-gpl', '--enable-libx264', '--enable-libass',
-        f'--extra-cflags={ass_cflags}',
-        f'--extra-ldflags={ass_libs}',
+        f'--extra-cflags={extra_cflags}',
+        f'--extra-ldflags={extra_ldflags}',
     ]
     if system == 'Darwin':
-        configure_args[4] += ' -I/opt/homebrew/include'
-        configure_args[5] += ' -L/opt/homebrew/lib'
         configure_args.extend(['--enable-videotoolbox', '--enable-audiotoolbox'])
 
     env = os.environ.copy()

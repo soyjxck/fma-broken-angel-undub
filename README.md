@@ -43,13 +43,13 @@ Build from both ISOs. Auto-compiles ffmpeg with subtitle support on first run.
 ```bash
 git clone https://github.com/soyjxck/fma-broken-angel-undub.git
 cd fma-broken-angel-undub
-pip install -r requirements.txt  # or: uv pip install racjin dsi-muxer
+pip install -r requirements.txt
 python3 patch.py full "path/to/usa.iso" "path/to/jp.iso" "FMA_Undub.iso"
 ```
 
-**Platform setup:**
-- macOS: `brew install libass libx264 pkgconf vgmstream`
-- Linux: `apt install libass-dev libx264-dev pkg-config build-essential`
+**Platform setup** (needed for subtitle burning + MKV export):
+- macOS: `brew install libass libx264 pkgconf vgmstream meson`
+- Linux: `apt install libass-dev libx264-dev pkg-config build-essential vgmstream meson ninja-build`
 - Windows: Use MSYS2 with mingw-w64
 
 **Optional flags:**
@@ -82,13 +82,13 @@ We developed a **proportional audio DSI muxer** (the first of its kind — see [
 
 ### Audio (CDDATA.DIG)
 
-Game audio lives in Racjin's compressed CDDATA.DIG archive. We use **per-sample SCEI sound bank replacement**: individual voice samples within banks are replaced with JP equivalents while keeping shared SFX (menu sounds, combat effects) untouched. This preserves all game functionality while changing only the voice content.
+Game audio lives in Racjin's compressed CDDATA.DIG archive. We use **per-sample SCEI sound bank replacement**: individual voice samples within banks are replaced with JP equivalents while keeping shared SFX (menu sounds, combat effects) untouched. Oversized JP samples are resampled to fit USA slots using psxavenc (vgmstream decode → ffmpeg resample → psxavenc re-encode).
 
 Compression handled by the [racjin-python](https://github.com/soyjxck/racjin-python) library.
 
 ## Known Limitations
 
-- ~49 in-game dialogue entries stay in English (JP version is larger than available slot)
+- Some in-game dialogue entries have reduced audio quality (JP samples resampled to fit smaller USA slots)
 - Cutscene video quality is slightly lower than original (re-encoded at ~90-95% bitrate to accommodate proportional audio)
 - Last ~0.5s of some cutscenes may have fewer video frames than the original
 

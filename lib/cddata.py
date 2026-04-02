@@ -14,15 +14,82 @@ Patching strategy:
 
 import struct
 import hashlib
+import os
+import shutil
+import subprocess
+import tempfile
 
 from .constants import SECTOR_SIZE, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
 
-# Try to import racjin package; fall back to inline if unavailable
-try:
-    from racjin import compress as racjin_compress, decompress as racjin_decompress
-except ImportError:
-    racjin_compress = None
-    racjin_decompress = None
+from racjin import compress as racjin_compress, decompress as racjin_decompress
+
+
+# =============================================================================
+# ADPCM Resampling (psxavenc pipeline)
+# =============================================================================
+
+def _find_tool(names):
+    """Find a binary from a list of candidate paths."""
+    for p in names:
+        if p and os.path.exists(p):
+            return p
+    w = shutil.which(names[0]) if names else None
+    return w
+
+
+def _fit_sample_psxavenc(jp_adpcm, jp_rate, target_bytes):
+    """Re-encode a JP ADPCM sample to fit in a target byte budget.
+
+    Uses vgmstream to decode, ffmpeg to resample, and psxavenc to re-encode.
+    Returns resampled ADPCM bytes, or None on failure.
+    """
+    psxavenc = _find_tool(['/tmp/psxavenc/build/psxavenc', 'psxavenc'])
+    vgmstream = _find_tool(['/opt/homebrew/bin/vgmstream-cli', '/usr/local/bin/vgmstream-cli', 'vgmstream-cli'])
+    ffmpeg = _find_tool(['/opt/homebrew/bin/ffmpeg', '/usr/local/bin/ffmpeg', 'ffmpeg'])
+
+    if not psxavenc or not vgmstream or not ffmpeg:
+        return None
+
+    target_blocks = target_bytes // 16
+    target_samples = target_blocks * 28
+    duration = (len(jp_adpcm) / 16 * 28) / jp_rate if jp_rate > 0 else 0
+    if duration <= 0:
+        return None
+    target_rate = max(4000, min(int(target_samples / duration), jp_rate))
+
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            adpcm_path = os.path.join(tmp, 'in.adpcm')
+            with open(adpcm_path, 'wb') as f:
+                f.write(jp_adpcm)
+            with open(adpcm_path + '.txth', 'w') as f:
+                f.write(f'codec = PSX\nchannels = 1\nsample_rate = {jp_rate}\nnum_samples = data_size\n')
+
+            wav_path = os.path.join(tmp, 'decoded.wav')
+            subprocess.run([vgmstream, '-o', wav_path, adpcm_path], capture_output=True, timeout=30)
+            if not os.path.exists(wav_path):
+                return None
+
+            resampled_path = os.path.join(tmp, 'resampled.wav')
+            subprocess.run([ffmpeg, '-y', '-i', wav_path, '-ar', str(target_rate), '-ac', '1',
+                            resampled_path], capture_output=True, timeout=30)
+            if not os.path.exists(resampled_path):
+                return None
+
+            vag_path = os.path.join(tmp, 'out.vag')
+            subprocess.run([psxavenc, '-t', 'vag', '-f', str(target_rate),
+                            resampled_path, vag_path], capture_output=True, timeout=30)
+            if not os.path.exists(vag_path):
+                return None
+
+            with open(vag_path, 'rb') as f:
+                vag = f.read()
+            result = vag[48:]  # strip VAG header
+            if len(result) > target_bytes:
+                result = result[:target_bytes]
+            return result
+    except Exception:
+        return None
 
 
 # =============================================================================
@@ -100,24 +167,52 @@ def _patch_scei_bank(usa_bank, jp_bank):
     if not usa_s or not jp_s:
         return None
 
+    # Detect index offset when JP has more samples than USA.
+    # JP may have leading SFX samples that USA's bank omits.
+    jp_offset = 0
+    if len(jp_s) > len(usa_s):
+        best_shared = sum(1 for i in range(min(len(usa_s), len(jp_s)))
+                          if usa_bank[usa_s[i][0]:usa_s[i][0] + usa_s[i][1]] ==
+                          jp_bank[jp_s[i][0]:jp_s[i][0] + jp_s[i][1]])
+        for k in range(1, len(jp_s) - len(usa_s) + 1):
+            shared = sum(1 for i in range(len(usa_s))
+                         if i + k < len(jp_s) and
+                         usa_bank[usa_s[i][0]:usa_s[i][0] + usa_s[i][1]] ==
+                         jp_bank[jp_s[i + k][0]:jp_s[i + k][0] + jp_s[i + k][1]])
+            if shared > best_shared:
+                best_shared = shared
+                jp_offset = k
+        # When no shared samples at any offset, default to aligning voice tails
+        if best_shared == 0:
+            jp_offset = len(jp_s) - len(usa_s)
+
     out = bytearray(usa_bank)
     replaced = 0
 
     for i, (u_off, u_sz, u_rate) in enumerate(usa_s):
-        if i >= len(jp_s):
+        j = i + jp_offset
+        if j >= len(jp_s):
             break
-        j_off, j_sz, j_rate = jp_s[i]
+        j_off, j_sz, j_rate = jp_s[j]
 
         # Skip identical samples (shared SFX — same hash)
         if usa_bank[u_off:u_off + u_sz] == jp_bank[j_off:j_off + j_sz]:
             continue
 
-        # Replace voice sample only if JP fits in the USA slot
+        # Replace voice sample if JP fits in the USA slot
         if j_sz <= u_sz:
             out[u_off:u_off + j_sz] = jp_bank[j_off:j_off + j_sz]
-            # Zero-pad remainder if JP sample is shorter
             if j_sz < u_sz:
                 out[u_off + j_sz:u_off + u_sz] = b'\x00' * (u_sz - j_sz)
+            replaced += 1
+            continue
+
+        # JP sample too large — resample to fit using psxavenc
+        fitted = _fit_sample_psxavenc(jp_bank[j_off:j_off + j_sz], j_rate, u_sz)
+        if fitted:
+            out[u_off:u_off + len(fitted)] = fitted
+            if len(fitted) < u_sz:
+                out[u_off + len(fitted):u_off + u_sz] = b'\x00' * (u_sz - len(fitted))
             replaced += 1
 
     return bytes(out) if replaced > 0 else None
@@ -258,7 +353,7 @@ def patch_cddata(usa_dig, jp_dig, mapping):
             continue
 
         # 3. Try Racjin recompression
-        if racjin_compress and racjin_decompress and jp_comp_size != jp_decomp_size:
+        if jp_comp_size != jp_decomp_size:
             try:
                 jp_decompressed = racjin_decompress(jp_raw, jp_decomp_size)
                 recompressed = racjin_compress(jp_decompressed)

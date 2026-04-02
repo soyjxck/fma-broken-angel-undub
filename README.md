@@ -2,25 +2,26 @@
 
 Replaces English audio with Japanese audio in the USA PS2 release. Includes English subtitles on cutscenes.
 
-If this helped you, consider [buying me a coffee](https://ko-fi.com/soyjack) ☕
+If this helped you, consider [buying me a coffee](https://ko-fi.com/soyjack)
 
 ## What's Changed
 
 | Content | Status |
 |---------|--------|
 | Cutscene dialogue (18 FMVs) | Japanese audio + English subtitles |
-| Opening cutscene | Full JP video + audio |
-| In-game voice/SFX | Japanese |
+| Opening cutscene | Full JP video + audio + subtitles |
+| In-game voice/SFX | Japanese (per-sample replacement) |
 | Combat voice barks | Japanese |
-| Music | Japanese |
+| Menu sound effects | Preserved (not replaced) |
+| Music | Unchanged |
 
 ## How to Patch
 
 ### Option 1: xdelta (recommended)
 
-Pre-built patch with Japanese audio **and** English subtitles on all cutscenes. No build tools needed.
+Pre-built patch. No build tools needed.
 
-**Requirements**: USA ISO + [DeltaPatcher](https://github.com/marco-calautti/DeltaPatcher/releases) (Windows/Mac/Linux)
+**Requirements**: USA ISO + [DeltaPatcher](https://github.com/marco-calautti/DeltaPatcher/releases)
 
 1. Download `FMA_Undub.xdelta` from [Releases](https://github.com/soyjxck/fma-broken-angel-undub/releases/latest)
 2. Open DeltaPatcher
@@ -28,105 +29,80 @@ Pre-built patch with Japanese audio **and** English subtitles on all cutscenes. 
 4. **Patch file**: `FMA_Undub.xdelta`
 5. Click **Apply patch**
 
-Or via command line:
 ```bash
+# Or via command line:
 xdelta3 -d -s "usa.iso" FMA_Undub.xdelta "FMA_Undub.iso"
 ```
 
----
+### Option 2: Full pipeline (with subtitles)
 
-### Option 2: Full pipeline (build it yourself — with subtitles)
+Build from both ISOs. Auto-compiles ffmpeg with subtitle support on first run.
 
-Only needed if you want to build the xdelta patch yourself from both ISOs. Produces the same result as Option 1, including burned-in English subtitles. First run will auto-build ffmpeg with subtitle support.
-
-**Requirements**:
-- Python 3.9+
-- USA ISO + JP ISO
-- Platform-specific build tools (see below)
+**Requirements**: Python 3.9+, both ISOs, platform build tools
 
 ```bash
 git clone https://github.com/soyjxck/fma-broken-angel-undub.git
 cd fma-broken-angel-undub
+pip install -r requirements.txt  # or: uv pip install racjin dsi-muxer
 python3 patch.py full "path/to/usa.iso" "path/to/jp.iso" "FMA_Undub.iso"
 ```
 
-#### macOS setup
-```bash
-# Install Homebrew if you don't have it
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+**Platform setup:**
+- macOS: `brew install libass libx264 pkgconf vgmstream`
+- Linux: `apt install libass-dev libx264-dev pkg-config build-essential`
+- Windows: Use MSYS2 with mingw-w64
 
-# Install dependencies (the script auto-installs these, but you can do it manually)
-brew install libass libx264 pkgconf
-```
+**Optional flags:**
+- `--dump-mkv <dir>` — Export cutscenes as MKV with JP audio
+- `--generate-xdelta` — Also create an xdelta patch file
+- `--skip-verify` — Skip ISO hash verification
 
-#### Linux (Debian/Ubuntu) setup
-```bash
-sudo apt update
-sudo apt install python3 build-essential curl pkg-config \
-    libass-dev libx264-dev libfreetype-dev libfribidi-dev \
-    libharfbuzz-dev libfontconfig1-dev nasm
-```
+### Option 3: Audio-only (no subtitles)
 
-#### Linux (Fedora/RHEL) setup
-```bash
-sudo dnf install python3 gcc make curl pkgconf-pkg-config \
-    libass-devel x264-devel freetype-devel fribidi-devel \
-    harfbuzz-devel fontconfig-devel nasm
-```
-
-#### Windows setup
-```
-1. Install Python 3.9+ from python.org
-2. Install MSYS2 from msys2.org
-3. In MSYS2 terminal:
-   pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-libass \
-             mingw-w64-x86_64-x264 mingw-w64-x86_64-pkg-config make
-4. Run patch.py from MSYS2 terminal
-```
-
-The script will automatically download and compile ffmpeg 7.1.1 with libass on first run. Subsequent runs use the cached build.
-
----
-
-### Option 3: Audio-only (build it yourself — no subtitles)
-
-Same as Option 2 but skips subtitle burning. No ffmpeg or build tools needed — just Python.
-
-**Requirements**: Python 3.9+ + USA ISO + JP ISO
+Japanese audio only, original English video unchanged. No ffmpeg needed.
 
 ```bash
 python3 patch.py audio "path/to/usa.iso" "path/to/jp.iso" "FMA_Undub.iso"
 ```
 
----
+## Source ISOs
 
-### Additional flags
+| Version | MD5 |
+|---------|-----|
+| USA | `e074fae418feff31ee9b4c6422527cab` |
+| JP  | `39ee7c7c9773731b9aa6dae943faaec3` |
 
-| Flag | Description |
-|------|-------------|
-| `--generate-xdelta` | Also create an xdelta patch file after building the ISO |
-| `--skip-verify` | Skip MD5 hash verification of source ISOs |
+## How It Works
 
-> **Important**: After patching, use memory card saves in PCSX2 — not save states from the unpatched version.
+### Video (DSI Cutscenes)
 
-## Expected MD5 Hashes
+The game uses Racjin's proprietary **DSI container format** — fixed 0x40000-byte blocks with interleaved MPEG-2 video and PS2 ADPCM audio. Unlike Sony's standard PSS format, DSI has **no timestamps**. A/V sync is entirely determined by the audio/video ratio per block.
 
-| File | MD5 |
-|------|-----|
-| USA ISO | `e074fae418feff31ee9b4c6422527cab` |
-| JP ISO | `39ee7c7c9773731b9aa6dae943faaec3` |
+We developed a **proportional audio DSI muxer** (the first of its kind — see [dsi-muxer](https://github.com/soyjxck/dsi-muxer)) that distributes audio per block proportional to the number of video frames in that block. This ensures perfect sync regardless of the video encoder used.
+
+### Audio (CDDATA.DIG)
+
+Game audio lives in Racjin's compressed CDDATA.DIG archive. We use **per-sample SCEI sound bank replacement**: individual voice samples within banks are replaced with JP equivalents while keeping shared SFX (menu sounds, combat effects) untouched. This preserves all game functionality while changing only the voice content.
+
+Compression handled by the [racjin-python](https://github.com/soyjxck/racjin-python) library.
 
 ## Known Limitations
 
-- 56 audio entries slightly truncated to fit original ISO slots (barely noticeable)
-- Cutscene subtitles are AI-transcribed and manually corrected — minor errors may remain
+- ~49 in-game dialogue entries stay in English (JP version is larger than available slot)
+- Cutscene video quality is slightly lower than original (re-encoded at ~90-95% bitrate to accommodate proportional audio)
+- Last ~0.5s of some cutscenes may have fewer video frames than the original
 
 ## Credits
 
-Built with [Claude Code](https://claude.ai/code). See [TECHNICAL.md](TECHNICAL.md) for full reverse engineering documentation.
+- **soyjxck** — Reverse engineering, patch development, tools
+- **GXZ95** — Updated translation subtitles
+- **Claude** (Anthropic) — Assisted with reverse engineering and development
 
-Tools: [Racjin-de-compression](https://github.com/Raw-man/Racjin-de-compression), [vgmstream](https://github.com/vgmstream/vgmstream), [psxavenc](https://github.com/WonderfulToolchain/psxavenc), [OpenAI Whisper](https://github.com/openai/whisper)
+## Related Tools
+
+- [dsi-muxer](https://github.com/soyjxck/dsi-muxer) — Racjin PS2 DSI container muxer/demuxer
+- [racjin-python](https://github.com/soyjxck/racjin-python) — Racjin compression library
 
 ## License
 
-Binary diff patch — requires the original USA ISO. For personal use only.
+MIT

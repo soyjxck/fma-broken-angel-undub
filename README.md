@@ -11,7 +11,8 @@ If this helped you, consider [buying me a coffee](https://ko-fi.com/soyjack)
 | Cutscene dialogue (18 FMVs) | Japanese audio + English subtitles |
 | Opening cutscene | Full JP video + audio + subtitles |
 | In-game voice/SFX | Japanese (per-sample replacement) |
-| Combat voice barks | Japanese |
+| Combat voice barks | Japanese (force-fit resampling for oversized samples) |
+| Oversized JP voice samples | Resampled to fit (via psxavenc) |
 | Menu sound effects | Preserved (not replaced) |
 | Music | Unchanged |
 
@@ -89,8 +90,7 @@ Compression handled by the [racjin-python](https://github.com/soyjxck/racjin-pyt
 ## Known Limitations
 
 - Some in-game dialogue entries have reduced audio quality (JP samples resampled to fit smaller USA slots)
-- Cutscene video quality is slightly lower than original (re-encoded at ~90-95% bitrate to accommodate proportional audio)
-- Last ~0.5s of some cutscenes may have fewer video frames than the original
+- Cutscene video re-encoded at ~90-95% bitrate to fit proportional audio distribution
 
 ## Credits
 

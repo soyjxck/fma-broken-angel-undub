@@ -2,6 +2,8 @@
 Constants, lookup tables, and expected hashes for the FMA Undub Patcher.
 """
 
+import os
+
 # =============================================================================
 # DSI Container
 # =============================================================================
@@ -73,6 +75,5 @@ DSI_NAMES = [
 ]
 
 # Subtitle files are in the subs/ directory alongside the main script
-import os
 SCRIPT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SUBS_DIR = os.path.join(SCRIPT_DIR, 'subs')

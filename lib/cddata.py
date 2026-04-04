@@ -13,13 +13,13 @@ Patching strategy:
 """
 
 import struct
-import hashlib
 import os
 import shutil
 import subprocess
 import tempfile
 
 from .constants import SECTOR, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
+from .iso import find_file_in_iso
 
 from racjin import compress as racjin_compress, decompress as racjin_decompress
 
@@ -258,8 +258,6 @@ def build_mapping(usa_iso, jp_iso):
     Returns:
         Dict mapping USA entry indices to JP entry indices.
     """
-    from .iso import find_file_in_iso
-
     # Read game executables
     usa_exe = jp_exe = None
     for search, target in [(b'SLUS_209.94;1', 'usa'), (b'SLPM_654.73;1', 'jp')]:

@@ -15,23 +15,6 @@ import tempfile
 
 from dsi_muxer import DSI
 
-_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def _find_fontsdir():
-    """Find a directory containing custom fonts for subtitle rendering."""
-    candidates = [
-        os.path.join(_REPO_ROOT, 'fonts'),
-        os.path.expanduser('~/Library/Fonts'),
-        '/Library/Fonts',
-        '/usr/share/fonts',
-    ]
-    for d in candidates:
-        if os.path.isdir(d):
-            return d
-    return None
-
-
 # =============================================================================
 # MPEG-2 Encoding
 # =============================================================================
@@ -51,13 +34,8 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     Returns:
         True on success, False on failure.
     """
-    fontsdir = _find_fontsdir()
-    ass_filter = f'ass={ass_path}'
-    if fontsdir:
-        ass_filter += f':fontsdir={fontsdir}'
-
     subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
-        '-vf', f'{ass_filter},format=yuv420p',
+        '-vf', f'ass={ass_path},format=yuv420p',
         '-c:v', 'mpeg2video',
         '-b:v', '7000k', '-minrate', '7000k', '-maxrate', '7000k',
         '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',
@@ -123,7 +101,7 @@ def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
 # MKV Export
 # =============================================================================
 
-def dump_mkv(ffmpeg_bin, m2v_path, jp_audio, tmp_dir, mkv_path):
+def dump_mkv(ffmpeg_bin, m2v_path, jp_audio, mkv_path):
     """Export a subtitled cutscene as MKV with squeezed JP audio.
 
     The DSI audio is ~8.9% longer than the video due to block padding
@@ -133,44 +111,44 @@ def dump_mkv(ffmpeg_bin, m2v_path, jp_audio, tmp_dir, mkv_path):
         ffmpeg_bin: Path to ffmpeg binary.
         m2v_path: Encoded .m2v video with burned subtitles.
         jp_audio: Raw JP ADPCM audio bytes.
-        tmp_dir: Temp directory for intermediate files.
         mkv_path: Output MKV path.
     """
-    adpcm_path = os.path.join(tmp_dir, 'audio.adpcm')
-    txth_path = adpcm_path + '.txth'
-    wav_path = os.path.join(tmp_dir, 'audio.wav')
-    squeezed_path = os.path.join(tmp_dir, 'audio_sq.wav')
+    with tempfile.TemporaryDirectory() as tmp:
+        adpcm_path = os.path.join(tmp, 'audio.adpcm')
+        txth_path = adpcm_path + '.txth'
+        wav_path = os.path.join(tmp, 'audio.wav')
+        squeezed_path = os.path.join(tmp, 'audio_sq.wav')
 
-    # Write raw ADPCM with vgmstream descriptor
-    with open(adpcm_path, 'wb') as f:
-        f.write(jp_audio)
-    with open(txth_path, 'w') as f:
-        f.write('codec = PSX\nchannels = 2\nsample_rate = 44100\n'
-                'interleave = 0x100\nnum_samples = data_size\n')
+        # Write raw ADPCM with vgmstream descriptor
+        with open(adpcm_path, 'wb') as f:
+            f.write(jp_audio)
+        with open(txth_path, 'w') as f:
+            f.write('codec = PSX\nchannels = 2\nsample_rate = 44100\n'
+                    'interleave = 0x100\nnum_samples = data_size\n')
 
-    # Decode ADPCM to WAV with vgmstream
-    vgmstream = shutil.which('vgmstream-cli')
-    for p in ['/opt/homebrew/bin/vgmstream-cli', '/usr/local/bin/vgmstream-cli']:
-        if not vgmstream and os.path.exists(p):
-            vgmstream = p
-    if vgmstream:
-        subprocess.run([vgmstream, '-o', wav_path, adpcm_path],
-                       capture_output=True, timeout=120)
+        # Decode ADPCM to WAV with vgmstream
+        vgmstream = shutil.which('vgmstream-cli')
+        for p in ['/opt/homebrew/bin/vgmstream-cli', '/usr/local/bin/vgmstream-cli']:
+            if not vgmstream and os.path.exists(p):
+                vgmstream = p
+        if vgmstream:
+            subprocess.run([vgmstream, '-o', wav_path, adpcm_path],
+                           capture_output=True, timeout=120)
 
-    # Squeeze audio to match video duration (DSI audio is ~8.9% longer)
-    if os.path.exists(wav_path):
-        subprocess.run([ffmpeg_bin, '-y', '-i', wav_path,
-            '-af', 'atempo=1.0886', '-ar', '44100', '-ac', '2',
-            squeezed_path], capture_output=True, timeout=120)
+        # Squeeze audio to match video duration (DSI audio is ~8.9% longer)
+        if os.path.exists(wav_path):
+            subprocess.run([ffmpeg_bin, '-y', '-i', wav_path,
+                '-af', 'atempo=1.0886', '-ar', '44100', '-ac', '2',
+                squeezed_path], capture_output=True, timeout=120)
 
-    # Mux video + squeezed audio into MKV
-    mux_args = [ffmpeg_bin, '-y', '-i', m2v_path]
-    if os.path.exists(squeezed_path):
-        mux_args += ['-i', squeezed_path,
-                     '-c:v', 'libx264', '-crf', '18', '-preset', 'fast',
-                     '-c:a', 'aac', '-b:a', '192k',
-                     '-r', '30000/1001', '-shortest', mkv_path]
-    else:
-        mux_args += ['-c:v', 'libx264', '-crf', '18', '-preset', 'fast',
-                     '-r', '30000/1001', '-an', mkv_path]
-    subprocess.run(mux_args, capture_output=True, timeout=300)
+        # Mux video + squeezed audio into MKV
+        mux_args = [ffmpeg_bin, '-y', '-i', m2v_path]
+        if os.path.exists(squeezed_path):
+            mux_args += ['-i', squeezed_path,
+                         '-c:v', 'libx264', '-crf', '18', '-preset', 'fast',
+                         '-c:a', 'aac', '-b:a', '192k',
+                         '-r', '30000/1001', '-shortest', mkv_path]
+        else:
+            mux_args += ['-c:v', 'libx264', '-crf', '18', '-preset', 'fast',
+                         '-r', '30000/1001', '-an', mkv_path]
+        subprocess.run(mux_args, capture_output=True, timeout=300)

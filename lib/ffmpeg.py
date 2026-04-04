@@ -6,6 +6,7 @@ Required for burning ASS subtitles onto MPEG-2 video.
 """
 
 import os
+import platform
 import shutil
 import subprocess
 
@@ -46,7 +47,6 @@ def find_or_build_ffmpeg():
     os.makedirs(build_dir, exist_ok=True)
 
     # Install dependencies based on platform
-    import platform
     system = platform.system()
 
     if system == 'Darwin':

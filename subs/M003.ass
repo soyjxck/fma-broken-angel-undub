@@ -21,4 +21,4 @@ Style: Helvetica,Helvetica,30,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:21.55,0:00:23.62,Helvetica,,0,0,0,,Older brother!
+Dialogue: 0,0:00:21.55,0:00:23.62,Helvetica,,0,0,0,,Big brother!

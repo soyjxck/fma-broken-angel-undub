@@ -35,6 +35,7 @@ from lib.iso import find_file_in_iso, update_dir_entry, verify_iso
 from lib.cddata import build_mapping, patch_cddata
 from lib.video import build_subtitled_dsi, dump_mkv
 from lib.ffmpeg import find_or_build_ffmpeg
+from dsi_muxer import DSI
 
 
 # =============================================================================
@@ -239,12 +240,16 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
                 sub_dsi = build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path)
 
                 if dump_mkv_dir and sub_dsi is not None:
-                    from dsi_muxer import DSI
                     src = DSI.from_bytes(jp_dsi_bytes)
-                    mkv_path = os.path.join(dump_mkv_dir, f'{name}.mkv')
-                    dump_mkv(ffmpeg_bin, sub_dsi, src.extract_audio(), mkv_path)
-                    if os.path.exists(mkv_path):
-                        print(f"    -> {mkv_path}")
+                    sub = DSI.from_bytes(sub_dsi)
+                    with tempfile.TemporaryDirectory() as mkv_tmp:
+                        m2v_path = os.path.join(mkv_tmp, f'{name}.m2v')
+                        with open(m2v_path, 'wb') as mf:
+                            mf.write(sub.extract_video())
+                        mkv_path = os.path.join(dump_mkv_dir, f'{name}.mkv')
+                        dump_mkv(ffmpeg_bin, m2v_path, src.extract_audio(), mkv_path)
+                        if os.path.exists(mkv_path):
+                            print(f"    -> {mkv_path}")
             else:
                 sub_dsi = None
 
@@ -287,13 +292,20 @@ def main():
         sys.exit(1)
 
     mode = sys.argv[1]
-    args = [a for a in sys.argv[2:] if not a.startswith('--')]
     skip_verify = '--skip-verify' in sys.argv
     want_xdelta = '--generate-xdelta' in sys.argv
     dump_mkv_dir = None
-    for i, a in enumerate(sys.argv):
+    skip_next = False
+    args = []
+    for i, a in enumerate(sys.argv[2:], start=2):
+        if skip_next:
+            skip_next = False
+            continue
         if a == '--dump-mkv' and i + 1 < len(sys.argv):
             dump_mkv_dir = sys.argv[i + 1]
+            skip_next = True
+        elif not a.startswith('--'):
+            args.append(a)
 
     print("Fullmetal Alchemist — Undub Patcher")
     print("=" * 40)

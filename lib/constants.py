@@ -14,7 +14,7 @@ VIDEO_TYPE_TAG = -16384      # 0xFFFFC000 — identifies video stream in block h
 # ISO / CDDATA
 # =============================================================================
 
-SECTOR_SIZE = 2048           # ISO9660 sector size
+SECTOR = 2048           # ISO9660 sector size
 
 # Offsets into game executables where the CDDATA entry lookup tables live
 USA_TABLE_OFFSET = 0x1B612E  # in SLUS_209.94

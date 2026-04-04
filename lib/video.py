@@ -21,6 +21,22 @@ from .constants import DSI_BLOCK_SIZE, AUDIO_TYPE_TAG, VIDEO_TYPE_TAG
 
 from dsi_muxer.container import _count_markers
 
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def _find_fontsdir():
+    """Find a directory containing custom fonts for subtitle rendering."""
+    candidates = [
+        os.path.join(_REPO_ROOT, 'fonts'),
+        os.path.expanduser('~/Library/Fonts'),
+        '/Library/Fonts',
+        '/usr/share/fonts',
+    ]
+    for d in candidates:
+        if os.path.isdir(d):
+            return d
+    return None
+
 
 def _count_pics(data):
     """Count MPEG-2 picture start codes (00 00 01 00) in video data."""
@@ -78,7 +94,7 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path, nblocks,
 
     # Encode with PS2-compatible MPEG-2 parameters
     subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
-        '-vf', f'ass={ass_path},format=yuv420p',
+        '-vf', f'ass={ass_path}' + (f':fontsdir={_find_fontsdir()}' if _find_fontsdir() else '') + ',format=yuv420p',
         '-c:v', 'mpeg2video',
         '-b:v', f'{bitrate}k', '-minrate', f'{bitrate}k', '-maxrate', f'{bitrate}k',
         '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',

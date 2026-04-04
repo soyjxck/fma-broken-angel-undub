@@ -17,8 +17,11 @@ import os
 import shutil
 import subprocess
 
+import tempfile
+
 from .constants import DSI_BLOCK_SIZE, AUDIO_TYPE_TAG, VIDEO_TYPE_TAG
 
+from dsi_muxer import DSI
 from dsi_muxer.container import _count_markers
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,56 +50,30 @@ def _count_pics(data):
 # MPEG-2 Encoding
 # =============================================================================
 
-def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path, nblocks, total_audio):
+def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     """Encode video with burned ASS subtitles as PS2-compatible MPEG-2.
 
-    Calculates the optimal bitrate to maximize DSI block utilization:
-    higher bitrate = more blocks filled with video = better quality.
-
-    Encoding parameters match the original TMPGEnc output:
-    - IBBP GOP structure, closed GOPs, 9-bit DC precision
-    - Non-linear quantizer, alternate intra VLC table
-    - NTSC color metadata, SAR 7:6 for 4:3 display
+    Uses high-quality CBR encoding at 7000k — no size constraint since
+    DSI block count is auto-calculated from content size.
 
     Args:
         ffmpeg_bin: Path to ffmpeg binary.
-        m2v_path: Input MPEG-2 video (USA original).
+        m2v_path: Input MPEG-2 video.
         ass_path: ASS subtitle file to burn.
         output_path: Where to write the encoded .m2v.
-        nblocks: Number of DSI blocks (determines bitrate target).
-        total_audio: Total audio bytes (determines per-block audio budget).
 
     Returns:
         True on success, False on failure.
     """
-    # Get frame count and duration from source
-    ffprobe = os.path.join(os.path.dirname(ffmpeg_bin), 'ffprobe')
-    if not os.path.exists(ffprobe):
-        ffprobe = shutil.which('ffprobe') or ffmpeg_bin
+    fontsdir = _find_fontsdir()
+    ass_filter = f'ass={ass_path}'
+    if fontsdir:
+        ass_filter += f':fontsdir={fontsdir}'
 
-    r = subprocess.run([ffprobe, '-v', 'error', '-count_frames', '-select_streams', 'v:0',
-        '-show_entries', 'stream=nb_read_frames,r_frame_rate',
-        '-of', 'csv=p=0', m2v_path], capture_output=True, text=True, timeout=120)
-    parts = r.stdout.strip().split(',')
-    if len(parts) < 2:
-        return False
-
-    num, den = parts[0].split('/')
-    fps = int(num) / int(den)
-    frames = int(parts[1])
-    duration = frames / fps
-
-    # Calculate optimal bitrate to fill blocks
-    avg_audio_per_block = total_audio // nblocks
-    avg_vid_capacity = (DSI_BLOCK_SIZE - 64) - avg_audio_per_block
-    target_bytes = nblocks * avg_vid_capacity
-    bitrate = int(target_bytes * 8 / duration / 1000)
-
-    # Encode with PS2-compatible MPEG-2 parameters
     subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
-        '-vf', f'ass={ass_path}' + (f':fontsdir={_find_fontsdir()}' if _find_fontsdir() else '') + ',format=yuv420p',
+        '-vf', f'{ass_filter},format=yuv420p',
         '-c:v', 'mpeg2video',
-        '-b:v', f'{bitrate}k', '-minrate', f'{bitrate}k', '-maxrate', f'{bitrate}k',
+        '-b:v', '7000k', '-minrate', '7000k', '-maxrate', '7000k',
         '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',
         '-s', '512x448', '-sar', '7:6', '-r', '30000/1001',
         '-g', '16', '-bf', '2', '-b_strategy', '0',
@@ -125,8 +102,39 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path, nblocks,
     return True
 
 
+def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
+    """Build a subtitled DSI from JP DSI bytes and an ASS subtitle file.
+
+    Pipeline:
+        1. Demux JP DSI -> video + audio
+        2. Burn subtitles onto video (MPEG-2 re-encode)
+        3. Remux with dsi-muxer (auto block count)
+
+    Returns DSI bytes, or None on failure.
+    """
+    dsi = DSI.from_bytes(jp_dsi_bytes)
+    video = dsi.extract_video()
+    audio = dsi.extract_audio()
+
+    with tempfile.TemporaryDirectory() as tmp:
+        m2v_in = os.path.join(tmp, 'input.m2v')
+        m2v_out = os.path.join(tmp, 'output.m2v')
+
+        with open(m2v_in, 'wb') as f:
+            f.write(video)
+
+        if not encode_subtitled_video(ffmpeg_bin, m2v_in, ass_path, m2v_out):
+            return None
+
+        with open(m2v_out, 'rb') as f:
+            new_video = f.read()
+
+    new_dsi = DSI.mux(new_video, audio)
+    return new_dsi.to_bytes()
+
+
 # =============================================================================
-# DSI Muxer — Proportional Audio Algorithm
+# DSI Muxer — Proportional Audio Algorithm (legacy)
 # =============================================================================
 
 def mux_dsi_proportional(video_data, audio_data, nblocks):

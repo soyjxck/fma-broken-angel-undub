@@ -36,6 +36,23 @@ def find_file_in_iso(iso_data, filename):
     return sector, size, entry
 
 
+def update_dir_entry(f, entry_offset, sector, size):
+    """Update an ISO9660 directory entry's sector and size (both LE and BE).
+
+    Args:
+        f: File object opened in r+b mode.
+        entry_offset: Byte offset of the directory entry in the ISO.
+        sector: New starting sector.
+        size: New file size in bytes.
+    """
+    f.seek(entry_offset + 2)
+    f.write(struct.pack('<I', sector))
+    f.write(struct.pack('>I', sector))
+    f.seek(entry_offset + 10)
+    f.write(struct.pack('<I', size))
+    f.write(struct.pack('>I', size))
+
+
 def verify_iso(path, label, expected, skip=False):
     """Verify an ISO file's size and MD5 hash.
 

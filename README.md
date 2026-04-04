@@ -92,6 +92,10 @@ Compression handled by the [racjin-python](https://github.com/soyjxck/racjin-pyt
 - Some in-game dialogue entries have reduced audio quality (JP samples resampled to fit smaller USA slots)
 - Cutscene video re-encoded at ~90-95% bitrate to fit proportional audio distribution
 
+## Fonts
+
+Subtitles use **Helvetica** and **Geometric Slabserif 703** (opening title cards). These fonts are not bundled — subtitle rendering requires them to be installed on the build machine. The xdelta release has subtitles pre-burned into the video, so fonts are only relevant when building from source.
+
 ## Credits
 
 - **soyjxck** — Reverse engineering, patch development, tools

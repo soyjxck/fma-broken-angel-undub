@@ -19,7 +19,7 @@ import shutil
 import subprocess
 import tempfile
 
-from .constants import SECTOR_SIZE, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
+from .constants import SECTOR, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
 
 from racjin import compress as racjin_compress, decompress as racjin_decompress
 
@@ -267,7 +267,7 @@ def build_mapping(usa_iso, jp_iso):
         info = find_file_in_iso(iso, search)
         if info:
             sec, sz, _ = info
-            exe = iso[sec * SECTOR_SIZE:sec * SECTOR_SIZE + sz]
+            exe = iso[sec * SECTOR:sec * SECTOR + sz]
             if target == 'usa':
                 usa_exe = exe
             else:
@@ -336,10 +336,10 @@ def patch_cddata(usa_dig, jp_dig, mapping):
         if jp_sector == 0 or jp_comp_size == 0:
             continue
 
-        jp_raw = jp_dig[jp_sector * SECTOR_SIZE:jp_sector * SECTOR_SIZE + jp_comp_size]
-        usa_raw = out[usa_sector * SECTOR_SIZE:usa_sector * SECTOR_SIZE + usa_comp_size]
+        jp_raw = jp_dig[jp_sector * SECTOR:jp_sector * SECTOR + jp_comp_size]
+        usa_raw = out[usa_sector * SECTOR:usa_sector * SECTOR + usa_comp_size]
         slot_size = usa_comp_size
-        data_offset = usa_sector * SECTOR_SIZE
+        data_offset = usa_sector * SECTOR
 
         # 1. Skip identical entries (shared SFX/music)
         if jp_raw == usa_raw:

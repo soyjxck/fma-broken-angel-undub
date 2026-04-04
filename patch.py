@@ -28,7 +28,7 @@ import subprocess
 import tempfile
 
 from lib.constants import (
-    DSI_BLOCK_SIZE, SECTOR_SIZE, EXPECTED_HASHES,
+    DSI_BLOCK_SIZE, SECTOR, EXPECTED_HASHES,
     DSI_NAMES, SUBS_DIR,
 )
 from lib.iso import find_file_in_iso, update_dir_entry, verify_iso
@@ -114,21 +114,21 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
     print("Patching CDDATA.DIG...")
     usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
     jp_cddata_info = find_file_in_iso(jp_iso, b'CDDATA.DIG;1')
-    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR_SIZE:usa_cddata_info[0] * SECTOR_SIZE + usa_cddata_info[1]]
-    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR_SIZE:jp_cddata_info[0] * SECTOR_SIZE + jp_cddata_info[1]]
+    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR:usa_cddata_info[0] * SECTOR + usa_cddata_info[1]]
+    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR:jp_cddata_info[0] * SECTOR + jp_cddata_info[1]]
 
     patched_dig, replaced, skipped_same, skipped_nofit = patch_cddata(usa_dig, jp_dig, mapping)
     print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Skipped (too large): {skipped_nofit}")
 
     with open(out_iso_path, 'r+b') as f:
-        f.seek(usa_cddata_info[0] * SECTOR_SIZE)
+        f.seek(usa_cddata_info[0] * SECTOR)
         f.write(patched_dig[:usa_cddata_info[1]])
 
     # --- Step 2: Write JP DSIs sequentially ---
     print("Writing JP cutscenes...")
 
     # DSIs start right after CDDATA.DIG
-    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR_SIZE - 1) // SECTOR_SIZE
+    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR - 1) // SECTOR
     write_sector = cddata_end
 
     with open(out_iso_path, 'r+b') as f:
@@ -139,17 +139,17 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
                 continue
 
             jp_sec, jp_sz, _ = jp_info
-            jp_dsi = jp_iso[jp_sec * SECTOR_SIZE:jp_sec * SECTOR_SIZE + jp_sz]
+            jp_dsi = jp_iso[jp_sec * SECTOR:jp_sec * SECTOR + jp_sz]
 
-            f.seek(write_sector * SECTOR_SIZE)
+            f.seek(write_sector * SECTOR)
             f.write(jp_dsi)
-            pad = (SECTOR_SIZE - (jp_sz % SECTOR_SIZE)) % SECTOR_SIZE
+            pad = (SECTOR - (jp_sz % SECTOR)) % SECTOR
             if pad:
                 f.write(b'\x00' * pad)
 
             update_dir_entry(f, usa_info[2], write_sector, jp_sz)
 
-            file_sectors = (jp_sz + SECTOR_SIZE - 1) // SECTOR_SIZE
+            file_sectors = (jp_sz + SECTOR - 1) // SECTOR
             print(f"  {name}: {jp_sz / 1024 / 1024:.1f} MB")
             write_sector += file_sectors
 
@@ -157,14 +157,14 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
         data0_info = find_file_in_iso(usa_iso, b'DATA0')
         if data0_info:
             data0_sec, data0_sz, data0_dir = data0_info
-            data0_content = usa_iso[data0_sec * SECTOR_SIZE:data0_sec * SECTOR_SIZE + data0_sz]
-            f.seek(write_sector * SECTOR_SIZE)
+            data0_content = usa_iso[data0_sec * SECTOR:data0_sec * SECTOR + data0_sz]
+            f.seek(write_sector * SECTOR)
             f.write(data0_content)
             update_dir_entry(f, data0_dir, write_sector, data0_sz)
-            write_sector += (data0_sz + SECTOR_SIZE - 1) // SECTOR_SIZE
+            write_sector += (data0_sz + SECTOR - 1) // SECTOR
 
         # Truncate ISO to actual size
-        f.seek(write_sector * SECTOR_SIZE)
+        f.seek(write_sector * SECTOR)
         f.truncate()
 
     return usa_iso, jp_iso
@@ -198,14 +198,14 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
     print("Patching CDDATA.DIG...")
     usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
     jp_cddata_info = find_file_in_iso(jp_iso, b'CDDATA.DIG;1')
-    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR_SIZE:usa_cddata_info[0] * SECTOR_SIZE + usa_cddata_info[1]]
-    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR_SIZE:jp_cddata_info[0] * SECTOR_SIZE + jp_cddata_info[1]]
+    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR:usa_cddata_info[0] * SECTOR + usa_cddata_info[1]]
+    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR:jp_cddata_info[0] * SECTOR + jp_cddata_info[1]]
 
     patched_dig, replaced, skipped_same, skipped_nofit = patch_cddata(usa_dig, jp_dig, mapping)
     print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Skipped (too large): {skipped_nofit}")
 
     with open(out_iso_path, 'r+b') as f:
-        f.seek(usa_cddata_info[0] * SECTOR_SIZE)
+        f.seek(usa_cddata_info[0] * SECTOR)
         f.write(patched_dig[:usa_cddata_info[1]])
 
     # --- Step 2: Build subtitled DSIs and write sequentially ---
@@ -217,7 +217,7 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
         os.makedirs(dump_mkv_dir, exist_ok=True)
 
     print("Writing cutscenes...")
-    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR_SIZE - 1) // SECTOR_SIZE
+    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR - 1) // SECTOR
     write_sector = cddata_end
 
     with open(out_iso_path, 'r+b') as f:
@@ -228,7 +228,7 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
                 continue
 
             jp_sec, jp_sz, _ = jp_info
-            jp_dsi_bytes = jp_iso[jp_sec * SECTOR_SIZE:jp_sec * SECTOR_SIZE + jp_sz]
+            jp_dsi_bytes = jp_iso[jp_sec * SECTOR:jp_sec * SECTOR + jp_sz]
 
             # Try to build subtitled DSI
             ass_path = os.path.join(SUBS_DIR, f'{name}.ass')
@@ -251,15 +251,15 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
             dsi_data = sub_dsi if sub_dsi is not None else jp_dsi_bytes
             label = "subtitled" if sub_dsi is not None else "JP audio"
 
-            f.seek(write_sector * SECTOR_SIZE)
+            f.seek(write_sector * SECTOR)
             f.write(dsi_data)
-            pad = (SECTOR_SIZE - (len(dsi_data) % SECTOR_SIZE)) % SECTOR_SIZE
+            pad = (SECTOR - (len(dsi_data) % SECTOR)) % SECTOR
             if pad:
                 f.write(b'\x00' * pad)
 
             update_dir_entry(f, usa_info[2], write_sector, len(dsi_data))
 
-            file_sectors = (len(dsi_data) + SECTOR_SIZE - 1) // SECTOR_SIZE
+            file_sectors = (len(dsi_data) + SECTOR - 1) // SECTOR
             print(f"  {name}: {len(dsi_data) / 1024 / 1024:.1f} MB ({label})")
             write_sector += file_sectors
 
@@ -267,13 +267,13 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
         data0_info = find_file_in_iso(usa_iso, b'DATA0')
         if data0_info:
             data0_sec, data0_sz, data0_dir = data0_info
-            data0_content = usa_iso[data0_sec * SECTOR_SIZE:data0_sec * SECTOR_SIZE + data0_sz]
-            f.seek(write_sector * SECTOR_SIZE)
+            data0_content = usa_iso[data0_sec * SECTOR:data0_sec * SECTOR + data0_sz]
+            f.seek(write_sector * SECTOR)
             f.write(data0_content)
             update_dir_entry(f, data0_dir, write_sector, data0_sz)
-            write_sector += (data0_sz + SECTOR_SIZE - 1) // SECTOR_SIZE
+            write_sector += (data0_sz + SECTOR - 1) // SECTOR
 
-        f.seek(write_sector * SECTOR_SIZE)
+        f.seek(write_sector * SECTOR)
         f.truncate()
 
 

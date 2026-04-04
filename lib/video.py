@@ -3,26 +3,17 @@ Video encoding and DSI muxing for subtitled cutscenes.
 
 This module handles:
 1. MPEG-2 encoding with burned ASS subtitles
-2. Proportional audio DSI muxing (the key algorithm for A/V sync)
+2. DSI muxing via dsi-muxer
 3. MKV export with squeezed JP audio
-
-The proportional audio algorithm distributes audio per block based on
-the number of video frames in that block. This ensures each block's
-audio duration matches its video duration, producing perfect A/V sync
-on PS2 hardware regardless of the video encoder used.
 """
 
-import struct
 import os
 import shutil
 import subprocess
 
 import tempfile
 
-from .constants import DSI_BLOCK_SIZE, AUDIO_TYPE_TAG, VIDEO_TYPE_TAG
-
 from dsi_muxer import DSI
-from dsi_muxer.container import _count_markers
 
 _REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,11 +30,6 @@ def _find_fontsdir():
         if os.path.isdir(d):
             return d
     return None
-
-
-def _count_pics(data):
-    """Count MPEG-2 picture start codes (00 00 01 00) in video data."""
-    return _count_markers(data, b'\x00\x00\x01\x00')
 
 
 # =============================================================================
@@ -131,161 +117,6 @@ def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
 
     new_dsi = DSI.mux(new_video, audio)
     return new_dsi.to_bytes()
-
-
-# =============================================================================
-# DSI Muxer — Proportional Audio Algorithm (legacy)
-# =============================================================================
-
-def mux_dsi_proportional(video_data, audio_data, nblocks):
-    """Mux video + audio into DSI blocks with proportional audio.
-
-    THE KEY ALGORITHM: Each block gets audio proportional to its video
-    frame count. This ensures audio duration ≈ video duration per block,
-    producing perfect A/V sync on PS2 hardware.
-
-    The video is byte-sliced as a continuous stream — GOPs flow freely
-    across block boundaries, exactly like the original game files.
-
-    Last block uses the original's V→A structure with end-of-sequence.
-
-    Args:
-        video_data: MPEG-2 elementary stream (with end-of-sequence).
-        audio_data: PS2 SPU ADPCM audio stream.
-        nblocks: Number of DSI blocks to create.
-
-    Returns:
-        Complete DSI file as bytes.
-    """
-    usable = DSI_BLOCK_SIZE - 64  # bytes available per block (after header)
-    total_frames = _count_pics(video_data)
-    audio_per_frame = len(audio_data) / total_frames if total_frames > 0 else 512
-
-    out = bytearray(nblocks * DSI_BLOCK_SIZE)
-    vid_pos = 0
-    aud_pos = 0
-
-    for blk in range(nblocks):
-        base = blk * DSI_BLOCK_SIZE
-        is_last = (blk == nblocks - 1)
-
-        if is_last:
-            # Last block matches original structure: V→A, small sizes, slack
-            aud_sz = 5120
-            vid_cap = 65472
-        else:
-            # Estimate frames in this block's byte range
-            est_aud = max(512, (round(8 * audio_per_frame) // 512) * 512)
-            est_vid_cap = usable - est_aud
-            chunk = video_data[vid_pos:vid_pos + est_vid_cap] if vid_pos < len(video_data) else b''
-            actual_frames = _count_pics(chunk)
-
-            # Audio proportional to frame count
-            aud_sz = max(512, (round(actual_frames * audio_per_frame) // 512) * 512)
-            vid_cap = usable - aud_sz
-
-        # Byte-slice video from continuous stream
-        vc = video_data[vid_pos:vid_pos + vid_cap] if vid_pos < len(video_data) else b''
-        if len(vc) < vid_cap:
-            vc += b'\x00' * (vid_cap - len(vc))
-
-        # Audio chunk
-        ac = audio_data[aud_pos:aud_pos + aud_sz]
-        if len(ac) < aud_sz:
-            ac += b'\x00' * (aud_sz - len(ac))
-
-        # Write block header + data
-        if is_last:
-            # V→A order for last block (matches original)
-            struct.pack_into('<IIiIIiII', out, base,
-                2, 64, VIDEO_TYPE_TAG, vid_cap,
-                64 + vid_cap, AUDIO_TYPE_TAG, aud_sz, 0)
-            out[base + 32:base + 64] = b'\x00' * 32
-            out[base + 64:base + 64 + vid_cap] = bytes(vc)[:vid_cap]
-            out[base + 64 + vid_cap:base + 64 + vid_cap + aud_sz] = ac[:aud_sz]
-        else:
-            # A→V order for normal blocks
-            struct.pack_into('<IIiIIiII', out, base,
-                2, 64, AUDIO_TYPE_TAG, aud_sz,
-                64 + aud_sz, VIDEO_TYPE_TAG, vid_cap, 0)
-            out[base + 32:base + 64] = b'\x00' * 32
-            out[base + 64:base + 64 + aud_sz] = ac
-            out[base + 64 + aud_sz:base + 64 + aud_sz + vid_cap] = bytes(vc)[:vid_cap]
-
-        vid_pos += vid_cap
-        aud_pos += aud_sz
-
-    # Post-process: ensure end-of-sequence marker exists in the last block
-    # with video data. Without this, the game won't transition after the cutscene.
-    end_marker = b'\x00\x00\x01\xb7'
-    for blk in range(nblocks - 1, -1, -1):
-        base = blk * DSI_BLOCK_SIZE
-        hdr = struct.unpack('<IIiIIiII', out[base:base + 32])
-        if hdr[2] == VIDEO_TYPE_TAG:
-            v_off, v_sz = base + hdr[1], hdr[3]
-        else:
-            v_off, v_sz = base + hdr[4], hdr[6]
-        region = out[v_off:v_off + v_sz]
-        if end_marker in region:
-            break  # already has one
-        # Find last nonzero byte and inject marker
-        last_nz = v_sz - 1
-        while last_nz > 0 and region[last_nz] == 0:
-            last_nz -= 1
-        if last_nz > 0 and last_nz + 5 < v_sz:
-            out[v_off + last_nz + 1:v_off + last_nz + 5] = end_marker
-            break
-
-    return bytes(out)
-
-
-# =============================================================================
-# DSI Stream Extraction (for audio-only mode)
-# =============================================================================
-
-def extract_dsi_audio(dsi_data):
-    """Extract the continuous audio stream from a DSI file."""
-    chunks = []
-    for blk in range(len(dsi_data) // DSI_BLOCK_SIZE):
-        base = blk * DSI_BLOCK_SIZE
-        hdr = struct.unpack('<IIiIIiII', dsi_data[base:base + 32])
-        if hdr[2] == AUDIO_TYPE_TAG:
-            chunks.append(dsi_data[base + hdr[1]:base + hdr[1] + hdr[3]])
-        else:
-            chunks.append(dsi_data[base + hdr[4]:base + hdr[4] + hdr[6]])
-    return b''.join(chunks)
-
-
-def extract_dsi_video(dsi_data):
-    """Extract the continuous video stream from a DSI file."""
-    chunks = []
-    for blk in range(len(dsi_data) // DSI_BLOCK_SIZE):
-        base = blk * DSI_BLOCK_SIZE
-        hdr = struct.unpack('<IIiIIiII', dsi_data[base:base + 32])
-        if hdr[2] == VIDEO_TYPE_TAG:
-            chunks.append(dsi_data[base + hdr[1]:base + hdr[1] + hdr[3]])
-        else:
-            chunks.append(dsi_data[base + hdr[4]:base + hdr[4] + hdr[6]])
-    return b''.join(chunks)
-
-
-def patch_dsi_audio(usa_dsi, jp_audio):
-    """Replace audio in a USA DSI with JP audio (preserves block structure)."""
-    out = bytearray(usa_dsi)
-    pos = 0
-    for blk in range(len(out) // DSI_BLOCK_SIZE):
-        base = blk * DSI_BLOCK_SIZE
-        hdr = struct.unpack('<IIiIIiII', out[base:base + 32])
-        if hdr[2] == AUDIO_TYPE_TAG:
-            a_off, a_sz = base + hdr[1], hdr[3]
-        else:
-            a_off, a_sz = base + hdr[4], hdr[6]
-        chunk = jp_audio[pos:pos + a_sz]
-        if len(chunk) < a_sz:
-            chunk += b'\x00' * (a_sz - len(chunk))
-        out[a_off:a_off + a_sz] = chunk
-        pos += a_sz
-    return bytes(out)
 
 
 # =============================================================================

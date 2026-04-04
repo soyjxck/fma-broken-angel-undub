@@ -9,7 +9,7 @@ import struct
 import os
 import hashlib
 
-from .constants import SECTOR_SIZE
+from .constants import SECTOR
 
 
 def find_file_in_iso(iso_data, filename):
@@ -73,8 +73,11 @@ def verify_iso(path, label, expected, skip=False):
         return True
 
     print(f"  Verifying {label}...", end=' ', flush=True)
+    md5_hash = hashlib.md5()
     with open(path, 'rb') as f:
-        md5 = hashlib.md5(f.read()).hexdigest()
+        while chunk := f.read(64 * 1024 * 1024):
+            md5_hash.update(chunk)
+    md5 = md5_hash.hexdigest()
     if md5 == expected['md5']:
         print("OK")
         return True

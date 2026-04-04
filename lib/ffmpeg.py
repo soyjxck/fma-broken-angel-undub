@@ -35,7 +35,7 @@ def find_or_build_ffmpeg():
     for path in candidates:
         if path and os.path.exists(path):
             r = subprocess.run([path, '-filters'], capture_output=True, text=True)
-            if 'subtitles' in r.stdout:
+            if 'subtitles' in r.stdout or 'libass' in r.stdout:
                 return path
 
     # Need to build ffmpeg with libass

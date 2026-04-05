@@ -337,7 +337,15 @@ def main():
         else:
             do_audio(usa_path, jp_path, out_path)
 
-        print(f"\nDone! {out_path} ({os.path.getsize(out_path):,} bytes)")
+        # Update PVD volume size — required for real PS2 hardware
+        final = os.path.getsize(out_path)
+        final_sectors = (final + SECTOR - 1) // SECTOR
+        with open(out_path, 'r+b') as f:
+            f.seek(16 * SECTOR + 80)
+            f.write(struct.pack('<I', final_sectors))
+            f.write(struct.pack('>I', final_sectors))
+
+        print(f"\nDone! {out_path} ({final:,} bytes)")
 
         if want_xdelta:
             generate_xdelta(usa_path, out_path)

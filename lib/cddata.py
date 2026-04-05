@@ -41,7 +41,7 @@ def _fit_sample_psxavenc(jp_adpcm, jp_rate, target_bytes):
     """Re-encode a JP ADPCM sample to fit in a target byte budget.
 
     Uses vgmstream to decode, ffmpeg to resample, and psxavenc to re-encode.
-    Returns resampled ADPCM bytes, or None on failure.
+    Returns (resampled_adpcm_bytes, target_rate) tuple, or None on failure.
     """
     psxavenc = _find_tool(['/tmp/psxavenc/build/psxavenc', 'psxavenc'])
     vgmstream = _find_tool(['/opt/homebrew/bin/vgmstream-cli', '/usr/local/bin/vgmstream-cli', 'vgmstream-cli'])
@@ -96,7 +96,7 @@ def _fit_sample_psxavenc(jp_adpcm, jp_rate, target_bytes):
                 last_block = len(result) - 16
                 result[last_block + 1] = 0x01  # last block: END
             result = bytes(result)
-            return result
+            return result, target_rate
     except Exception:
         return None
 
@@ -142,6 +142,9 @@ def _parse_scei_samples(bank):
         param_off += 4
 
     # Read per-sample params: [rate:u16] [flags:u16] [cumulative_offset:u32]
+    # rate_offset is the absolute byte offset of the rate field in the bank,
+    # needed to patch the rate when resampling.
+    vagi_abs = pos + 12  # absolute offset of vagi data within bank
     samples = []
     prev_cum = 0
     for i in range(sc):
@@ -151,7 +154,8 @@ def _parse_scei_samples(bank):
         rate = struct.unpack('<H', vagi[p:p + 2])[0]
         cum = struct.unpack('<I', vagi[p + 4:p + 8])[0]
         sz = cum - prev_cum
-        samples.append((audio_base + prev_cum, sz, rate if rate > 0 else 44100))
+        rate_offset = vagi_abs + p  # absolute offset of rate u16 in bank
+        samples.append((audio_base + prev_cum, sz, rate if rate > 0 else 44100, rate_offset))
         prev_cum = cum
 
     return samples
@@ -198,11 +202,11 @@ def _patch_scei_bank(usa_bank, jp_bank):
     out = bytearray(usa_bank)
     replaced = 0
 
-    for i, (u_off, u_sz, u_rate) in enumerate(usa_s):
+    for i, (u_off, u_sz, u_rate, u_rate_off) in enumerate(usa_s):
         j = i + jp_offset
         if j >= len(jp_s):
             break
-        j_off, j_sz, j_rate = jp_s[j]
+        j_off, j_sz, j_rate, _ = jp_s[j]
 
         # Skip identical samples (shared SFX — same hash)
         if usa_bank[u_off:u_off + u_sz] == jp_bank[j_off:j_off + j_sz]:
@@ -213,15 +217,20 @@ def _patch_scei_bank(usa_bank, jp_bank):
             out[u_off:u_off + j_sz] = jp_bank[j_off:j_off + j_sz]
             if j_sz < u_sz:
                 out[u_off + j_sz:u_off + u_sz] = b'\x00' * (u_sz - j_sz)
+            # Update rate in Vagi params to match JP sample rate
+            struct.pack_into('<H', out, u_rate_off, j_rate)
             replaced += 1
             continue
 
         # JP sample too large — resample to fit using psxavenc
-        fitted = _fit_sample_psxavenc(jp_bank[j_off:j_off + j_sz], j_rate, u_sz)
-        if fitted:
+        result = _fit_sample_psxavenc(jp_bank[j_off:j_off + j_sz], j_rate, u_sz)
+        if result:
+            fitted, fitted_rate = result
             out[u_off:u_off + len(fitted)] = fitted
             if len(fitted) < u_sz:
                 out[u_off + len(fitted):u_off + u_sz] = b'\x00' * (u_sz - len(fitted))
+            # Update rate in Vagi params to match resampled rate
+            struct.pack_into('<H', out, u_rate_off, fitted_rate)
             replaced += 1
 
     return bytes(out) if replaced > 0 else None

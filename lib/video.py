@@ -40,7 +40,7 @@ def _find_fontsdir():
 def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     """Encode video with burned ASS subtitles as PS2-compatible MPEG-2.
 
-    Uses high-quality CBR encoding at 7000k — no size constraint since
+    Uses high-quality CBR encoding at 6000k — no size constraint since
     DSI block count is auto-calculated from content size.
 
     Args:
@@ -63,7 +63,7 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     r = subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
         '-vf', f'{ass_filter},format=yuv420p',
         '-c:v', 'mpeg2video',
-        '-b:v', '7000k', '-minrate', '7000k', '-maxrate', '7000k',
+        '-b:v', '6000k', '-minrate', '6000k', '-maxrate', '6000k',
         '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',
         '-s', '512x448', '-sar', '7:6', '-r', '30000/1001',
         '-g', '16', '-bf', '2', '-b_strategy', '0',

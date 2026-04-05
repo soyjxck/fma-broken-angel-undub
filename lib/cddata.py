@@ -84,9 +84,18 @@ def _fit_sample_psxavenc(jp_adpcm, jp_rate, target_bytes):
 
             with open(vag_path, 'rb') as f:
                 vag = f.read()
-            result = vag[48:]  # strip VAG header
+            result = bytearray(vag[48:])  # strip VAG header
             if len(result) > target_bytes:
                 result = result[:target_bytes]
+
+            # Fix ADPCM flags: psxavenc omits END/LOOP markers that
+            # the PS2 SPU2 needs. Without END, the voice reads past
+            # the sample boundary, corrupting audio over time.
+            if len(result) >= 16:
+                result[1] = 0x06  # first block: LOOP_START + LOOP
+                last_block = len(result) - 16
+                result[last_block + 1] = 0x01  # last block: END
+            result = bytes(result)
             return result
     except Exception:
         return None

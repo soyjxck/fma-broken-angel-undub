@@ -102,18 +102,17 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
 
 
 def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
-    """Build a subtitled DSI from JP DSI bytes and an ASS subtitle file.
+    """Build a subtitled DSI by replacing video within the original structure.
 
     Pipeline:
-        1. Demux JP DSI -> video + audio
-        2. Burn subtitles onto video (MPEG-2 re-encode)
-        3. Remux with dsi-muxer (auto block count)
+        1. Demux JP DSI -> video
+        2. Re-encode video with burned subtitles (same bitrate)
+        3. Replace video via DSI.replace_video() — preserves block layout
 
     Returns DSI bytes, or None on failure.
     """
     dsi = DSI.from_bytes(jp_dsi_bytes)
     video = dsi.extract_video()
-    audio = dsi.extract_audio()
 
     with tempfile.TemporaryDirectory() as tmp:
         m2v_in = os.path.join(tmp, 'input.m2v')
@@ -128,8 +127,7 @@ def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
         with open(m2v_out, 'rb') as f:
             new_video = f.read()
 
-    new_dsi = DSI.mux(new_video, audio)
-    return new_dsi.to_bytes()
+    return dsi.replace_video(new_video).to_bytes()
 
 
 # =============================================================================

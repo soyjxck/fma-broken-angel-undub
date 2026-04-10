@@ -98,8 +98,8 @@ Subtitles use **Helvetica** and **Geometric Slabserif 703** (opening title cards
 
 ## Credits
 
-- **soyjxck** — Reverse engineering, patch development, tools
-- **GXZ95** — Updated translation subtitles
+- **soyjxck** — Reverse engineering, patch development, tools — [ko-fi](https://ko-fi.com/soyjack)
+- **GEM** (@gxz95 on Discord) — Hand-translated and timed English subtitles — [ko-fi](https://ko-fi.com/gxz95)
 - **Claude** (Anthropic) — Assisted with reverse engineering and development
 
 ## Related Tools

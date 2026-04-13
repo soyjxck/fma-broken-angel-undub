@@ -14,7 +14,9 @@ Audio File: M010.mkv
 Video File: M010.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Active Line: 5
+Scroll Position: 9
+Active Line: 14
+Video Position: 2107
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -28,13 +30,13 @@ Dialogue: 0,0:00:12.54,0:00:14.94,Helvetica,,0,0,0,,Are you alright?
 Dialogue: 0,0:00:14.94,0:00:16.78,Helvetica,,0,0,0,,You...
 Dialogue: 0,0:00:29.89,0:00:32.36,Helvetica,,0,0,0,,Here.
 Dialogue: 0,0:00:32.36,0:00:35.35,Helvetica,,0,0,0,,T-Thank you.
-Dialogue: 0,0:00:35.50,0:00:40.77,Helvetica,,0,0,3,,{\fs22}Mister, I don't know what's going on, but don't you think you're a bit childish for an adult?
+Dialogue: 0,0:00:35.50,0:00:40.77,Helvetica,,0,0,3,,{\fs22}Mister, I don't know what's going on,\Nbut don't you think you're a bit childish for an adult?
 Dialogue: 0,0:00:40.77,0:00:43.26,Helvetica,,0,0,0,,Who the hell are you?
 Dialogue: 0,0:00:43.26,0:00:46.28,Helvetica,,0,0,0,,Huh? That getup...
 Dialogue: 0,0:00:46.28,0:00:48.91,Helvetica,,0,0,0,,You're a State Alchemist, aren't you?
 Dialogue: 0,0:00:48.91,0:00:50.55,Helvetica,,0,0,0,,State Alchemist?
 Dialogue: 0,0:00:50.55,0:00:51.51,Helvetica,,0,0,0,,So what if I am?
-Dialogue: 0,0:00:51.51,0:00:55.98,Helvetica,,0,0,0,,Sorry, but I cannot let you pass here.
+Dialogue: 0,0:00:51.51,0:00:55.98,Helvetica,,0,0,0,,Sorry, but I can't let you pass through here.
 Dialogue: 0,0:00:57.49,0:01:01.39,Helvetica,,0,0,0,,That worked out perfectly, didn't it, brother?
 Dialogue: 0,0:01:00.44,0:01:01.39,Helvetica,,0,0,410,,Huh?
-Dialogue: 0,0:01:06.63,0:01:11.60,Helvetica,,0,0,3,,{\fs22}{\fad(0,997)}Yeah. Now I’ve got a reason\Nto beat the crap out of you.
+Dialogue: 0,0:01:06.63,0:01:11.60,Helvetica,,0,0,3,,{\fs22}{\fad(0,997)}Yeah... Now I’ve got a reason\Nto beat the crap out of you.

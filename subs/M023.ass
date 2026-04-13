@@ -27,139 +27,139 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:16.75,0:00:20.25,Helvetica,,0,0,0,,No way. Tell me this is a joke.
 Dialogue: 0,0:00:25.95,0:00:32.06,Helvetica,,0,0,0,,{\fs25}She couldn't even do a transmutation yet, not a single one...
 Dialogue: 0,0:00:32.06,0:00:36.80,Helvetica,,0,0,0,,Is this it? Is this really the end?
-Dialogue: 0,0:00:37.15,0:00:37.19,Helvetica,,0,0,0,,{\pos(260.01,434.57)}Armony!
-Dialogue: 0,0:00:37.19,0:00:37.22,Helvetica,,0,0,0,,{\pos(256.29,440)}Armony!
-Dialogue: 0,0:00:37.22,0:00:37.25,Helvetica,,0,0,0,,{\pos(259.34,445.29)}Armony!
-Dialogue: 0,0:00:37.25,0:00:37.29,Helvetica,,0,0,0,,{\pos(259,436.89)}Armony!
-Dialogue: 0,0:00:37.29,0:00:37.32,Helvetica,,0,0,0,,{\pos(257.58,439.39)}Armony!
-Dialogue: 0,0:00:37.32,0:00:37.35,Helvetica,,0,0,0,,{\pos(256.57,435.97)}Armony!
-Dialogue: 0,0:00:37.35,0:00:37.39,Helvetica,,0,0,0,,{\pos(255.27,440.48)}Armony!
-Dialogue: 0,0:00:37.39,0:00:37.42,Helvetica,,0,0,0,,{\pos(253.87,443.74)}Armony!
-Dialogue: 0,0:00:37.42,0:00:37.45,Helvetica,,0,0,0,,{\pos(258.76,439.9)}Armony!
-Dialogue: 0,0:00:37.45,0:00:37.49,Helvetica,,0,0,0,,{\pos(256.2,438.05)}Armony!
-Dialogue: 0,0:00:37.49,0:00:37.52,Helvetica,,0,0,0,,{\pos(261.57,436.35)}Armony!
-Dialogue: 0,0:00:37.52,0:00:37.56,Helvetica,,0,0,0,,{\pos(261.28,435.32)}Armony!
-Dialogue: 0,0:00:37.56,0:00:37.59,Helvetica,,0,0,0,,{\pos(252.96,434.97)}Armony!
-Dialogue: 0,0:00:37.59,0:00:37.62,Helvetica,,0,0,0,,{\pos(258.27,433.85)}Armony!
-Dialogue: 0,0:00:37.62,0:00:37.66,Helvetica,,0,0,0,,{\pos(258.02,440.13)}Armony!
-Dialogue: 0,0:00:37.66,0:00:37.69,Helvetica,,0,0,0,,{\pos(253.61,439.65)}Armony!
-Dialogue: 0,0:00:37.69,0:00:37.72,Helvetica,,0,0,0,,{\pos(258.38,436.89)}Armony!
-Dialogue: 0,0:00:37.72,0:00:37.76,Helvetica,,0,0,0,,{\pos(252.6,440.94)}Armony!
-Dialogue: 0,0:00:37.76,0:00:37.79,Helvetica,,0,0,0,,{\pos(253.45,441.41)}Armony!
-Dialogue: 0,0:00:37.79,0:00:37.82,Helvetica,,0,0,0,,{\pos(258.16,436.86)}Armony!
-Dialogue: 0,0:00:37.82,0:00:37.86,Helvetica,,0,0,0,,{\pos(257.96,444.86)}Armony!
-Dialogue: 0,0:00:37.86,0:00:37.89,Helvetica,,0,0,0,,{\pos(255.62,437.71)}Armony!
-Dialogue: 0,0:00:37.89,0:00:37.92,Helvetica,,0,0,0,,{\pos(254.97,442.51)}Armony!
-Dialogue: 0,0:00:37.92,0:00:37.96,Helvetica,,0,0,0,,{\pos(262.27,435.55)}Armony!
-Dialogue: 0,0:00:37.96,0:00:37.99,Helvetica,,0,0,0,,{\pos(252.7,434.51)}Armony!
-Dialogue: 0,0:00:37.99,0:00:38.02,Helvetica,,0,0,0,,{\pos(255.36,435.78)}Armony!
-Dialogue: 0,0:00:38.02,0:00:38.06,Helvetica,,0,0,0,,{\pos(253.61,440.95)}Armony!
-Dialogue: 0,0:00:38.06,0:00:38.09,Helvetica,,0,0,0,,{\pos(252.55,442.84)}Armony!
-Dialogue: 0,0:00:38.09,0:00:38.12,Helvetica,,0,0,0,,{\pos(254.89,434.37)}Armony!
-Dialogue: 0,0:00:38.12,0:00:38.16,Helvetica,,0,0,0,,{\pos(255.95,434.69)}Armony!
-Dialogue: 0,0:00:38.16,0:00:38.19,Helvetica,,0,0,0,,{\pos(252.63,442.61)}Armony!
-Dialogue: 0,0:00:38.19,0:00:38.22,Helvetica,,0,0,0,,{\pos(259.32,439.64)}Armony!
-Dialogue: 0,0:00:38.22,0:00:38.26,Helvetica,,0,0,0,,{\pos(253.15,438.88)}Armony!
-Dialogue: 0,0:00:38.26,0:00:38.29,Helvetica,,0,0,0,,{\pos(257.15,438.44)}Armony!
-Dialogue: 0,0:00:38.29,0:00:38.32,Helvetica,,0,0,0,,{\pos(259.57,432.97)}Armony!
-Dialogue: 0,0:00:38.32,0:00:38.36,Helvetica,,0,0,0,,{\pos(257.63,440.29)}Armony!
-Dialogue: 0,0:00:38.36,0:00:38.39,Helvetica,,0,0,0,,{\pos(254.22,431.78)}Armony!
-Dialogue: 0,0:00:38.39,0:00:38.42,Helvetica,,0,0,0,,{\pos(253.64,433.33)}Armony!
-Dialogue: 0,0:00:38.42,0:00:38.46,Helvetica,,0,0,0,,{\pos(261.22,436.02)}Armony!
-Dialogue: 0,0:00:38.46,0:00:38.49,Helvetica,,0,0,0,,{\pos(258.4,443.51)}Armony!
-Dialogue: 0,0:00:38.49,0:00:38.52,Helvetica,,0,0,0,,{\pos(256.11,436.86)}Armony!
-Dialogue: 0,0:00:38.52,0:00:38.56,Helvetica,,0,0,0,,{\pos(260.28,440.8)}Armony!
-Dialogue: 0,0:00:38.56,0:00:38.59,Helvetica,,0,0,0,,{\pos(252.27,443.54)}Armony!
-Dialogue: 0,0:00:38.59,0:00:38.62,Helvetica,,0,0,0,,{\pos(250.63,435.85)}Armony!
-Dialogue: 0,0:00:38.62,0:00:38.66,Helvetica,,0,0,0,,{\pos(251.59,440.91)}Armony!
-Dialogue: 0,0:00:38.66,0:00:38.69,Helvetica,,0,0,0,,{\pos(253.17,441.83)}Armony!
-Dialogue: 0,0:00:38.69,0:00:38.72,Helvetica,,0,0,0,,{\pos(255.28,438.91)}Armony!
-Dialogue: 0,0:00:38.72,0:00:38.76,Helvetica,,0,0,0,,{\pos(259.95,435.87)}Armony!
-Dialogue: 0,0:00:38.76,0:00:38.79,Helvetica,,0,0,0,,{\pos(256.57,437.77)}Armony!
-Dialogue: 0,0:00:38.79,0:00:38.82,Helvetica,,0,0,0,,{\pos(254.6,440.4)}Armony!
-Dialogue: 0,0:00:38.82,0:00:38.86,Helvetica,,0,0,0,,{\pos(252.88,434.2)}Armony!
-Dialogue: 0,0:00:38.86,0:00:38.89,Helvetica,,0,0,0,,{\pos(250.19,440.31)}Armony!
-Dialogue: 0,0:00:38.89,0:00:38.92,Helvetica,,0,0,0,,{\pos(254.23,440.2)}Armony!
-Dialogue: 0,0:00:38.92,0:00:38.96,Helvetica,,0,0,0,,{\pos(251.71,430.96)}Armony!
-Dialogue: 0,0:00:38.96,0:00:38.99,Helvetica,,0,0,0,,{\pos(252.7,433.85)}Armony!
-Dialogue: 0,0:00:38.99,0:00:39.02,Helvetica,,0,0,0,,{\pos(260.64,437.49)}Armony!
-Dialogue: 0,0:00:39.02,0:00:39.06,Helvetica,,0,0,0,,{\pos(249.27,431.87)}Armony!
-Dialogue: 0,0:00:39.06,0:00:39.09,Helvetica,,0,0,0,,{\pos(261.96,439.19)}Armony!
-Dialogue: 0,0:00:39.09,0:00:39.12,Helvetica,,0,0,0,,{\pos(253.36,434.86)}Armony!
-Dialogue: 0,0:00:39.12,0:00:39.16,Helvetica,,0,0,0,,{\pos(253.78,441.66)}Armony!
-Dialogue: 0,0:00:39.16,0:00:39.19,Helvetica,,0,0,0,,{\pos(258.67,440.19)}Armony!
-Dialogue: 0,0:00:39.19,0:00:39.22,Helvetica,,0,0,0,,{\pos(262.84,432.26)}Armony!
-Dialogue: 0,0:00:39.22,0:00:39.26,Helvetica,,0,0,0,,{\pos(254.46,431.55)}Armony!
-Dialogue: 0,0:00:39.26,0:00:39.29,Helvetica,,0,0,0,,{\pos(256.37,441.85)}Armony!
-Dialogue: 0,0:00:39.29,0:00:39.32,Helvetica,,0,0,0,,{\pos(255.28,443.76)}Armony!
-Dialogue: 0,0:00:39.32,0:00:39.36,Helvetica,,0,0,0,,{\pos(260.96,439.57)}Armony!
-Dialogue: 0,0:00:39.36,0:00:39.39,Helvetica,,0,0,0,,{\pos(250.88,434.8)}Armony!
-Dialogue: 0,0:00:39.39,0:00:39.42,Helvetica,,0,0,0,,{\pos(257.58,443.46)}Armony!
-Dialogue: 0,0:00:39.42,0:00:39.46,Helvetica,,0,0,0,,{\pos(255.31,434.81)}Armony!
-Dialogue: 0,0:00:39.46,0:00:39.49,Helvetica,,0,0,0,,{\pos(257.51,435.81)}Armony!
-Dialogue: 0,0:00:39.49,0:00:39.52,Helvetica,,0,0,0,,{\pos(260.88,437.06)}Armony!
-Dialogue: 0,0:00:39.52,0:00:39.56,Helvetica,,0,0,0,,{\pos(249.46,440.77)}Armony!
-Dialogue: 0,0:00:39.56,0:00:39.59,Helvetica,,0,0,0,,{\pos(254.84,440.69)}Armony!
-Dialogue: 0,0:00:39.59,0:00:39.62,Helvetica,,0,0,0,,{\pos(255.83,435.28)}Armony!
-Dialogue: 0,0:00:39.62,0:00:39.66,Helvetica,,0,0,0,,{\pos(253.36,437.89)}Armony!
-Dialogue: 0,0:00:39.66,0:00:39.69,Helvetica,,0,0,0,,{\pos(259.21,430.66)}Armony!
-Dialogue: 0,0:00:39.69,0:00:39.72,Helvetica,,0,0,0,,{\pos(261.72,439.35)}Armony!
-Dialogue: 0,0:00:39.72,0:00:39.76,Helvetica,,0,0,0,,{\pos(261.78,435.8)}Armony!
-Dialogue: 0,0:00:39.76,0:00:39.79,Helvetica,,0,0,0,,{\pos(257.64,435.88)}Armony!
-Dialogue: 0,0:00:39.79,0:00:39.82,Helvetica,,0,0,0,,{\pos(254.21,442.99)}Armony!
-Dialogue: 0,0:00:39.82,0:00:39.86,Helvetica,,0,0,0,,{\pos(252.58,440.5)}Armony!
-Dialogue: 0,0:00:39.86,0:00:39.89,Helvetica,,0,0,0,,{\pos(251.47,439.15)}Armony!
-Dialogue: 0,0:00:39.89,0:00:39.92,Helvetica,,0,0,0,,{\pos(258.95,435.96)}Armony!
-Dialogue: 0,0:00:39.92,0:00:39.96,Helvetica,,0,0,0,,{\pos(258.63,437.58)}Armony!
-Dialogue: 0,0:00:39.96,0:00:39.99,Helvetica,,0,0,0,,{\pos(257.24,442.71)}Armony!
-Dialogue: 0,0:00:39.99,0:00:40.02,Helvetica,,0,0,0,,{\pos(259.19,441.26)}Armony!
-Dialogue: 0,0:00:40.02,0:00:40.06,Helvetica,,0,0,0,,{\pos(259.54,440.06)}Armony!
-Dialogue: 0,0:00:40.06,0:00:40.09,Helvetica,,0,0,0,,{\pos(252.52,440.07)}Armony!
-Dialogue: 0,0:00:40.09,0:00:40.12,Helvetica,,0,0,0,,{\pos(259.02,442.75)}Armony!
-Dialogue: 0,0:00:40.12,0:00:40.16,Helvetica,,0,0,0,,{\pos(254.2,433.9)}Armony!
-Dialogue: 0,0:00:40.16,0:00:40.19,Helvetica,,0,0,0,,{\pos(252.73,436.36)}Armony!
-Dialogue: 0,0:00:40.19,0:00:40.22,Helvetica,,0,0,0,,{\pos(254.35,439.87)}Armony!
-Dialogue: 0,0:00:40.22,0:00:40.26,Helvetica,,0,0,0,,{\pos(256.4,442.99)}Armony!
-Dialogue: 0,0:00:40.26,0:00:40.29,Helvetica,,0,0,0,,{\pos(252.26,435.25)}Armony!
-Dialogue: 0,0:00:40.29,0:00:40.32,Helvetica,,0,0,0,,{\pos(261.28,431.73)}Armony!
-Dialogue: 0,0:00:40.32,0:00:40.36,Helvetica,,0,0,0,,{\pos(261.14,437.14)}Armony!
-Dialogue: 0,0:00:40.36,0:00:40.39,Helvetica,,0,0,0,,{\pos(257.8,438.42)}Armony!
-Dialogue: 0,0:00:40.39,0:00:40.42,Helvetica,,0,0,0,,{\pos(256.86,437.08)}Armony!
-Dialogue: 0,0:00:40.42,0:00:40.46,Helvetica,,0,0,0,,{\pos(257.38,439.64)}Armony!
-Dialogue: 0,0:00:40.46,0:00:40.49,Helvetica,,0,0,0,,{\pos(257.72,437.02)}Armony!
-Dialogue: 0,0:00:40.49,0:00:40.52,Helvetica,,0,0,0,,{\pos(255.78,437.7)}Armony!
-Dialogue: 0,0:00:40.52,0:00:40.56,Helvetica,,0,0,0,,{\pos(256.84,436.3)}Armony!
-Dialogue: 0,0:00:40.56,0:00:40.59,Helvetica,,0,0,0,,{\pos(256.14,437.16)}Armony!
-Dialogue: 0,0:00:40.59,0:00:40.62,Helvetica,,0,0,0,,{\pos(257.3,439.9)}Armony!
-Dialogue: 0,0:00:40.62,0:00:40.66,Helvetica,,0,0,0,,{\pos(257.74,436.9)}Armony!
-Dialogue: 0,0:00:40.66,0:00:40.69,Helvetica,,0,0,0,,{\pos(255.1,439.56)}Armony!
-Dialogue: 0,0:00:40.69,0:00:40.72,Helvetica,,0,0,0,,{\pos(254.88,438.38)}Armony!
-Dialogue: 0,0:00:40.72,0:00:40.76,Helvetica,,0,0,0,,{\pos(255.48,438.06)}Armony!
-Dialogue: 0,0:00:40.76,0:00:40.79,Helvetica,,0,0,0,,{\pos(254.74,436.48)}Armony!
-Dialogue: 0,0:00:40.79,0:00:40.82,Helvetica,,0,0,0,,{\pos(257.88,439)}Armony!
-Dialogue: 0,0:00:40.82,0:00:40.86,Helvetica,,0,0,0,,{\pos(255.22,436.38)}Armony!
-Dialogue: 0,0:00:40.86,0:00:40.89,Helvetica,,0,0,0,,{\pos(256.54,439.24)}Armony!
-Dialogue: 0,0:00:40.89,0:00:40.93,Helvetica,,0,0,0,,{\pos(254.28,438.18)}Armony!
-Dialogue: 0,0:00:40.93,0:00:40.96,Helvetica,,0,0,0,,{\pos(257.14,438.8)}Armony!
-Dialogue: 0,0:00:40.96,0:00:40.99,Helvetica,,0,0,0,,{\pos(255.92,439.04)}Armony!
-Dialogue: 0,0:00:40.99,0:00:41.03,Helvetica,,0,0,0,,{\pos(257,439.82)}Armony!
-Dialogue: 0,0:00:41.03,0:00:41.06,Helvetica,,0,0,0,,{\pos(256.22,436.78)}Armony!
-Dialogue: 0,0:00:41.06,0:00:41.09,Helvetica,,0,0,0,,{\pos(256.04,438.7)}Armony!
-Dialogue: 0,0:00:41.09,0:00:41.13,Helvetica,,0,0,0,,{\pos(255.78,439.96)}Armony!
-Dialogue: 0,0:00:41.13,0:00:41.16,Helvetica,,0,0,0,,{\pos(255.7,436.72)}Armony!
-Dialogue: 0,0:00:41.16,0:00:41.19,Helvetica,,0,0,0,,{\pos(255.36,438.38)}Armony!
-Dialogue: 0,0:00:41.19,0:00:41.23,Helvetica,,0,0,0,,{\pos(256.16,436.38)}Armony!
-Dialogue: 0,0:00:41.23,0:00:41.26,Helvetica,,0,0,0,,{\pos(257.26,437.46)}Armony!
-Dialogue: 0,0:00:41.26,0:00:41.29,Helvetica,,0,0,0,,{\pos(254.84,438)}Armony!
+Dialogue: 0,0:00:37.15,0:00:37.19,Helvetica,,0,0,0,,{\pos(252.06,440)}Armony!!!
+Dialogue: 0,0:00:37.19,0:00:37.22,Helvetica,,0,0,0,,{\pos(256.27,443.94)}Armony!!!
+Dialogue: 0,0:00:37.22,0:00:37.25,Helvetica,,0,0,0,,{\pos(259.42,436.98)}Armony!!!
+Dialogue: 0,0:00:37.25,0:00:37.29,Helvetica,,0,0,0,,{\pos(256.69,435.3)}Armony!!!
+Dialogue: 0,0:00:37.29,0:00:37.32,Helvetica,,0,0,0,,{\pos(254.65,433.13)}Armony!!!
+Dialogue: 0,0:00:37.32,0:00:37.35,Helvetica,,0,0,0,,{\pos(261.93,445.14)}Armony!!!
+Dialogue: 0,0:00:37.35,0:00:37.39,Helvetica,,0,0,0,,{\pos(256.17,439.02)}Armony!!!
+Dialogue: 0,0:00:37.39,0:00:37.42,Helvetica,,0,0,0,,{\pos(257.87,429.64)}Armony!!!
+Dialogue: 0,0:00:37.42,0:00:37.45,Helvetica,,0,0,0,,{\pos(255.5,433.67)}Armony!!!
+Dialogue: 0,0:00:37.45,0:00:37.49,Helvetica,,0,0,0,,{\pos(253.25,439.74)}Armony!!!
+Dialogue: 0,0:00:37.49,0:00:37.52,Helvetica,,0,0,0,,{\pos(261.58,436.86)}Armony!!!
+Dialogue: 0,0:00:37.52,0:00:37.56,Helvetica,,0,0,0,,{\pos(254.82,438.34)}Armony!!!
+Dialogue: 0,0:00:37.56,0:00:37.59,Helvetica,,0,0,0,,{\pos(256.82,442.99)}Armony!!!
+Dialogue: 0,0:00:37.59,0:00:37.62,Helvetica,,0,0,0,,{\pos(252.26,434.28)}Armony!!!
+Dialogue: 0,0:00:37.62,0:00:37.66,Helvetica,,0,0,0,,{\pos(250.51,435.09)}Armony!!!
+Dialogue: 0,0:00:37.66,0:00:37.69,Helvetica,,0,0,0,,{\pos(257.96,434.48)}Armony!!!
+Dialogue: 0,0:00:37.69,0:00:37.72,Helvetica,,0,0,0,,{\pos(257.32,434.56)}Armony!!!
+Dialogue: 0,0:00:37.72,0:00:37.76,Helvetica,,0,0,0,,{\pos(254.21,442.05)}Armony!!!
+Dialogue: 0,0:00:37.76,0:00:37.79,Helvetica,,0,0,0,,{\pos(252.75,434.19)}Armony!!!
+Dialogue: 0,0:00:37.79,0:00:37.82,Helvetica,,0,0,0,,{\pos(255.21,440.05)}Armony!!!
+Dialogue: 0,0:00:37.82,0:00:37.86,Helvetica,,0,0,0,,{\pos(258.44,435.92)}Armony!!!
+Dialogue: 0,0:00:37.86,0:00:37.89,Helvetica,,0,0,0,,{\pos(261.27,442.38)}Armony!!!
+Dialogue: 0,0:00:37.89,0:00:37.92,Helvetica,,0,0,0,,{\pos(256.21,438.25)}Armony!!!
+Dialogue: 0,0:00:37.92,0:00:37.96,Helvetica,,0,0,0,,{\pos(255.04,436.94)}Armony!!!
+Dialogue: 0,0:00:37.96,0:00:37.99,Helvetica,,0,0,0,,{\pos(252.26,434.31)}Armony!!!
+Dialogue: 0,0:00:37.99,0:00:38.02,Helvetica,,0,0,0,,{\pos(257.83,436.96)}Armony!!!
+Dialogue: 0,0:00:38.02,0:00:38.06,Helvetica,,0,0,0,,{\pos(255.62,433.46)}Armony!!!
+Dialogue: 0,0:00:38.06,0:00:38.09,Helvetica,,0,0,0,,{\pos(256.06,436.83)}Armony!!!
+Dialogue: 0,0:00:38.09,0:00:38.12,Helvetica,,0,0,0,,{\pos(253.79,439.24)}Armony!!!
+Dialogue: 0,0:00:38.12,0:00:38.16,Helvetica,,0,0,0,,{\pos(258.25,435.17)}Armony!!!
+Dialogue: 0,0:00:38.16,0:00:38.19,Helvetica,,0,0,0,,{\pos(257.13,437.04)}Armony!!!
+Dialogue: 0,0:00:38.19,0:00:38.22,Helvetica,,0,0,0,,{\pos(261.34,440.95)}Armony!!!
+Dialogue: 0,0:00:38.22,0:00:38.26,Helvetica,,0,0,0,,{\pos(249.66,433.34)}Armony!!!
+Dialogue: 0,0:00:38.26,0:00:38.29,Helvetica,,0,0,0,,{\pos(257.36,435.79)}Armony!!!
+Dialogue: 0,0:00:38.29,0:00:38.32,Helvetica,,0,0,0,,{\pos(258.17,437.35)}Armony!!!
+Dialogue: 0,0:00:38.32,0:00:38.36,Helvetica,,0,0,0,,{\pos(259.09,442.69)}Armony!!!
+Dialogue: 0,0:00:38.36,0:00:38.39,Helvetica,,0,0,0,,{\pos(250.52,438.24)}Armony!!!
+Dialogue: 0,0:00:38.39,0:00:38.42,Helvetica,,0,0,0,,{\pos(256.92,437.26)}Armony!!!
+Dialogue: 0,0:00:38.42,0:00:38.46,Helvetica,,0,0,0,,{\pos(254.74,439.79)}Armony!!!
+Dialogue: 0,0:00:38.46,0:00:38.49,Helvetica,,0,0,0,,{\pos(251.05,441.05)}Armony!!!
+Dialogue: 0,0:00:38.49,0:00:38.52,Helvetica,,0,0,0,,{\pos(253.14,436.93)}Armony!!!
+Dialogue: 0,0:00:38.52,0:00:38.56,Helvetica,,0,0,0,,{\pos(253.34,434.94)}Armony!!!
+Dialogue: 0,0:00:38.56,0:00:38.59,Helvetica,,0,0,0,,{\pos(250.68,435.85)}Armony!!!
+Dialogue: 0,0:00:38.59,0:00:38.62,Helvetica,,0,0,0,,{\pos(254.97,440.91)}Armony!!!
+Dialogue: 0,0:00:38.62,0:00:38.66,Helvetica,,0,0,0,,{\pos(256.05,441.1)}Armony!!!
+Dialogue: 0,0:00:38.66,0:00:38.69,Helvetica,,0,0,0,,{\pos(256.93,437.3)}Armony!!!
+Dialogue: 0,0:00:38.69,0:00:38.72,Helvetica,,0,0,0,,{\pos(254.58,433.1)}Armony!!!
+Dialogue: 0,0:00:38.72,0:00:38.76,Helvetica,,0,0,0,,{\pos(256.95,440.24)}Armony!!!
+Dialogue: 0,0:00:38.76,0:00:38.79,Helvetica,,0,0,0,,{\pos(258.4,435.48)}Armony!!!
+Dialogue: 0,0:00:38.79,0:00:38.82,Helvetica,,0,0,0,,{\pos(254.31,440.98)}Armony!!!
+Dialogue: 0,0:00:38.82,0:00:38.86,Helvetica,,0,0,0,,{\pos(255.47,443.86)}Armony!!!
+Dialogue: 0,0:00:38.86,0:00:38.89,Helvetica,,0,0,0,,{\pos(255.27,433.23)}Armony!!!
+Dialogue: 0,0:00:38.89,0:00:38.92,Helvetica,,0,0,0,,{\pos(261.92,444.36)}Armony!!!
+Dialogue: 0,0:00:38.92,0:00:38.96,Helvetica,,0,0,0,,{\pos(255.62,438.05)}Armony!!!
+Dialogue: 0,0:00:38.96,0:00:38.99,Helvetica,,0,0,0,,{\pos(258.3,437.46)}Armony!!!
+Dialogue: 0,0:00:38.99,0:00:39.02,Helvetica,,0,0,0,,{\pos(256.5,432.16)}Armony!!!
+Dialogue: 0,0:00:39.02,0:00:39.06,Helvetica,,0,0,0,,{\pos(261.13,434.74)}Armony!!!
+Dialogue: 0,0:00:39.06,0:00:39.09,Helvetica,,0,0,0,,{\pos(250.54,441.45)}Armony!!!
+Dialogue: 0,0:00:39.09,0:00:39.12,Helvetica,,0,0,0,,{\pos(256.12,442.16)}Armony!!!
+Dialogue: 0,0:00:39.12,0:00:39.16,Helvetica,,0,0,0,,{\pos(249.99,445.45)}Armony!!!
+Dialogue: 0,0:00:39.16,0:00:39.19,Helvetica,,0,0,0,,{\pos(260.84,444.95)}Armony!!!
+Dialogue: 0,0:00:39.19,0:00:39.22,Helvetica,,0,0,0,,{\pos(257.58,436.91)}Armony!!!
+Dialogue: 0,0:00:39.22,0:00:39.26,Helvetica,,0,0,0,,{\pos(257.31,441.34)}Armony!!!
+Dialogue: 0,0:00:39.26,0:00:39.29,Helvetica,,0,0,0,,{\pos(255.02,439.46)}Armony!!!
+Dialogue: 0,0:00:39.29,0:00:39.32,Helvetica,,0,0,0,,{\pos(254.47,437.42)}Armony!!!
+Dialogue: 0,0:00:39.32,0:00:39.36,Helvetica,,0,0,0,,{\pos(256.35,436.19)}Armony!!!
+Dialogue: 0,0:00:39.36,0:00:39.39,Helvetica,,0,0,0,,{\pos(260.28,438.46)}Armony!!!
+Dialogue: 0,0:00:39.39,0:00:39.42,Helvetica,,0,0,0,,{\pos(251.12,438.38)}Armony!!!
+Dialogue: 0,0:00:39.42,0:00:39.46,Helvetica,,0,0,0,,{\pos(253.8,434.8)}Armony!!!
+Dialogue: 0,0:00:39.46,0:00:39.49,Helvetica,,0,0,0,,{\pos(257.76,433.77)}Armony!!!
+Dialogue: 0,0:00:39.49,0:00:39.52,Helvetica,,0,0,0,,{\pos(255.61,436.85)}Armony!!!
+Dialogue: 0,0:00:39.52,0:00:39.56,Helvetica,,0,0,0,,{\pos(251.94,442.26)}Armony!!!
+Dialogue: 0,0:00:39.56,0:00:39.59,Helvetica,,0,0,0,,{\pos(255.13,437.39)}Armony!!!
+Dialogue: 0,0:00:39.59,0:00:39.62,Helvetica,,0,0,0,,{\pos(259.44,440.49)}Armony!!!
+Dialogue: 0,0:00:39.62,0:00:39.66,Helvetica,,0,0,0,,{\pos(260.34,440.52)}Armony!!!
+Dialogue: 0,0:00:39.66,0:00:39.69,Helvetica,,0,0,0,,{\pos(256.85,442.91)}Armony!!!
+Dialogue: 0,0:00:39.69,0:00:39.72,Helvetica,,0,0,0,,{\pos(260.37,437.03)}Armony!!!
+Dialogue: 0,0:00:39.72,0:00:39.76,Helvetica,,0,0,0,,{\pos(258.82,439)}Armony!!!
+Dialogue: 0,0:00:39.76,0:00:39.79,Helvetica,,0,0,0,,{\pos(258.46,441.69)}Armony!!!
+Dialogue: 0,0:00:39.79,0:00:39.82,Helvetica,,0,0,0,,{\pos(259.21,435.28)}Armony!!!
+Dialogue: 0,0:00:39.82,0:00:39.86,Helvetica,,0,0,0,,{\pos(255.88,432.36)}Armony!!!
+Dialogue: 0,0:00:39.86,0:00:39.89,Helvetica,,0,0,0,,{\pos(260.05,441.89)}Armony!!!
+Dialogue: 0,0:00:39.89,0:00:39.92,Helvetica,,0,0,0,,{\pos(255.29,437.45)}Armony!!!
+Dialogue: 0,0:00:39.92,0:00:39.96,Helvetica,,0,0,0,,{\pos(263.36,436.86)}Armony!!!
+Dialogue: 0,0:00:39.96,0:00:39.99,Helvetica,,0,0,0,,{\pos(255.44,435.04)}Armony!!!
+Dialogue: 0,0:00:39.99,0:00:40.02,Helvetica,,0,0,0,,{\pos(255.79,438.46)}Armony!!!
+Dialogue: 0,0:00:40.02,0:00:40.06,Helvetica,,0,0,0,,{\pos(251.75,437.27)}Armony!!!
+Dialogue: 0,0:00:40.06,0:00:40.09,Helvetica,,0,0,0,,{\pos(252.36,438.09)}Armony!!!
+Dialogue: 0,0:00:40.09,0:00:40.12,Helvetica,,0,0,0,,{\pos(248.89,440.71)}Armony!!!
+Dialogue: 0,0:00:40.12,0:00:40.16,Helvetica,,0,0,0,,{\pos(255.58,436.82)}Armony!!!
+Dialogue: 0,0:00:40.16,0:00:40.19,Helvetica,,0,0,0,,{\pos(255.55,435.67)}Armony!!!
+Dialogue: 0,0:00:40.19,0:00:40.22,Helvetica,,0,0,0,,{\pos(251.79,440.86)}Armony!!!
+Dialogue: 0,0:00:40.22,0:00:40.26,Helvetica,,0,0,0,,{\pos(258.32,432.12)}Armony!!!
+Dialogue: 0,0:00:40.26,0:00:40.29,Helvetica,,0,0,0,,{\pos(261.59,437.06)}Armony!!!
+Dialogue: 0,0:00:40.29,0:00:40.32,Helvetica,,0,0,0,,{\pos(255.23,441.66)}Armony!!!
+Dialogue: 0,0:00:40.32,0:00:40.36,Helvetica,,0,0,0,,{\pos(262.08,440.04)}Armony!!!
+Dialogue: 0,0:00:40.36,0:00:40.39,Helvetica,,0,0,0,,{\pos(259.11,437.49)}Armony!!!
+Dialogue: 0,0:00:40.39,0:00:40.42,Helvetica,,0,0,0,,{\pos(261.12,439.87)}Armony!!!
+Dialogue: 0,0:00:40.42,0:00:40.46,Helvetica,,0,0,0,,{\pos(255.24,437.38)}Armony!!!
+Dialogue: 0,0:00:40.46,0:00:40.49,Helvetica,,0,0,0,,{\pos(257.55,434.61)}Armony!!!
+Dialogue: 0,0:00:40.49,0:00:40.52,Helvetica,,0,0,0,,{\pos(255.84,439.02)}Armony!!!
+Dialogue: 0,0:00:40.52,0:00:40.56,Helvetica,,0,0,0,,{\pos(255.87,441.33)}Armony!!!
+Dialogue: 0,0:00:40.56,0:00:40.59,Helvetica,,0,0,0,,{\pos(254.39,441.08)}Armony!!!
+Dialogue: 0,0:00:40.59,0:00:40.62,Helvetica,,0,0,0,,{\pos(253.9,439.09)}Armony!!!
+Dialogue: 0,0:00:40.62,0:00:40.66,Helvetica,,0,0,0,,{\pos(257.25,435.31)}Armony!!!
+Dialogue: 0,0:00:40.66,0:00:40.69,Helvetica,,0,0,0,,{\pos(258.23,438.46)}Armony!!!
+Dialogue: 0,0:00:40.69,0:00:40.72,Helvetica,,0,0,0,,{\pos(254.35,438.84)}Armony!!!
+Dialogue: 0,0:00:40.72,0:00:40.76,Helvetica,,0,0,0,,{\pos(253.14,437.72)}Armony!!!
+Dialogue: 0,0:00:40.76,0:00:40.79,Helvetica,,0,0,0,,{\pos(252.55,437.65)}Armony!!!
+Dialogue: 0,0:00:40.79,0:00:40.82,Helvetica,,0,0,0,,{\pos(258.25,439.86)}Armony!!!
+Dialogue: 0,0:00:40.82,0:00:40.86,Helvetica,,0,0,0,,{\pos(253.53,438.39)}Armony!!!
+Dialogue: 0,0:00:40.86,0:00:40.89,Helvetica,,0,0,0,,{\pos(255.94,440.8)}Armony!!!
+Dialogue: 0,0:00:40.89,0:00:40.93,Helvetica,,0,0,0,,{\pos(255.46,436.43)}Armony!!!
+Dialogue: 0,0:00:40.93,0:00:40.96,Helvetica,,0,0,0,,{\pos(255.95,434.71)}Armony!!!
+Dialogue: 0,0:00:40.96,0:00:40.99,Helvetica,,0,0,0,,{\pos(256.08,435.9)}Armony!!!
+Dialogue: 0,0:00:40.99,0:00:41.03,Helvetica,,0,0,0,,{\pos(251.76,438.39)}Armony!!!
+Dialogue: 0,0:00:41.03,0:00:41.06,Helvetica,,0,0,0,,{\pos(258.76,440.63)}Armony!!!
+Dialogue: 0,0:00:41.06,0:00:41.09,Helvetica,,0,0,0,,{\pos(254.34,438.35)}Armony!!!
+Dialogue: 0,0:00:41.09,0:00:41.13,Helvetica,,0,0,0,,{\pos(258.5,441.47)}Armony!!!
+Dialogue: 0,0:00:41.13,0:00:41.16,Helvetica,,0,0,0,,{\pos(256.47,440.24)}Armony!!!
+Dialogue: 0,0:00:41.16,0:00:41.19,Helvetica,,0,0,0,,{\pos(256.5,439.26)}Armony!!!
+Dialogue: 0,0:00:41.19,0:00:41.23,Helvetica,,0,0,0,,{\pos(259.1,440.42)}Armony!!!
+Dialogue: 0,0:00:41.23,0:00:41.26,Helvetica,,0,0,0,,{\pos(252.83,439.61)}Armony!!!
+Dialogue: 0,0:00:41.26,0:00:41.29,Helvetica,,0,0,0,,{\pos(258.47,439.37)}Armony!!!
 Dialogue: 0,0:00:42.47,0:00:44.41,Helvetica,,0,0,0,,Brother...
 Dialogue: 0,0:00:45.81,0:00:51.28,Helvetica,,0,0,3,,{\fs22}To think I couldn’t do anything…\NHow powerless I am. How useless I am...
-Dialogue: 0,0:00:46.71,0:00:47.38,Helvetica,,0,0,410,,Brother.
+Dialogue: 0,0:00:46.71,0:00:47.64,Helvetica,,0,0,410,,Brother.
 Dialogue: 0,0:00:49.51,0:00:50.18,Helvetica,,0,0,410,,Brother.
 Dialogue: 0,0:00:51.28,0:00:53.78,Helvetica,,0,0,0,,Brother, look!
 Dialogue: 0,0:00:57.12,0:00:58.95,Helvetica,,0,0,0,,What is... that?
 Dialogue: 0,0:01:02.72,0:01:05.03,Helvetica,,0,0,0,,Feather?
 Dialogue: 0,0:01:05.03,0:01:07.43,Helvetica,,0,0,0,,Is this Armony's...?
-Dialogue: 0,0:01:11.67,0:01:14.90,Helvetica,,0,0,0,,Just as I thought.
+Dialogue: 0,0:01:11.67,0:01:13.80,Helvetica,,0,0,0,,Just as I thought.
 Dialogue: 0,0:01:27.18,0:01:30.25,Helvetica,,0,0,0,,Does it hurt?
 Dialogue: 0,0:01:31.42,0:01:35.02,Helvetica,,0,0,0,,Dad...
 Dialogue: 0,0:01:35.52,0:01:40.06,Helvetica,,0,0,0,,You might hate me. But...
@@ -180,8 +180,8 @@ Dialogue: 0,0:02:27.94,0:02:30.68,Helvetica,,0,0,0,,You silly one, of course you
 Dialogue: 0,0:02:32.78,0:02:37.82,Helvetica,,0,0,0,,I see. Then we're both silly.
 Dialogue: 0,0:02:37.82,0:02:41.29,Helvetica,,0,0,0,,Like father, like daughter.
 Dialogue: 0,0:02:41.29,0:02:42.22,Helvetica,,0,0,0,,Armony!
-Dialogue: 0,0:02:42.72,0:02:45.53,Helvetica,,0,0,0,,The light...
-Dialogue: 0,0:02:45.53,0:02:49.36,Helvetica,,0,0,0,,Don't worry, I won't let you go alone.
+Dialogue: 0,0:02:42.72,0:02:45.49,Helvetica,,0,0,0,,The light...
+Dialogue: 0,0:02:45.49,0:02:49.36,Helvetica,,0,0,0,,Don't worry, I won't let you go alone.
 Dialogue: 0,0:02:49.36,0:02:52.47,Helvetica,,0,0,0,,This is just for us.
 Dialogue: 0,0:03:01.94,0:03:04.55,Helvetica,,0,0,0,,{\c&HF0FFFF&}I'm sorry, Ed.
 Dialogue: 0,0:03:04.55,0:03:09.07,Helvetica,,0,0,0,,{\c&HF0FFFF&}But, you know, I...
@@ -343,6 +343,6 @@ Dialogue: 0,0:03:14.21,0:03:14.24,Helvetica,,0,0,0,,{\bord0\blur15.5\c&HF0FFFF&\
 Dialogue: 0,0:03:14.24,0:03:14.28,Helvetica,,0,0,0,,{\bord0\blur15.6\c&HF0FFFF&\alpha&HD0&}But, you know, I...
 Dialogue: 0,0:03:14.28,0:03:14.31,Helvetica,,0,0,0,,{\bord0\blur15.7\c&HF0FFFF&\alpha&HE0&}But, you know, I...
 Dialogue: 0,0:03:14.31,0:03:14.34,Helvetica,,0,0,0,,{\bord0\blur15.8\c&HF0FFFF&\alpha&HF0&}But, you know, I...
-Dialogue: 0,0:03:17.56,0:03:21.33,Helvetica,,0,0,0,,You idiot... You damn idiot. 
-Dialogue: 0,0:03:21.33,0:03:25.00,Helvetica,,0,0,0,,And you're... you're satisfied with that?
+Dialogue: 0,0:03:17.56,0:03:21.33,Helvetica,,0,0,0,,You idiot... You damn idiot.
+Dialogue: 0,0:03:21.33,0:03:25.00,Helvetica,,0,0,0,,And you're... you're satisfied with that?!
 Dialogue: 0,0:03:29.74,0:03:33.24,Helvetica,,0,0,0,,Was she… smiling?

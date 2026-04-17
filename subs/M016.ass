@@ -10,10 +10,11 @@ PlayResX: 512
 PlayResY: 448
 
 [Aegisub Project Garbage]
+Audio File: M016.mkv
+Video File: M016.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Active Line: 2
-Video Position: 293
+Video Zoom Percent: 0.875000
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -22,8 +23,152 @@ Style: Helvetica,Helvetica,30,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
-Dialogue: 0,0:00:00.00,0:00:02.30,Helvetica,,0,0,0,,You know the objective, right?
-Dialogue: 0,0:00:02.30,0:00:09.64,Helvetica,,0,0,3,,{\fs22}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
-Dialogue: 0,0:00:09.77,0:00:16.35,Helvetica,,0,0,3,,{\fs22}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:00.00,0:00:02.30,Helvetica,,0,0,0,,You know the objective, right!?
+Dialogue: 0,0:00:02.30,0:00:07.50,Helvetica,,0,0,3,,{\fs22}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.50,0:00:07.53,Helvetica,,0,0,3,,{\fs22\pos(254.14,445.28)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.53,0:00:07.56,Helvetica,,0,0,3,,{\fs22\pos(254.8,444.9)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.56,0:00:07.59,Helvetica,,0,0,3,,{\fs22\pos(256.78,443.96)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.59,0:00:07.63,Helvetica,,0,0,3,,{\fs22\pos(254.68,444.04)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.63,0:00:07.66,Helvetica,,0,0,3,,{\fs22\pos(254.68,443.5)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.66,0:00:07.69,Helvetica,,0,0,3,,{\fs22\pos(257.88,446.66)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.69,0:00:07.73,Helvetica,,0,0,3,,{\fs22\pos(257.6,444.36)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.73,0:00:07.76,Helvetica,,0,0,3,,{\fs22\pos(254.7,446.3)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.76,0:00:07.79,Helvetica,,0,0,3,,{\fs22\pos(256.5,446.94)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.79,0:00:07.83,Helvetica,,0,0,3,,{\fs22\pos(256.88,444.22)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.83,0:00:07.86,Helvetica,,0,0,3,,{\fs22\pos(255.48,443.94)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.86,0:00:07.89,Helvetica,,0,0,3,,{\fs22\pos(256.72,445.12)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.89,0:00:07.93,Helvetica,,0,0,3,,{\fs22\pos(254.1,446.2)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.93,0:00:07.96,Helvetica,,0,0,3,,{\fs22\pos(256.92,445.02)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.96,0:00:07.99,Helvetica,,0,0,3,,{\fs22\pos(256.22,443.84)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:07.99,0:00:08.03,Helvetica,,0,0,3,,{\fs22\pos(257.62,446.04)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.03,0:00:08.06,Helvetica,,0,0,3,,{\fs22\pos(255,445.92)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.06,0:00:08.09,Helvetica,,0,0,3,,{\fs22\pos(257.42,444.34)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.09,0:00:08.13,Helvetica,,0,0,3,,{\fs22\pos(255.78,444.92)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.13,0:00:08.16,Helvetica,,0,0,3,,{\fs22\pos(255.04,445.04)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.16,0:00:08.19,Helvetica,,0,0,3,,{\fs22\pos(255.68,444.64)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.19,0:00:08.23,Helvetica,,0,0,3,,{\fs22\pos(256.58,445.46)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.23,0:00:08.26,Helvetica,,0,0,3,,{\fs22\pos(256.74,443.4)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.26,0:00:08.29,Helvetica,,0,0,3,,{\fs22\pos(255,443.08)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.29,0:00:08.33,Helvetica,,0,0,3,,{\fs22\pos(256.36,446.16)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.33,0:00:08.36,Helvetica,,0,0,3,,{\fs22\pos(257.68,446.72)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.36,0:00:08.39,Helvetica,,0,0,3,,{\fs22\pos(256.08,443.36)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.39,0:00:08.43,Helvetica,,0,0,3,,{\fs22\pos(256.82,444.14)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.43,0:00:08.46,Helvetica,,0,0,3,,{\fs22\pos(254.9,446.54)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.46,0:00:08.49,Helvetica,,0,0,3,,{\fs22\pos(254.18,444.34)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.49,0:00:08.53,Helvetica,,0,0,3,,{\fs22\pos(255.28,444.94)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.53,0:00:08.56,Helvetica,,0,0,3,,{\fs22\pos(254,446.76)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.56,0:00:08.59,Helvetica,,0,0,3,,{\fs22\pos(256.58,444.02)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.59,0:00:08.63,Helvetica,,0,0,3,,{\fs22\pos(257.18,443.22)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.63,0:00:08.66,Helvetica,,0,0,3,,{\fs22\pos(255.72,446.02)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.66,0:00:08.69,Helvetica,,0,0,3,,{\fs22\pos(256.32,445.6)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.69,0:00:08.73,Helvetica,,0,0,3,,{\fs22\pos(257.12,444.7)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.73,0:00:08.76,Helvetica,,0,0,3,,{\fs22\pos(257.8,444.72)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.76,0:00:08.79,Helvetica,,0,0,3,,{\fs22\pos(257.52,446.82)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.79,0:00:08.83,Helvetica,,0,0,3,,{\fs22\pos(257.94,447)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.83,0:00:08.86,Helvetica,,0,0,3,,{\fs22\pos(254.1,446.44)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.86,0:00:08.89,Helvetica,,0,0,3,,{\fs22\pos(256.52,444.12)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.89,0:00:08.93,Helvetica,,0,0,3,,{\fs22\pos(255.48,446.02)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.93,0:00:08.96,Helvetica,,0,0,3,,{\fs22\pos(257.62,444.84)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.96,0:00:08.99,Helvetica,,0,0,3,,{\fs22\pos(255.52,446.44)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:08.99,0:00:09.03,Helvetica,,0,0,3,,{\fs22\pos(254.56,446.46)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.03,0:00:09.06,Helvetica,,0,0,3,,{\fs22\pos(254.74,445.4)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.06,0:00:09.09,Helvetica,,0,0,3,,{\fs22\pos(255.88,446.42)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.09,0:00:09.13,Helvetica,,0,0,3,,{\fs22\pos(254.84,445.54)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.13,0:00:09.16,Helvetica,,0,0,3,,{\fs22\pos(256.12,446.44)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.16,0:00:09.19,Helvetica,,0,0,3,,{\fs22\pos(255.56,444.6)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.19,0:00:09.23,Helvetica,,0,0,3,,{\fs22\pos(255.08,444.9)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.23,0:00:09.26,Helvetica,,0,0,3,,{\fs22\pos(255.1,445.1)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.26,0:00:09.29,Helvetica,,0,0,3,,{\fs22\pos(256.81,444.52)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.29,0:00:09.33,Helvetica,,0,0,3,,{\fs22\pos(256.15,444.98)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.33,0:00:09.36,Helvetica,,0,0,3,,{\fs22\pos(255.78,444.26)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.36,0:00:09.39,Helvetica,,0,0,3,,{\fs22\pos(255.08,445.31)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.39,0:00:09.43,Helvetica,,0,0,3,,{\fs22\pos(255.14,445.34)}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.44,0:00:09.64,Helvetica,,0,0,3,,{\fs22}Whoever captures Wilhelm and the little girl will receive a special combat mission bonus!
+Dialogue: 0,0:00:09.91,0:00:15.08,Helvetica,,0,0,3,,{\fs22}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.08,0:00:15.10,Helvetica,,0,0,3,,{\fs22\pos(257.1,443.4)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.10,0:00:15.13,Helvetica,,0,0,3,,{\fs22\pos(254.4,445.68)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.13,0:00:15.17,Helvetica,,0,0,3,,{\fs22\pos(256.72,443.74)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.17,0:00:15.20,Helvetica,,0,0,3,,{\fs22\pos(254.9,446.72)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.20,0:00:15.23,Helvetica,,0,0,3,,{\fs22\pos(254.5,445.54)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.23,0:00:15.27,Helvetica,,0,0,3,,{\fs22\pos(256.66,446.88)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.27,0:00:15.30,Helvetica,,0,0,3,,{\fs22\pos(255.06,444.58)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.31,0:00:15.91,Helvetica,,0,0,3,,{\fs22}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.91,0:00:15.93,Helvetica,,0,0,3,,{\fs22\pos(255.52,446.28)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.93,0:00:15.97,Helvetica,,0,0,3,,{\fs22\pos(254.88,443.16)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:15.97,0:00:16.00,Helvetica,,0,0,3,,{\fs22\pos(257.08,445.44)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.00,0:00:16.03,Helvetica,,0,0,3,,{\fs22\pos(254.5,443.9)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.03,0:00:16.07,Helvetica,,0,0,3,,{\fs22\pos(254.34,443.3)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.07,0:00:16.10,Helvetica,,0,0,3,,{\fs22\pos(256.12,446.66)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.10,0:00:16.13,Helvetica,,0,0,3,,{\fs22\pos(256.06,443.16)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.13,0:00:16.17,Helvetica,,0,0,3,,{\fs22\pos(254.24,446.92)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.17,0:00:16.20,Helvetica,,0,0,3,,{\fs22\pos(256.44,446.06)}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
+Dialogue: 0,0:00:16.21,0:00:16.61,Helvetica,,0,0,3,,{\fs22}But listen up: do not kill them under any circumstances!\NYou must capture them alive without fail!
 Dialogue: 0,0:00:23.79,0:00:26.99,Helvetica,,0,0,0,,All units, deploy!
-Dialogue: 0,0:00:27.36,0:00:33.23,Helvetica,,0,0,3,,{\fs22}Eliminate everything that stands in the way and clear our path through!
+Dialogue: 0,0:00:27.36,0:00:30.99,Helvetica,,0,0,3,,{\fs22}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:30.99,0:00:31.02,Helvetica,,0,0,3,,{\fs22\pos(255.98,444.77)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.02,0:00:31.05,Helvetica,,0,0,3,,{\fs22\pos(256.04,444.79)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.05,0:00:31.08,Helvetica,,0,0,3,,{\fs22\pos(255.78,445.02)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.08,0:00:31.12,Helvetica,,0,0,3,,{\fs22\pos(256.03,445.24)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.12,0:00:31.15,Helvetica,,0,0,3,,{\fs22\pos(256.22,444.78)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.15,0:00:31.18,Helvetica,,0,0,3,,{\fs22\pos(256.09,445.24)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.18,0:00:31.22,Helvetica,,0,0,3,,{\fs22\pos(255.81,445.03)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.22,0:00:31.25,Helvetica,,0,0,3,,{\fs22\pos(256.23,444.94)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.25,0:00:31.28,Helvetica,,0,0,3,,{\fs22\pos(256.24,444.76)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.28,0:00:31.32,Helvetica,,0,0,3,,{\fs22\pos(255.87,444.78)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.32,0:00:31.35,Helvetica,,0,0,3,,{\fs22\pos(256,445.16)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.35,0:00:31.38,Helvetica,,0,0,3,,{\fs22\pos(256.2,445)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.38,0:00:31.42,Helvetica,,0,0,3,,{\fs22\pos(256.02,444.85)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.42,0:00:31.45,Helvetica,,0,0,3,,{\fs22\pos(255.85,445.09)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.45,0:00:31.48,Helvetica,,0,0,3,,{\fs22\pos(256.03,444.84)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.48,0:00:31.52,Helvetica,,0,0,3,,{\fs22\pos(256.19,444.8)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.52,0:00:31.55,Helvetica,,0,0,3,,{\fs22\pos(256,445.25)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.55,0:00:31.58,Helvetica,,0,0,3,,{\fs22\pos(256.2,444.83)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.58,0:00:31.62,Helvetica,,0,0,3,,{\fs22\pos(256.01,445.23)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.62,0:00:31.65,Helvetica,,0,0,3,,{\fs22\pos(256.24,444.76)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.65,0:00:31.68,Helvetica,,0,0,3,,{\fs22\pos(256.13,445.18)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.68,0:00:31.72,Helvetica,,0,0,3,,{\fs22\pos(255.77,444.82)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.72,0:00:31.75,Helvetica,,0,0,3,,{\fs22\pos(256.18,444.77)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.75,0:00:31.78,Helvetica,,0,0,3,,{\fs22\pos(255.96,444.77)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.78,0:00:31.82,Helvetica,,0,0,3,,{\fs22\pos(256.07,444.96)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.82,0:00:31.85,Helvetica,,0,0,3,,{\fs22\pos(255.79,445.15)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.85,0:00:31.88,Helvetica,,0,0,3,,{\fs22\pos(255.93,444.82)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.88,0:00:31.92,Helvetica,,0,0,3,,{\fs22\pos(255.88,444.99)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.92,0:00:31.95,Helvetica,,0,0,3,,{\fs22\pos(256.21,445.08)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.95,0:00:31.98,Helvetica,,0,0,3,,{\fs22\pos(256.16,445.12)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:31.98,0:00:32.02,Helvetica,,0,0,3,,{\fs22\pos(256.17,444.91)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.02,0:00:32.05,Helvetica,,0,0,3,,{\fs22\pos(256.21,444.77)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.05,0:00:32.08,Helvetica,,0,0,3,,{\fs22\pos(256.02,444.98)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.08,0:00:32.12,Helvetica,,0,0,3,,{\fs22\pos(255.78,445.03)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.12,0:00:32.15,Helvetica,,0,0,3,,{\fs22\pos(256.22,445.16)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.15,0:00:32.18,Helvetica,,0,0,3,,{\fs22\pos(255.87,445.1)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.18,0:00:32.22,Helvetica,,0,0,3,,{\fs22\pos(255.82,445.06)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.22,0:00:32.25,Helvetica,,0,0,3,,{\fs22\pos(256.01,445.23)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.25,0:00:32.28,Helvetica,,0,0,3,,{\fs22\pos(256.01,445.11)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.28,0:00:32.32,Helvetica,,0,0,3,,{\fs22\pos(255.79,444.76)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.32,0:00:32.35,Helvetica,,0,0,3,,{\fs22\pos(256.12,445.1)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.35,0:00:32.38,Helvetica,,0,0,3,,{\fs22\pos(256.13,444.89)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.38,0:00:32.42,Helvetica,,0,0,3,,{\fs22\pos(255.86,444.95)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.42,0:00:32.45,Helvetica,,0,0,3,,{\fs22\pos(256.21,444.87)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.45,0:00:32.48,Helvetica,,0,0,3,,{\fs22\pos(255.95,444.98)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.48,0:00:32.52,Helvetica,,0,0,3,,{\fs22\pos(256.21,445.21)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.52,0:00:32.55,Helvetica,,0,0,3,,{\fs22\pos(255.99,445.24)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.55,0:00:32.58,Helvetica,,0,0,3,,{\fs22\pos(256.06,445.11)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.58,0:00:32.62,Helvetica,,0,0,3,,{\fs22\pos(255.9,445.08)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.62,0:00:32.65,Helvetica,,0,0,3,,{\fs22\pos(256.16,444.83)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.65,0:00:32.68,Helvetica,,0,0,3,,{\fs22\pos(256.04,444.99)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.68,0:00:32.72,Helvetica,,0,0,3,,{\fs22\pos(256.06,444.86)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.72,0:00:32.75,Helvetica,,0,0,3,,{\fs22\pos(256.19,444.95)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.75,0:00:32.78,Helvetica,,0,0,3,,{\fs22\pos(256.15,445.21)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.78,0:00:32.82,Helvetica,,0,0,3,,{\fs22\pos(255.89,444.87)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.82,0:00:32.85,Helvetica,,0,0,3,,{\fs22\pos(255.84,444.81)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.85,0:00:32.88,Helvetica,,0,0,3,,{\fs22\pos(256.21,445.19)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.88,0:00:32.92,Helvetica,,0,0,3,,{\fs22\pos(256.13,445.13)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.92,0:00:32.95,Helvetica,,0,0,3,,{\fs22\pos(255.82,445.06)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.95,0:00:32.98,Helvetica,,0,0,3,,{\fs22\pos(255.85,445.17)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:32.98,0:00:33.02,Helvetica,,0,0,3,,{\fs22\pos(255.78,445.19)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.02,0:00:33.05,Helvetica,,0,0,3,,{\fs22\pos(256.15,445.1)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.05,0:00:33.08,Helvetica,,0,0,3,,{\fs22\pos(256.08,445.18)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.08,0:00:33.12,Helvetica,,0,0,3,,{\fs22\pos(255.99,444.82)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.12,0:00:33.15,Helvetica,,0,0,3,,{\fs22\pos(255.97,445.19)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.15,0:00:33.18,Helvetica,,0,0,3,,{\fs22\pos(255.77,444.89)}Eliminate everything that stands in our way and clear a path through!
+Dialogue: 0,0:00:33.18,0:00:33.22,Helvetica,,0,0,3,,{\fs22\pos(256.24,444.78)}Eliminate everything that stands in our way and clear a path through!

@@ -26,7 +26,7 @@ Style: Helvetica,Helvetica,30,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,-1,0,0
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:05.50,0:00:07.00,Helvetica,,0,0,0,,Are you okay, brother?
 Dialogue: 0,0:00:07.00,0:00:11.37,Helvetica,,0,0,0,,Yeah... But still, there are just too many of them.
-Dialogue: 0,0:00:11.37,0:00:14.08,Helvetica,,0,0,0,,That's true.
+Dialogue: 0,0:00:11.37,0:00:14.08,Helvetica,,0,0,0,,That's true...
 Dialogue: 0,0:00:14.08,0:00:17.71,Helvetica,,0,0,0,,Seems like you're having trouble, Fullmetal!
 Dialogue: 0,0:00:20.82,0:00:23.82,Helvetica,,0,0,0,,Battle requires efficiency.
 Dialogue: 0,0:00:23.82,0:00:30.89,Helvetica,,0,0,3,,{\fs22}If you face an enemy overwhelming you with numbers one-on-one,\Nyou’ll eventually wear yourself out and collapse.
@@ -63,19 +63,19 @@ Dialogue: 0,0:00:31.85,0:00:31.88,Helvetica,,0,0,3,,{\fs22\pos(255.34,443.02)}If
 Dialogue: 0,0:00:31.88,0:00:31.92,Helvetica,,0,0,3,,{\fs22\pos(254.48,445.94)}If you face an enemy overwhelming you with numbers one-on-one,\Nyou’ll eventually wear yourself out and collapse.
 Dialogue: 0,0:00:31.92,0:00:31.95,Helvetica,,0,0,3,,{\fs22\pos(256.38,443.66)}If you face an enemy overwhelming you with numbers one-on-one,\Nyou’ll eventually wear yourself out and collapse.
 Dialogue: 0,0:00:31.95,0:00:31.98,Helvetica,,0,0,3,,{\fs22\pos(254.56,443.12)}If you face an enemy overwhelming you with numbers one-on-one,\Nyou’ll eventually wear yourself out and collapse.
-Dialogue: 0,0:00:31.99,0:00:33.16,Helvetica,,0,0,0,,Colonel.
+Dialogue: 0,0:00:31.99,0:00:33.16,Helvetica,,0,0,0,,Colonel!
 Dialogue: 0,0:00:33.16,0:00:37.40,Helvetica,,0,0,0,,And battle also requires beauty!
-Dialogue: 0,0:00:41.37,0:00:44.01,Helvetica,,0,0,0,,Lord Armstrong.
+Dialogue: 0,0:00:41.37,0:00:44.01,Helvetica,,0,0,0,,Lord Armstrong!
 Dialogue: 0,0:00:44.01,0:00:50.21,Helvetica,,0,0,3,,{\fs22}Beautiful physiques hold beautiful techniques;\Nbeautiful techniques hold beautiful power!
 Dialogue: 0,0:00:50.21,0:00:56.22,Helvetica,,0,0,3,,{\fs22}Behold, the artistic alchemy passed down through generations of the Armstrong family!
 Dialogue: 0,0:00:56.22,0:00:57.75,Helvetica,,0,0,3,,{\fs22\move(256,445,256,493)}Behold, the artistic alchemy passed down through generations of the Armstrong family!
 Dialogue: 0,0:00:57.75,0:01:02.36,Helvetica,,0,0,3,,{\fs22}Enough with the boring lecture.\NJust get to the point, please!
 Dialogue: 0,0:01:04.86,0:01:07.30,Helvetica,,0,0,0,,Wait, hold on a second...
 Dialogue: 0,0:01:09.06,0:01:12.83,Helvetica,,0,0,0,,Did you already... figure it out?
-Dialogue: 0,0:01:17.07,0:01:20.18,Helvetica,,0,0,0,,{\fs25}We have a problem, Edward. Armony has been kidnapped!
+Dialogue: 0,0:01:17.07,0:01:20.18,Helvetica,,0,0,0,,{\fs25}We have a problem, Edward! Armony has been kidnapped!
 Dialogue: 0,0:01:20.18,0:01:22.95,Helvetica,,0,0,0,,What?! Armony? By whom?
 Dialogue: 0,0:01:22.95,0:01:26.62,Helvetica,,0,0,0,,{\fs25}Greta, the assistant. She’s probably still inside the castle.
 Dialogue: 0,0:01:26.62,0:01:31.12,Helvetica,,0,0,3,,{\fs22}Leave this to us. Go after her!\NShe's surely waiting for you!
 Dialogue: 0,0:01:31.12,0:01:32.12,Helvetica,,0,0,0,,Brother...
 Dialogue: 0,0:01:32.12,0:01:33.51,Helvetica,,0,0,0,,Yeah...
-Dialogue: 0,0:01:33.51,0:01:35.49,Helvetica,,0,0,0,,Damn it!
+Dialogue: 0,0:01:33.51,0:01:35.49,Helvetica,,0,0,0,,Let's go!

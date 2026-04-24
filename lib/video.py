@@ -40,7 +40,7 @@ def _find_fontsdir():
 def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     """Encode video with burned ASS subtitles as PS2-compatible MPEG-2.
 
-    Uses high-quality CBR encoding at 6000k — no size constraint since
+    Uses high-quality CBR encoding at 7500k — no size constraint since
     DSI block count is auto-calculated from content size.
 
     Args:
@@ -63,7 +63,7 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     r = subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
         '-vf', f'{ass_filter},format=yuv420p',
         '-c:v', 'mpeg2video',
-        '-b:v', '6000k', '-minrate', '6000k', '-maxrate', '6000k',
+        '-b:v', '7500k', '-minrate', '7500k', '-maxrate', '7500k',
         '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',
         '-s', '512x448', '-sar', '7:6', '-r', '30000/1001',
         '-g', '16', '-bf', '2', '-b_strategy', '0',
@@ -102,17 +102,18 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
 
 
 def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
-    """Build a subtitled DSI by replacing video within the original structure.
+    """Build a subtitled DSI from JP DSI bytes and an ASS subtitle file.
 
     Pipeline:
-        1. Demux JP DSI -> video
-        2. Re-encode video with burned subtitles (same bitrate)
-        3. Replace video via DSI.replace_video() — preserves block layout
+        1. Demux JP DSI -> video + audio
+        2. Burn subtitles onto video (MPEG-2 re-encode)
+        3. Remux with dsi-muxer (auto block count)
 
     Returns DSI bytes, or None on failure.
     """
     dsi = DSI.from_bytes(jp_dsi_bytes)
     video = dsi.extract_video()
+    audio = dsi.extract_audio()
 
     with tempfile.TemporaryDirectory() as tmp:
         m2v_in = os.path.join(tmp, 'input.m2v')
@@ -127,7 +128,8 @@ def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
         with open(m2v_out, 'rb') as f:
             new_video = f.read()
 
-    return dsi.replace_video(new_video).to_bytes()
+    new_dsi = DSI.mux(new_video, audio)
+    return new_dsi.to_bytes()
 
 
 # =============================================================================

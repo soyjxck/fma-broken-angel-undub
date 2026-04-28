@@ -798,7 +798,7 @@ The larger container files (0433-0577) contain sound banks — sub-entries with 
 - Cross-platform support: macOS (brew), Linux (apt/dnf), Windows (MSYS2)
 - ffmpeg auto-built with libass on first run, cached for subsequent runs
 - MD5 verification of source ISOs: USA `e074fae418feff31ee9b4c6422527cab`, JP `39ee7c7c9773731b9aa6dae943faaec3`
-- Full pipeline produces byte-identical ISO to xdelta patch output (verified MD5: `51960c109e7be4636a5c0a82759db984`)
+- Full pipeline produces byte-identical ISO to xdelta patch output (verified MD5: `453f4c18d3630d7ccd4ef8122a982830`)
 - ASS subtitle files bundled in `subs/` directory
 - 198 CDDATA.DIG entries: 101 from executable lookup table + 85 hash-matched SCEI banks + 12 voice-only banks
 - 1,604 SCEI sound bank samples extracted per version (mono PSX ADPCM, per-sample rates from Vagi metadata)
@@ -861,7 +861,7 @@ The DSI block extraction produces audio ~8.9% longer than video because SPU2 pad
 Instead of re-encoding JP video to fit the smaller USA slot (which caused PS2 MPEG decoder stutter), writing the full JP DSI and overflowing into the adjacent DATA0 zero-space preserves native stream structure. Patching the ISO9660 directory entry to reflect the true file size makes this transparent to the game.
 
 ### 16. Reproducible byte-identical builds
-The full pipeline (patch.py `full` mode) produces an ISO that is byte-identical to the xdelta patch output. This was verified by MD5: `51960c109e7be4636a5c0a82759db984`. This means users can trust that building from source yields the exact same result as the pre-built patch -- no non-determinism from encoding parameters, timestamps, or tool versions.
+The full pipeline (patch.py `full` mode) produces an ISO that is byte-identical to the xdelta patch output. This was verified by MD5: `453f4c18d3630d7ccd4ef8122a982830`. This means users can trust that building from source yields the exact same result as the pre-built patch -- no non-determinism from encoding parameters, timestamps, or tool versions.
 
 ---
 

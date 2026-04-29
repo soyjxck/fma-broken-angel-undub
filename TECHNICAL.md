@@ -632,22 +632,21 @@ Small files with unidentified formats.
 
 All audio in both versions has been fully extracted and accounted for. The 101-entry lookup table in both executables provides exact 1:1 mapping (see [USA <-> JP Entry Mapping](#usa--jp-entry-mapping) section).
 
-### Undub ISO Status (FMA_Undub.iso) — v5.1 COMPLETE
+### Undub ISO Status (FMA_Undub.iso) — v5.12
 
 | Component | Status |
 |-----------|--------|
 | DSI cutscene audio (18/18) | Replaced with JP audio ✓ |
 | DSI cutscene video (18/18) | Burned English subtitles ✓ |
-| CDDATA.DIG lookup table (101 entries) | All replaced ✓ |
-| CDDATA.DIG SCEI hash-matched banks (85 entries) | Per-sample SCEI replacement ✓ |
-| CDDATA.DIG voice-only banks (12 entries) | Per-sample replacement ✓ (includes Edward's combat grunts) |
+| CDDATA.DIG lookup table (101 entries) | All replaced wholesale ✓ |
+| CDDATA.DIG SCEI hash-matched banks (85 entries) | Replaced wholesale; shared SFX preserved by byte-equality ✓ |
+| CDDATA.DIG voice-only banks (12 entries) | Replaced wholesale (includes Edward's combat grunts) ✓ |
 | **Total CDDATA.DIG entries replaced** | **198** |
-| Per-sample SCEI replacement | Voice samples replaced individually, SFX preserved ✓ |
-| Force-fit resampled entries | Oversized JP samples resampled via psxavenc to fit ✓ |
-| Truncated entries | **0** (no truncation in v5.1) |
+| Resampled / quality-reduced entries | **0** — JP audio always at original sample rate |
+| Truncated entries | **0** |
 | Proportional audio muxer | DSI A/V sync solved via frame-proportional audio distribution ✓ |
 
-The undub ISO was built by patching the original USA ISO in-place (preserving PS2 boot sector) using pycdlib for file location lookup. Per-sample SCEI replacement preserves bank structure: voice samples replaced with JP equivalents, SFX samples (hash-matched identical) left untouched, shorter samples zero-padded. Oversized JP samples resampled to fit via psxavenc force-fit pipeline (lowest resampled rate ~7 kHz). DSI cutscenes use proportional audio muxer for correct A/V sync, with burned English subtitles on video. Edward's Japanese combat grunts confirmed working in PCSX2.
+The undub ISO is built by patching the original USA ISO in-place (preserving PS2 boot sector). All audio replacements are wholesale — each USA CDDATA.DIG entry swapped for its JP equivalent at the entry's TOC level. When a JP entry is larger than the original USA slot the archive grows: the entry is appended at end-of-DIG, the TOC sector is repointed, and CDDATA.DIG's ISO9660 directory entry is updated so the file's new sector and size are visible to the game. SCEI sound banks are handled the same way as any other entry: shared SFX between regions are byte-identical (the basis for `SCEI_BANK_MAP`), so wholesale replacement preserves them automatically. DSI cutscenes use the proportional audio muxer for A/V sync, with burned English subtitles on video. Edward's Japanese combat grunts confirmed working in PCSX2.
 
 ### Output Directories
 
@@ -810,25 +809,52 @@ The larger container files (0433-0577) contain sound banks — sub-entries with 
 - End-of-sequence marker (0x000001B7) injected in post-processing to signal the PS2 MPEG decoder
 - Published as `dsi-muxer` library
 
-### Step 27: SCEI Per-Sample Replacement (v5.0)
+### Step 27: SCEI Per-Sample Replacement (v5.0, superseded by Step 30)
 - Parse SCEIVagi tags as LE uint32 pairs to extract per-sample BD offsets and sample rates
 - Hash compare each sample between USA and JP: identical hash = SFX (skip), different hash = voice (replace if fits)
 - Preserves full bank structure: header chunks, offset tables, and BD layout unchanged
 - Shorter JP samples zero-padded to match USA sample slot size
 - Menu sounds and SFX preserved automatically by hash-match skip logic
+- **Why this existed**: at the time, CDDATA.DIG was patched in place at fixed
+  size (`f.write(patched_dig[:usa_cddata_info[1]])`), so wholesale-replacing an
+  oversized JP bank meant truncation. Per-sample surgery kept each bank at its
+  original USA size while still swapping the voice samples.
 
-### Step 28: Force-Fit Resampling + Entry 105/107/108 Fix (v5.1)
+### Step 28: Force-Fit Resampling + Entry 105/107/108 Fix (v5.1, superseded by Step 30)
 - Corrected 105/107/108 mapping from JP 491 to JP 263
 - USA 105 = 107 = 108 (identical content). Traced via shared samples: banks 106 -> JP 263, 109 -> JP 264
 - JP index offset detection: JP has 1 SFX + 3 voice samples, USA has 3 voice samples (JP index shifted by 1)
 - psxavenc pipeline for oversized JP samples: decode JP ADPCM -> resample to lower rate -> re-encode as PS2 SPU ADPCM at target size
 - JP entries 105/107/108 themselves use an unknown non-SCEI format (not replaced)
+- The mapping fix is permanent; the resample pipeline was retired in Step 30.
 
 ### Step 29: ffmpeg libass Build Fix (v5.1)
 - Two bugs in the auto-build ffmpeg pipeline:
   1. 'ass' substring false positive in filter detection (matched unrelated filters containing "ass")
   2. configure argument indexing error putting `-I` flag on wrong argument
 - Both fixed to enable reliable cross-platform ffmpeg+libass builds for subtitle burning
+
+### Step 30: Lossless Wholesale via DigArchive Grow (v5.12)
+- [Issue #4](https://github.com/soyjxck/fma-broken-angel-undub/issues/4) raised by
+  `renkin-jit` pointed out that the per-sample / force-fit machinery only existed
+  because CDDATA.DIG was being written back at fixed size. ISO9660 has no such
+  constraint — like any other file, the DIG can be relocated and resized via its
+  directory entry.
+- Introduced `DigArchive` in `lib/cddata.py`: a sector-addressed wrapper that
+  reads/writes entries through their TOC. `write_entry()` writes in place when
+  the new entry fits the original slot; otherwise it appends at end-of-DIG and
+  re-points the TOC sector — the archive grows freely.
+- Added `read_file_from_iso` / `write_file_to_iso` in `lib/iso.py`, hiding all
+  ISO sector arithmetic and `update_dir_entry` calls behind a file-level API.
+  `patch.py` now writes the (possibly grown) CDDATA.DIG at end of ISO with the
+  same plumbing already used for DSIs and DATA0.
+- Result: every JP audio entry replaces its USA counterpart at full quality.
+  No psxavenc resample pipeline, no zero-pad-to-slot, no per-sample SCEI surgery.
+- SCEI banks fall out for free: the shared SFX samples that `SCEI_BANK_MAP` was
+  built from are byte-identical between USA and JP banks, so wholesale-JP
+  preserves them automatically. The complex per-sample logic from Step 27 was
+  retired (`_parse_scei_samples`, `_patch_scei_bank`, `_fit_sample_psxavenc`).
+- Code reduction: `lib/cddata.py` shrank from 413 to 182 lines.
 
 ---
 
@@ -1079,10 +1105,9 @@ The combat containers turned out to be a red herring for audio replacement. The 
 
 ## What Remains
 
-**PROJECT COMPLETE.** Undub patch v5.1 published, verified, and fully reproducible.
+**PROJECT COMPLETE.** Undub patch v5.12 published, verified, and fully reproducible. As of v5.12 every JP audio replacement is lossless — see Step 30.
 
-- Minor: ~47 CDDATA entries where JP data was too large for the ISO slot were force-fit resampled via psxavenc. Lowest resampled rate is ~7 kHz (reduced quality but audible).
-- Minor: 1 USA sample in bank 154 has no JP equivalent.
+- Minor: 1 USA sample in bank 154 has no JP equivalent (kept as-is).
 
 ---
 
@@ -1097,7 +1122,6 @@ The combat containers turned out to be a red herring for audio replacement. The 
 | **TXTH format** | vgmstream's text-based header descriptor for headerless audio files |
 | **Racjin-de-compression** | Reference C++ implementation. Clone: `git clone https://github.com/Raw-man/Racjin-de-compression.git` |
 | **OpenAI Whisper** (small model) | Speech-to-text transcription for cutscene subtitles. Install: `pip install openai-whisper` |
-| **psxavenc** | PS2 SPU-ADPCM encoder for force-fit resampling of oversized JP samples. Source: `WonderfulToolchain/psxavenc` |
 | **dsi-muxer** | Proportional audio DSI muxer for A/V sync in remuxed cutscenes. Published: `soyjxck/dsi-muxer` |
 
 ### TXTH Template (works for ALL audio in this game)
@@ -1118,7 +1142,7 @@ Save as `yourfile.adpcm.txth` alongside the raw `.adpcm` file and vgmstream will
 
 | Artifact | Location | Description |
 |----------|----------|-------------|
-| **fma-broken-angel-undub v5.1** | GitHub: `soyjxck/fma-broken-angel-undub` | xdelta patch, patch.py (3-mode unified patcher: full/audio/xdelta), ASS subtitles in `subs/`, technical docs. Cross-platform (macOS/Linux/Windows via MSYS2). Per-sample SCEI replacement, force-fit resampling, proportional DSI muxer, no truncation. |
+| **fma-broken-angel-undub v5.12** | GitHub: `soyjxck/fma-broken-angel-undub` | xdelta patch, patch.py (3-mode unified patcher: full/audio/xdelta), ASS subtitles in `subs/`, technical docs. Cross-platform (macOS/Linux/Windows via MSYS2). Wholesale lossless audio replacement via DigArchive grow, proportional DSI muxer. |
 | **racjin-python** | GitHub: `soyjxck/racjin-python` | Racjin compression/decompression Python library |
 | **dsi-muxer** | GitHub: `soyjxck/dsi-muxer` | Proportional audio DSI muxer library for PS2 cutscene A/V sync |
 | **patch.py** | GitHub repo | Unified patcher: `full` (subs+audio, auto-builds ffmpeg with libass), `audio` (audio-only, just Python), `xdelta` (apply pre-built patch) |

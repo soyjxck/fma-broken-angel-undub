@@ -64,9 +64,8 @@ SCEI_BANK_MAP = {
 # =============================================================================
 # DSI Cutscene Names
 # =============================================================================
-# All 18 cutscene DSI files in the game.
-# M000 = opening (uses full JP DSI replacement, different video+audio)
-# M001, M003 = no dialogue (audio-only, no subtitles)
+# 18 cutscene DSI files. M001 has no dialogue and ships without an .ass
+# (rendered with JP audio only). All others get burned subtitles.
 
 DSI_NAMES = [
     'M000', 'M001', 'M002', 'M003', 'M004', 'M005', 'M006', 'M008',

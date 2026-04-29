@@ -12,22 +12,15 @@ import subprocess
 
 
 def find_or_build_ffmpeg():
-    """Find an ffmpeg binary with libass support, or build one.
+    """Find an ffmpeg with libass support, or build one from source.
 
-    Search order:
-    1. /tmp/ffmpeg-custom/ffmpeg (previously built)
-    2. /tmp/ffmpeg-7.1.1/ffmpeg (previously built)
-    3. System ffmpeg (if it has libass)
-    4. Homebrew / system paths
-    5. Build from source as last resort
-
-    Returns:
-        Path to ffmpeg binary with libass, or None on failure.
+    Tries the custom build path first (the one this script produced
+    previously), then any ffmpeg on PATH and standard install locations.
+    Each candidate is verified to expose the libass-backed `subtitles`
+    filter; if none qualify, falls through to building from source.
     """
-    # Check common locations
     candidates = [
-        '/tmp/ffmpeg-custom/ffmpeg',
-        '/tmp/ffmpeg-7.1.1/ffmpeg',
+        '/tmp/ffmpeg-build/ffmpeg-7.1.1/ffmpeg',
         shutil.which('ffmpeg'),
         '/opt/homebrew/bin/ffmpeg',
         '/usr/local/bin/ffmpeg',

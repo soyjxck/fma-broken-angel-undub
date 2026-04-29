@@ -28,10 +28,11 @@ import subprocess
 import tempfile
 
 from lib.constants import (
-    DSI_BLOCK_SIZE, SECTOR, EXPECTED_HASHES,
-    DSI_NAMES, SUBS_DIR,
+    SECTOR, EXPECTED_HASHES, DSI_NAMES, SUBS_DIR,
 )
-from lib.iso import find_file_in_iso, update_dir_entry, verify_iso
+from lib.iso import (
+    find_file_in_iso, read_file_from_iso, write_file_to_iso, verify_iso,
+)
 from lib.cddata import build_mapping, patch_cddata
 from lib.video import build_subtitled_dsi, dump_mkv
 from lib.ffmpeg import find_or_build_ffmpeg
@@ -43,12 +44,13 @@ from dsi_muxer import DSI
 # =============================================================================
 
 def find_xdelta():
-    """Find xdelta3 binary."""
-    xdelta = shutil.which('xdelta3') or shutil.which('xdelta')
+    """Find xdelta3 binary on PATH or in standard Homebrew/system locations."""
+    if found := shutil.which('xdelta3') or shutil.which('xdelta'):
+        return found
     for p in ['/opt/homebrew/bin/xdelta3', '/usr/local/bin/xdelta3']:
-        if not xdelta and os.path.exists(p):
-            xdelta = p
-    return xdelta
+        if os.path.exists(p):
+            return p
+    return None
 
 
 def do_xdelta(args):
@@ -95,11 +97,7 @@ def generate_xdelta(usa_iso_path, out_iso_path):
 # =============================================================================
 
 def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
-    """Audio-only undub: full JP DSIs (no size constraint) + CDDATA patching.
-
-    Writes JP cutscenes sequentially into the ISO, relocating files and
-    updating ISO9660 directory entries. No bitrate-constrained encoding.
-    """
+    """Audio-only undub: JP CDDATA + JP DSIs, all relocated at end of ISO."""
     print("Reading ISOs...")
     with open(usa_iso_path, 'rb') as f:
         usa_iso = f.read()
@@ -108,67 +106,40 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
 
     shutil.copy2(usa_iso_path, out_iso_path)
 
-    # --- Step 1: Patch CDDATA.DIG (in-place, same size) ---
     mapping = build_mapping(usa_iso, jp_iso)
     print(f"  Mapping: {len(mapping)} entries")
 
     print("Patching CDDATA.DIG...")
+    usa_dig, cddata_dir = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
+    jp_dig, _ = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    patched_dig, replaced, skipped_same, grown = patch_cddata(usa_dig, jp_dig, mapping)
+    print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Grown: {grown}")
+
+    # Relocate CDDATA + DSIs + DATA0 to end of ISO. Reusing the original
+    # CDDATA region as the staging area for the new layout.
     usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
-    jp_cddata_info = find_file_in_iso(jp_iso, b'CDDATA.DIG;1')
-    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR:usa_cddata_info[0] * SECTOR + usa_cddata_info[1]]
-    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR:jp_cddata_info[0] * SECTOR + jp_cddata_info[1]]
-
-    patched_dig, replaced, skipped_same, skipped_nofit = patch_cddata(usa_dig, jp_dig, mapping)
-    print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Skipped (too large): {skipped_nofit}")
+    write_sector = usa_cddata_info[0]
 
     with open(out_iso_path, 'r+b') as f:
-        f.seek(usa_cddata_info[0] * SECTOR)
-        f.write(patched_dig[:usa_cddata_info[1]])
+        write_sector = write_file_to_iso(f, cddata_dir, write_sector, patched_dig)
 
-    # --- Step 2: Write JP DSIs sequentially ---
-    print("Writing JP cutscenes...")
-
-    # DSIs start right after CDDATA.DIG
-    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR - 1) // SECTOR
-    write_sector = cddata_end
-
-    with open(out_iso_path, 'r+b') as f:
+        print("Writing JP cutscenes...")
         for name in DSI_NAMES:
+            jp = read_file_from_iso(jp_iso, f'{name}.DSI;1'.encode())
             usa_info = find_file_in_iso(usa_iso, f'{name}.DSI;1'.encode())
-            jp_info = find_file_in_iso(jp_iso, f'{name}.DSI;1'.encode())
-            if not usa_info or not jp_info:
+            if jp is None or usa_info is None:
                 continue
+            jp_dsi, _ = jp
+            print(f"  {name}: {len(jp_dsi) / 1024 / 1024:.1f} MB")
+            write_sector = write_file_to_iso(f, usa_info[2], write_sector, jp_dsi)
 
-            jp_sec, jp_sz, _ = jp_info
-            jp_dsi = jp_iso[jp_sec * SECTOR:jp_sec * SECTOR + jp_sz]
+        data0 = read_file_from_iso(usa_iso, b'DATA0')
+        if data0 is not None:
+            data0_content, data0_dir = data0
+            write_sector = write_file_to_iso(f, data0_dir, write_sector, data0_content)
 
-            f.seek(write_sector * SECTOR)
-            f.write(jp_dsi)
-            pad = (SECTOR - (jp_sz % SECTOR)) % SECTOR
-            if pad:
-                f.write(b'\x00' * pad)
-
-            update_dir_entry(f, usa_info[2], write_sector, jp_sz)
-
-            file_sectors = (jp_sz + SECTOR - 1) // SECTOR
-            print(f"  {name}: {jp_sz / 1024 / 1024:.1f} MB")
-            write_sector += file_sectors
-
-        # DATA0 (runtime scratchpad) — relocate after last DSI
-        data0_info = find_file_in_iso(usa_iso, b'DATA0')
-        if data0_info:
-            data0_sec, data0_sz, data0_dir = data0_info
-            data0_content = usa_iso[data0_sec * SECTOR:data0_sec * SECTOR + data0_sz]
-            f.seek(write_sector * SECTOR)
-            f.write(data0_content)
-            update_dir_entry(f, data0_dir, write_sector, data0_sz)
-            write_sector += (data0_sz + SECTOR - 1) // SECTOR
-
-        # Truncate ISO to actual size
         f.seek(write_sector * SECTOR)
         f.truncate()
-
-    return usa_iso, jp_iso
 
 
 # =============================================================================
@@ -176,14 +147,7 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
 # =============================================================================
 
 def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
-    """Full pipeline: JP audio + burned English subtitles on all cutscenes.
-
-    For each cutscene:
-    1. Take JP DSI (video + audio)
-    2. Burn English subtitles onto JP video
-    3. Remux with dsi-muxer (auto block count, no size constraint)
-    4. Write sequentially into ISO, relocating files as needed
-    """
+    """Full pipeline: JP audio + burned English subtitles on all cutscenes."""
     print("Reading ISOs...")
     with open(usa_iso_path, 'rb') as f:
         usa_iso = f.read()
@@ -192,24 +156,15 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
 
     shutil.copy2(usa_iso_path, out_iso_path)
 
-    # --- Step 1: Patch CDDATA.DIG ---
     mapping = build_mapping(usa_iso, jp_iso)
     print(f"  Mapping: {len(mapping)} entries")
 
     print("Patching CDDATA.DIG...")
-    usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
-    jp_cddata_info = find_file_in_iso(jp_iso, b'CDDATA.DIG;1')
-    usa_dig = usa_iso[usa_cddata_info[0] * SECTOR:usa_cddata_info[0] * SECTOR + usa_cddata_info[1]]
-    jp_dig = jp_iso[jp_cddata_info[0] * SECTOR:jp_cddata_info[0] * SECTOR + jp_cddata_info[1]]
+    usa_dig, cddata_dir = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
+    jp_dig, _ = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    patched_dig, replaced, skipped_same, grown = patch_cddata(usa_dig, jp_dig, mapping)
+    print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Grown: {grown}")
 
-    patched_dig, replaced, skipped_same, skipped_nofit = patch_cddata(usa_dig, jp_dig, mapping)
-    print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Skipped (too large): {skipped_nofit}")
-
-    with open(out_iso_path, 'r+b') as f:
-        f.seek(usa_cddata_info[0] * SECTOR)
-        f.write(patched_dig[:usa_cddata_info[1]])
-
-    # --- Step 2: Build subtitled DSIs and write sequentially ---
     ffmpeg_bin = find_or_build_ffmpeg()
     if not ffmpeg_bin:
         print("WARNING: Could not get ffmpeg with libass — falling back to audio-only")
@@ -217,25 +172,27 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
     if dump_mkv_dir:
         os.makedirs(dump_mkv_dir, exist_ok=True)
 
-    print("Writing cutscenes...")
-    cddata_end = usa_cddata_info[0] + (usa_cddata_info[1] + SECTOR - 1) // SECTOR
-    write_sector = cddata_end
+    usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
+    write_sector = usa_cddata_info[0]
 
     with open(out_iso_path, 'r+b') as f:
+        write_sector = write_file_to_iso(f, cddata_dir, write_sector, patched_dig)
+
+        print("Writing cutscenes...")
         for name in DSI_NAMES:
+            jp = read_file_from_iso(jp_iso, f'{name}.DSI;1'.encode())
             usa_info = find_file_in_iso(usa_iso, f'{name}.DSI;1'.encode())
-            jp_info = find_file_in_iso(jp_iso, f'{name}.DSI;1'.encode())
-            if not usa_info or not jp_info:
+            if jp is None or usa_info is None:
                 continue
+            jp_dsi_bytes, _ = jp
 
-            jp_sec, jp_sz, _ = jp_info
-            jp_dsi_bytes = jp_iso[jp_sec * SECTOR:jp_sec * SECTOR + jp_sz]
-
-            # Try to build subtitled DSI
             ass_path = os.path.join(SUBS_DIR, f'{name}.ass')
-            has_subs = (ffmpeg_bin and os.path.exists(ass_path) and
-                        'Dialogue:' in open(ass_path).read())
+            has_subs = False
+            if ffmpeg_bin and os.path.exists(ass_path):
+                with open(ass_path) as af:
+                    has_subs = 'Dialogue:' in af.read()
 
+            sub_dsi = None
             if has_subs:
                 sub_dsi = build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path)
 
@@ -250,33 +207,16 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
                         dump_mkv(ffmpeg_bin, m2v_path, src.extract_audio(), mkv_path)
                         if os.path.exists(mkv_path):
                             print(f"    -> {mkv_path}")
-            else:
-                sub_dsi = None
 
             dsi_data = sub_dsi if sub_dsi is not None else jp_dsi_bytes
             label = "subtitled" if sub_dsi is not None else "JP audio"
-
-            f.seek(write_sector * SECTOR)
-            f.write(dsi_data)
-            pad = (SECTOR - (len(dsi_data) % SECTOR)) % SECTOR
-            if pad:
-                f.write(b'\x00' * pad)
-
-            update_dir_entry(f, usa_info[2], write_sector, len(dsi_data))
-
-            file_sectors = (len(dsi_data) + SECTOR - 1) // SECTOR
             print(f"  {name}: {len(dsi_data) / 1024 / 1024:.1f} MB ({label})")
-            write_sector += file_sectors
+            write_sector = write_file_to_iso(f, usa_info[2], write_sector, dsi_data)
 
-        # DATA0
-        data0_info = find_file_in_iso(usa_iso, b'DATA0')
-        if data0_info:
-            data0_sec, data0_sz, data0_dir = data0_info
-            data0_content = usa_iso[data0_sec * SECTOR:data0_sec * SECTOR + data0_sz]
-            f.seek(write_sector * SECTOR)
-            f.write(data0_content)
-            update_dir_entry(f, data0_dir, write_sector, data0_sz)
-            write_sector += (data0_sz + SECTOR - 1) // SECTOR
+        data0 = read_file_from_iso(usa_iso, b'DATA0')
+        if data0 is not None:
+            data0_content, data0_dir = data0
+            write_sector = write_file_to_iso(f, data0_dir, write_sector, data0_content)
 
         f.seek(write_sector * SECTOR)
         f.truncate()
@@ -337,7 +277,11 @@ def main():
         else:
             do_audio(usa_path, jp_path, out_path)
 
-        # Update PVD volume size — required for real PS2 hardware
+        # Update the Primary Volume Descriptor's volume-space-size field.
+        # The PVD lives at sector 16; the field is at offset 80, stored as
+        # an LE u32 followed by a BE u32. PCSX2 ignores it but real PS2
+        # hardware refuses to load discs whose PVD size disagrees with the
+        # actual image length.
         final = os.path.getsize(out_path)
         final_sectors = (final + SECTOR - 1) // SECTOR
         with open(out_path, 'r+b') as f:

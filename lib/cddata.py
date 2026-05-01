@@ -1,261 +1,95 @@
 """
 CDDATA.DIG patching — replaces audio entries with Japanese versions.
 
-The CDDATA.DIG file is Racjin's game archive containing all non-cutscene
-audio: dialogue, combat voices, SFX, music, and menu sounds.
+CDDATA.DIG is Racjin's archive for all non-cutscene audio (dialogue,
+combat voices, SFX, music, menu sounds). Layout is a flat table of
+16-byte TOC records at offset 0, followed by sector-aligned entry data
+— see DigArchive below.
 
-Patching strategy:
-1. Skip identical entries (shared SFX/music between regions)
-2. Direct replacement when JP data fits in the USA slot
-3. Racjin recompression when JP data is too large but compressible
-4. SCEI per-sample replacement for sound banks (voice only, SFX preserved)
-5. Keep USA version if nothing else works (never truncate)
+Per entry, the patcher:
+1. Skips byte-identical entries (shared SFX/music between regions)
+2. Replaces wholesale with the JP entry — DigArchive grows when JP is
+   larger than the original slot, by appending at end-of-DIG and
+   repointing the TOC sector. All paths are lossless.
+
+Earlier versions did per-sample SCEI bank surgery (preserving USA SFX
+inside mixed banks while replacing voice samples) because the .DIG
+couldn't grow, so wholesale replacement of an oversized JP bank meant
+truncation. Now that DigArchive grows freely, wholesale JP banks fit
+intact — and since SCEI_BANK_MAP was built by hash-matching shared
+SFX, those SFX samples are byte-identical between USA and JP banks.
+Wholesale-JP therefore preserves them automatically, with no surgery.
 """
 
 import struct
-import os
-import shutil
-import subprocess
-import tempfile
 
 from .constants import SECTOR, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
 from .iso import find_file_in_iso
 
-from racjin import compress as racjin_compress, decompress as racjin_decompress
-
 
 # =============================================================================
-# ADPCM Resampling (psxavenc pipeline)
+# CDDATA.DIG Archive
 # =============================================================================
 
-def _find_tool(names):
-    """Find a binary from a list of candidate paths."""
-    for p in names:
-        if p and os.path.exists(p):
-            return p
-    w = shutil.which(names[0]) if names else None
-    return w
+class DigArchive:
+    """Racjin's CDDATA.DIG audio archive — a sector-addressed mini-filesystem.
 
+    Layout: 16-byte TOC entries packed at offset 0, followed by entry data
+    at sector-aligned offsets *within this archive* (not within the ISO).
+    Each TOC entry is [sector:u32, comp_size:u32, flags:u32, decomp_size:u32].
 
-def _fit_sample_psxavenc(jp_adpcm, jp_rate, target_bytes):
-    """Re-encode a JP ADPCM sample to fit in a target byte budget.
-
-    Uses vgmstream to decode, ffmpeg to resample, and psxavenc to re-encode.
-    Returns (resampled_adpcm_bytes, target_rate) tuple, or None on failure.
+    Sector arithmetic stays inside this class — callers operate on entry
+    indices and bytes.
     """
-    psxavenc = _find_tool(['/tmp/psxavenc/build/psxavenc', 'psxavenc'])
-    vgmstream = _find_tool(['/opt/homebrew/bin/vgmstream-cli', '/usr/local/bin/vgmstream-cli', 'vgmstream-cli'])
-    ffmpeg = _find_tool(['/opt/homebrew/bin/ffmpeg', '/usr/local/bin/ffmpeg', 'ffmpeg'])
 
-    if not psxavenc or not vgmstream or not ffmpeg:
-        return None
+    def __init__(self, data):
+        self.buf = bytearray(data)
+        # Next free sector for appended (grown) entries.
+        self._next_sector = (len(data) + SECTOR - 1) // SECTOR
 
-    target_blocks = target_bytes // 16
-    target_samples = target_blocks * 28
-    duration = (len(jp_adpcm) / 16 * 28) / jp_rate if jp_rate > 0 else 0
-    if duration <= 0:
-        return None
-    target_rate = max(4000, min(int(target_samples / duration), jp_rate))
+    def read_entry(self, idx):
+        """Read entry idx. Returns (comp_bytes, decomp_size) or None if empty."""
+        toc = idx * 16
+        if toc + 16 > len(self.buf):
+            return None
+        sec, comp_sz, _, decomp_sz = struct.unpack('<IIII', self.buf[toc:toc + 16])
+        if sec == 0 or comp_sz == 0:
+            return None
+        off = sec * SECTOR
+        return bytes(self.buf[off:off + comp_sz]), decomp_sz
 
-    try:
-        with tempfile.TemporaryDirectory() as tmp:
-            adpcm_path = os.path.join(tmp, 'in.adpcm')
-            with open(adpcm_path, 'wb') as f:
-                f.write(jp_adpcm)
-            with open(adpcm_path + '.txth', 'w') as f:
-                f.write(f'codec = PSX\nchannels = 1\nsample_rate = {jp_rate}\nnum_samples = data_size\n')
+    def slot_size(self, idx):
+        """Original compressed size of entry idx (its in-place capacity)."""
+        toc = idx * 16
+        return struct.unpack('<I', self.buf[toc + 4:toc + 8])[0]
 
-            wav_path = os.path.join(tmp, 'decoded.wav')
-            subprocess.run([vgmstream, '-o', wav_path, adpcm_path], capture_output=True, timeout=30)
-            if not os.path.exists(wav_path):
-                return None
+    def write_entry(self, idx, comp, decomp_size):
+        """Replace entry idx. Writes in-place if it fits the original slot,
+        otherwise appends at end-of-archive and re-points the TOC sector."""
+        toc = idx * 16
+        sec, slot = struct.unpack('<II', self.buf[toc:toc + 8])
 
-            resampled_path = os.path.join(tmp, 'resampled.wav')
-            subprocess.run([ffmpeg, '-y', '-i', wav_path, '-ar', str(target_rate), '-ac', '1',
-                            resampled_path], capture_output=True, timeout=30)
-            if not os.path.exists(resampled_path):
-                return None
+        if len(comp) <= slot:
+            off = sec * SECTOR
+            self.buf[off:off + len(comp)] = comp
+            self.buf[off + len(comp):off + slot] = b'\x00' * (slot - len(comp))
+        else:
+            sec = self._next_sector
+            new_off = sec * SECTOR
+            if new_off > len(self.buf):
+                self.buf.extend(b'\x00' * (new_off - len(self.buf)))
+            self.buf.extend(comp)
+            pad = (SECTOR - (len(comp) % SECTOR)) % SECTOR
+            if pad:
+                self.buf.extend(b'\x00' * pad)
+            self._next_sector = sec + (len(comp) + SECTOR - 1) // SECTOR
 
-            vag_path = os.path.join(tmp, 'out.vag')
-            subprocess.run([psxavenc, '-t', 'vag', '-f', str(target_rate),
-                            resampled_path, vag_path], capture_output=True, timeout=30)
-            if not os.path.exists(vag_path):
-                return None
+        struct.pack_into('<I', self.buf, toc, sec)
+        struct.pack_into('<I', self.buf, toc + 4, len(comp))
+        struct.pack_into('<I', self.buf, toc + 12, decomp_size)
 
-            with open(vag_path, 'rb') as f:
-                vag = f.read()
-            result = bytearray(vag[48:])  # strip VAG header
-            if len(result) > target_bytes:
-                result = result[:target_bytes]
-
-            # Fix ADPCM flags: psxavenc omits END/LOOP markers that
-            # the PS2 SPU2 needs. Without END, the voice reads past
-            # the sample boundary, corrupting audio over time.
-            if len(result) >= 16:
-                result[1] = 0x06  # first block: LOOP_START + LOOP
-                last_block = len(result) - 16
-                result[last_block + 1] = 0x01  # last block: END
-            result = bytes(result)
-            return result, target_rate
-    except Exception:
-        return None
-
-
-# =============================================================================
-# SCEI Sound Bank Parsing
-# =============================================================================
-
-def _parse_scei_samples(bank):
-    """Parse an SCEI sound bank and return per-sample info.
-
-    SCEI banks contain: SCEIVers (version), SCEIVagi (sample table),
-    SCEISets (instrument sets), and audio data. The Vagi chunk holds
-    per-sample metadata: cumulative BD offsets and sample rates.
-
-    Args:
-        bank: Raw bytes of the SCEI sound bank.
-
-    Returns:
-        List of (abs_offset, size, sample_rate) tuples, or None if not SCEI.
-    """
-    # SCEI tags are stored as LE uint32 pairs
-    scei_vagi = struct.pack('<II', 0x53434549, 0x56616769)
-    pos = bank.find(scei_vagi)
-    if pos < 0:
-        return None
-
-    # Read Vagi chunk: [8-byte tag] [4-byte size] [data...]
-    vagi_sz = struct.unpack('<I', bank[pos + 8:pos + 12])[0]
-    vagi = bank[pos + 12:pos + 12 + vagi_sz]
-
-    # Audio data base offset from container header
-    audio_base = struct.unpack('<I', bank[28:32])[0]
-
-    # Parse: [sample_count:4] [BD offsets: (count+1)*4] [padding] [params: count*8]
-    sc = struct.unpack('<I', vagi[0:4])[0]
-
-    # Find where per-sample parameters start (after BD offset table + padding)
-    param_off = 4 + (sc + 1) * 4
-    if param_off % 4 != 0:
-        param_off += 4 - (param_off % 4)
-    while param_off < len(vagi) and struct.unpack('<I', vagi[param_off:param_off + 4])[0] == 0:
-        param_off += 4
-
-    # Read per-sample params: [rate:u16] [flags:u16] [cumulative_offset:u32]
-    # rate_offset is the absolute byte offset of the rate field in the bank,
-    # needed to patch the rate when resampling.
-    vagi_abs = pos + 12  # absolute offset of vagi data within bank
-    samples = []
-    prev_cum = 0
-    for i in range(sc):
-        p = param_off + i * 8
-        if p + 8 > len(vagi):
-            break
-        rate = struct.unpack('<H', vagi[p:p + 2])[0]
-        cum = struct.unpack('<I', vagi[p + 4:p + 8])[0]
-        sz = cum - prev_cum
-        rate_offset = vagi_abs + p  # absolute offset of rate u16 in bank
-        samples.append((audio_base + prev_cum, sz, rate if rate > 0 else 44100, rate_offset))
-        prev_cum = cum
-
-    return samples
-
-
-def _patch_scei_bank(usa_bank, jp_bank):
-    """Replace voice samples in an SCEI bank while preserving SFX.
-
-    Compares each sample by MD5 hash: identical = shared SFX (skip),
-    different = voice content (replace if JP fits in USA slot).
-    The bank structure and total size remain unchanged.
-
-    Args:
-        usa_bank: Raw bytes of the USA SCEI sound bank.
-        jp_bank: Raw bytes of the JP SCEI sound bank.
-
-    Returns:
-        Patched bank bytes, or None if no samples were replaced.
-    """
-    usa_s = _parse_scei_samples(usa_bank)
-    jp_s = _parse_scei_samples(jp_bank)
-    if not usa_s or not jp_s:
-        return None
-
-    # Detect index offset when JP has more samples than USA.
-    # JP may have leading SFX samples that USA's bank omits.
-    jp_offset = 0
-    if len(jp_s) > len(usa_s):
-        best_shared = sum(1 for i in range(min(len(usa_s), len(jp_s)))
-                          if usa_bank[usa_s[i][0]:usa_s[i][0] + usa_s[i][1]] ==
-                          jp_bank[jp_s[i][0]:jp_s[i][0] + jp_s[i][1]])
-        for k in range(1, len(jp_s) - len(usa_s) + 1):
-            shared = sum(1 for i in range(len(usa_s))
-                         if i + k < len(jp_s) and
-                         usa_bank[usa_s[i][0]:usa_s[i][0] + usa_s[i][1]] ==
-                         jp_bank[jp_s[i + k][0]:jp_s[i + k][0] + jp_s[i + k][1]])
-            if shared > best_shared:
-                best_shared = shared
-                jp_offset = k
-        # When no shared samples at any offset, default to aligning voice tails
-        if best_shared == 0:
-            jp_offset = len(jp_s) - len(usa_s)
-
-    out = bytearray(usa_bank)
-    replaced = 0
-
-    for i, (u_off, u_sz, u_rate, u_rate_off) in enumerate(usa_s):
-        j = i + jp_offset
-        if j >= len(jp_s):
-            break
-        j_off, j_sz, j_rate, _ = jp_s[j]
-
-        # Skip identical samples (shared SFX — same hash)
-        if usa_bank[u_off:u_off + u_sz] == jp_bank[j_off:j_off + j_sz]:
-            continue
-
-        # Replace voice sample if JP fits in the USA slot
-        if j_sz <= u_sz:
-            out[u_off:u_off + j_sz] = jp_bank[j_off:j_off + j_sz]
-            if j_sz < u_sz:
-                out[u_off + j_sz:u_off + u_sz] = b'\x00' * (u_sz - j_sz)
-            # Update rate in Vagi params to match JP sample rate
-            struct.pack_into('<H', out, u_rate_off, j_rate)
-            replaced += 1
-            continue
-
-        # JP sample too large — resample to fit using psxavenc
-        result = _fit_sample_psxavenc(jp_bank[j_off:j_off + j_sz], j_rate, u_sz)
-        if result:
-            fitted, fitted_rate = result
-            out[u_off:u_off + len(fitted)] = fitted
-            if len(fitted) < u_sz:
-                out[u_off + len(fitted):u_off + u_sz] = b'\x00' * (u_sz - len(fitted))
-            # Update rate in Vagi params to match resampled rate
-            struct.pack_into('<H', out, u_rate_off, fitted_rate)
-            replaced += 1
-
-    return bytes(out) if replaced > 0 else None
-
-
-# =============================================================================
-# CDDATA TOC Helpers
-# =============================================================================
-
-def _write_cddata_entry(out, data_offset, data, slot_size, toc_offset, comp_size, decomp_size):
-    """Write data into a CDDATA slot and update its TOC entry.
-
-    Args:
-        out: Mutable bytearray of the full CDDATA.DIG.
-        data_offset: Byte offset where data should be written.
-        data: The data bytes to write.
-        slot_size: Total available slot size (zero-pads remainder).
-        toc_offset: Byte offset of this entry's TOC record.
-        comp_size: New compressed size for the TOC.
-        decomp_size: New decompressed size for the TOC.
-    """
-    out[data_offset:data_offset + len(data)] = data
-    out[data_offset + len(data):data_offset + slot_size] = b'\x00' * (slot_size - len(data))
-    struct.pack_into('<I', out, toc_offset + 4, comp_size)
-    struct.pack_into('<I', out, toc_offset + 12, decomp_size)
+    def to_bytes(self):
+        return bytes(self.buf)
 
 
 # =============================================================================
@@ -314,83 +148,35 @@ def build_mapping(usa_iso, jp_iso):
 # =============================================================================
 
 def patch_cddata(usa_dig, jp_dig, mapping):
-    """Patch CDDATA.DIG by replacing USA entries with JP equivalents.
+    """Patch CDDATA.DIG by replacing USA entries with their JP equivalents.
 
-    Processing order per entry:
-    1. Skip if USA and JP data are byte-identical (shared content)
-    2. Direct copy if JP compressed data fits in USA slot
-    3. Racjin recompress if JP data is larger but compressible
-    4. SCEI per-sample replacement for sound banks
-    5. Keep USA version if nothing works (never truncate/corrupt)
+    For each (usa_entry, jp_entry) pair in the mapping: skip if already
+    byte-identical, otherwise wholesale-replace USA's entry with JP's.
+    DigArchive grows the archive when the JP entry doesn't fit the
+    original USA slot.
 
-    Args:
-        usa_dig: Full bytes of USA CDDATA.DIG.
-        jp_dig: Full bytes of JP CDDATA.DIG.
-        mapping: Dict mapping USA entry indices to JP entry indices.
-
-    Returns:
-        Tuple of (patched_bytes, replaced_count, skipped_identical, skipped_nofit).
+    Returns (patched_bytes, replaced_count, skipped_identical, grown_count).
     """
-    out = bytearray(usa_dig)
-    replaced = skipped_identical = skipped_nofit = 0
-    scei_vagi_marker = struct.pack('<II', 0x53434549, 0x56616769)
+    archive = DigArchive(usa_dig)
+    jp_archive = DigArchive(jp_dig)
+    replaced = skipped_identical = grown = 0
 
     for usa_entry, jp_entry in sorted(mapping.items()):
-        # Read USA TOC: [sector, comp_size, flags, decomp_size]
-        usa_toc = usa_entry * 16
-        if usa_toc + 16 > len(out):
-            continue
-        usa_sector, usa_comp_size = struct.unpack('<II', out[usa_toc:usa_toc + 8])
-        if usa_sector == 0 or usa_comp_size == 0:
+        usa = archive.read_entry(usa_entry)
+        jp = jp_archive.read_entry(jp_entry)
+        if usa is None or jp is None:
             continue
 
-        # Read JP TOC
-        jp_toc = jp_entry * 16
-        if jp_toc + 16 > len(jp_dig):
-            continue
-        jp_sector, jp_comp_size, _, jp_decomp_size = struct.unpack('<IIII', jp_dig[jp_toc:jp_toc + 16])
-        if jp_sector == 0 or jp_comp_size == 0:
-            continue
+        usa_comp, _ = usa
+        jp_comp, jp_decomp = jp
 
-        jp_raw = jp_dig[jp_sector * SECTOR:jp_sector * SECTOR + jp_comp_size]
-        usa_raw = out[usa_sector * SECTOR:usa_sector * SECTOR + usa_comp_size]
-        slot_size = usa_comp_size
-        data_offset = usa_sector * SECTOR
-
-        # 1. Skip identical entries (shared SFX/music)
-        if jp_raw == usa_raw:
+        if usa_comp == jp_comp:
             skipped_identical += 1
             continue
 
-        # 2. Direct replacement if JP fits
-        if len(jp_raw) <= slot_size:
-            _write_cddata_entry(out, data_offset, jp_raw, slot_size, usa_toc, len(jp_raw), jp_decomp_size)
-            replaced += 1
-            continue
+        if len(jp_comp) > archive.slot_size(usa_entry):
+            grown += 1
+        archive.write_entry(usa_entry, jp_comp, jp_decomp)
+        replaced += 1
 
-        # 3. Try Racjin recompression
-        if jp_comp_size != jp_decomp_size:
-            try:
-                jp_decompressed = racjin_decompress(jp_raw, jp_decomp_size)
-                recompressed = racjin_compress(jp_decompressed)
-                best = recompressed if len(recompressed) < len(jp_decompressed) else bytes(jp_decompressed)
-                if len(best) <= slot_size:
-                    _write_cddata_entry(out, data_offset, best, slot_size, usa_toc,
-                                        len(best), len(jp_decompressed))
-                    replaced += 1
-                    continue
-            except Exception:
-                pass
-
-        # 4. SCEI per-sample replacement (voice only, SFX preserved)
-        if scei_vagi_marker in bytes(usa_raw):
-            patched_bank = _patch_scei_bank(bytes(usa_raw), jp_raw)
-            if patched_bank:
-                out[data_offset:data_offset + len(patched_bank)] = patched_bank
-                replaced += 1
-                continue
-
-        # 5. Can't fit — keep USA version intact
-        skipped_nofit += 1
-
-    return bytes(out), replaced, skipped_identical, skipped_nofit
+    return archive.to_bytes(), replaced, skipped_identical, grown

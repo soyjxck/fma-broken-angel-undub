@@ -15,6 +15,10 @@ import tempfile
 
 from dsi_muxer import DSI
 
+# libass's `fontsdir=` ffmpeg option accepts only ONE directory; we pick
+# the first that exists. User dirs (~/Library/Fonts, /usr/local/share/fonts)
+# come first so user-installed subtitle fonts beat system-bundled ones with
+# the same name.
 _FONT_DIRS = [
     os.path.expanduser('~/Library/Fonts'),
     '/Library/Fonts',
@@ -26,7 +30,6 @@ _FONT_DIRS = [
 
 
 def _find_fontsdir():
-    """Find a directory containing fonts for subtitle rendering."""
     for d in _FONT_DIRS:
         if os.path.isdir(d):
             return d
@@ -40,20 +43,14 @@ def _find_fontsdir():
 def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     """Encode video with burned ASS subtitles as PS2-compatible MPEG-2.
 
-    Uses high-quality CBR encoding at 7500k — no size constraint since
-    DSI block count is auto-calculated from content size.
+    The flag set below was tuned to match the original game's MPEG-2
+    parameters (resolution 512x448, 7:6 SAR, NTSC 30000/1001, GOP 16
+    with 2 B-frames, fixed 7500k CBR). PS2 hardware is picky — past
+    incidents traced to bitrate or GOP changes caused choppy playback
+    or SPU2 corruption. Don't reshape these without testing on real PS2.
 
-    Args:
-        ffmpeg_bin: Path to ffmpeg binary.
-        m2v_path: Input MPEG-2 video.
-        ass_path: ASS subtitle file to burn.
-        output_path: Where to write the encoded .m2v.
-
-    Returns:
-        True on success, False on failure.
-
-    Raises:
-        RuntimeError: If libass reports missing fonts.
+    Returns True on success, False on failure. Raises RuntimeError if
+    libass reports missing fonts.
     """
     ass_filter = f'ass={ass_path}'
     fontsdir = _find_fontsdir()
@@ -63,9 +60,14 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     r = subprocess.run([ffmpeg_bin, '-y', '-i', m2v_path,
         '-vf', f'{ass_filter},format=yuv420p',
         '-c:v', 'mpeg2video',
+        # CBR 7500k — DSI block count is auto-sized so no upper bound
+        # is needed, but PS2 expects a stable bitrate per block.
         '-b:v', '7500k', '-minrate', '7500k', '-maxrate', '7500k',
-        '-bufsize', '1835008', '-qmin', '1', '-qmax', '12',
+        '-bufsize', '1835008',  # 224 KB VBV — original game value
+        '-qmin', '1', '-qmax', '12',
         '-s', '512x448', '-sar', '7:6', '-r', '30000/1001',
+        # GOP=16 with 2 B-frames matches the original encoder layout
+        # the PS2's hardware decoder is tuned for.
         '-g', '16', '-bf', '2', '-b_strategy', '0',
         '-mpv_flags', '+strict_gop', '-dc', '9',
         '-intra_vlc', '1', '-non_linear_quant', '1',
@@ -86,7 +88,9 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     if not os.path.exists(output_path) or os.path.getsize(output_path) == 0:
         return False
 
-    # Ensure end-of-sequence marker exists
+    # The PS2's MPEG-2 decoder hangs at the end of the stream unless it
+    # sees an end-of-sequence start code (00 00 01 B7). ffmpeg sometimes
+    # omits it; append it ourselves after stripping any trailing zero pad.
     with open(output_path, 'rb') as f:
         vid = bytearray(f.read())
     if vid.rfind(b'\x00\x00\x01\xb7') < 0:

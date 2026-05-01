@@ -83,18 +83,15 @@ We developed a **proportional audio DSI muxer** (the first of its kind — see [
 
 ### Audio (CDDATA.DIG)
 
-Game audio lives in Racjin's compressed CDDATA.DIG archive. We use **per-sample SCEI sound bank replacement**: individual voice samples within banks are replaced with JP equivalents while keeping shared SFX (menu sounds, combat effects) untouched. Oversized JP samples are resampled to fit USA slots using psxavenc (vgmstream decode → ffmpeg resample → psxavenc re-encode).
+Game audio lives in Racjin's compressed CDDATA.DIG archive — a flat TOC of entries holding voice clips, SFX, music, and SCEI sound banks. We replace each USA entry wholesale with its JP counterpart. When a JP entry is larger than the original USA slot, the archive grows: we append the new entry at end-of-DIG, repoint the TOC sector, and update CDDATA.DIG's ISO9660 directory entry so the file's new sector and size are visible to the game. Result: every JP audio entry replaces its USA counterpart at full original quality, with no resampling.
+
+Earlier versions did per-sample surgery inside SCEI sound banks to preserve USA SFX. That's unnecessary now that the archive can grow — the SFX samples shared between regions are byte-identical, so wholesale-JP banks already contain them in the right positions. See [issue #4](https://github.com/soyjxck/fma-broken-angel-undub/issues/4) for the discussion that led to this simplification.
 
 Compression handled by the [racjin-python](https://github.com/soyjxck/racjin-python) library.
 
-## Known Limitations
-
-- Some in-game dialogue entries have reduced audio quality (JP samples resampled to fit smaller USA slots)
-- Cutscene video re-encoded at ~90-95% bitrate to fit proportional audio distribution
-
 ## Fonts
 
-Subtitles use **Helvetica** and **Geometric Slabserif 703** (opening title cards). These fonts are not bundled — subtitle rendering requires them to be installed on the build machine. The xdelta release has subtitles pre-burned into the video, so fonts are only relevant when building from source.
+Subtitle dialogue uses **Serifa Std** and title cards use **Geometric Slabserif 703 Extra Bold Condensed**. These fonts are not bundled — subtitle rendering requires them to be installed on the build machine. The xdelta release has subtitles pre-burned into the video, so fonts are only relevant when building from source.
 
 ## Credits
 

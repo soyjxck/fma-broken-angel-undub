@@ -38,7 +38,7 @@ Dialogue: 0,0:00:07.47,0:00:07.80,Font,,0,0,0,,{\fs34\fscx85\bord2\fnGeometric S
 Dialogue: 0,0:00:08.20,0:00:08.50,Font,,0,0,0,,{\fs32\fscx85\bord2\fnGeometric Slabserif 703 Extra C}{\c&C0C0C0}FULLMETAL ALCHEMIST\N{\c&1610B1&}THE FLIGHTLESS ANGEL
 Dialogue: 0,0:00:08.89,0:00:11.04,Font,,0,0,0,,{\fs30\fscx85\fscy100\bord2\t(0,20000,\fscx15\fscy30)bord2\fnGeometric Slabserif 703 Extra C}{\c&C0C0C0}FULLMETAL ALCHEMIST\N{\c&1610B1&}THE FLIGHTLESS ANGEL
 Dialogue: 0,0:00:11.04,0:00:16.81,Font,,0,0,0,,{\i1}Just having you in my line of\Nsight is enough to draw breath{\i0}
-Dialogue: 0,0:00:16.81,0:00:25.79,Font,,0,0,0,,{\i1}For someone like me that alone\Nshould be my redemption, and yet...{\i0}
+Dialogue: 0,0:00:16.81,0:00:25.79,Font,,0,0,0,,{\i1}For someone like me, that alone\Nshould be my redemption, and yet...{\i0}
 Dialogue: 0,0:00:26.19,0:00:32.26,Font,,0,0,0,,{\i1}Tiny me repeats nothing but\Nmistakes over and over again{\i0}
 Dialogue: 0,0:00:32.26,0:00:39.43,Font,,0,0,0,,{\i1}How much strength must I gain to\Nlive without leaving wounds behind?{\i0}
 Dialogue: 0,0:00:40.07,0:00:46.07,Font,,0,0,0,,{\i1}I will live on, believing in this love,\NWithout wavering{\i0}

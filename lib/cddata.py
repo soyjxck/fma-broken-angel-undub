@@ -21,11 +21,12 @@ SFX, those SFX samples are byte-identical between USA and JP banks.
 Wholesale-JP therefore preserves them automatically, with no surgery.
 """
 
+from __future__ import annotations
+
 import struct
 
-from .constants import SECTOR, SCEI_BANK_MAP, USA_TABLE_OFFSET, JP_TABLE_OFFSET, TABLE_ENTRY_COUNT
+from .constants import JP_TABLE_OFFSET, SCEI_BANK_MAP, SECTOR, TABLE_ENTRY_COUNT, USA_TABLE_OFFSET
 from .iso import find_file_in_iso
-
 
 # =============================================================================
 # CDDATA.DIG Archive
@@ -42,12 +43,12 @@ class DigArchive:
     indices and bytes.
     """
 
-    def __init__(self, data):
+    def __init__(self, data: bytes) -> None:
         self.buf = bytearray(data)
         # Next free sector for appended (grown) entries.
         self._next_sector = (len(data) + SECTOR - 1) // SECTOR
 
-    def read_entry(self, idx):
+    def read_entry(self, idx: int) -> tuple[bytes, int] | None:
         """Read entry idx. Returns (comp_bytes, decomp_size) or None if empty."""
         toc = idx * 16
         if toc + 16 > len(self.buf):
@@ -58,12 +59,13 @@ class DigArchive:
         off = sec * SECTOR
         return bytes(self.buf[off:off + comp_sz]), decomp_sz
 
-    def slot_size(self, idx):
+    def slot_size(self, idx: int) -> int:
         """Original compressed size of entry idx (its in-place capacity)."""
         toc = idx * 16
-        return struct.unpack('<I', self.buf[toc + 4:toc + 8])[0]
+        size: int = struct.unpack('<I', self.buf[toc + 4:toc + 8])[0]
+        return size
 
-    def write_entry(self, idx, comp, decomp_size):
+    def write_entry(self, idx: int, comp: bytes, decomp_size: int) -> None:
         """Replace entry idx. Writes in-place if it fits the original slot,
         otherwise appends at end-of-archive and re-points the TOC sector."""
         toc = idx * 16
@@ -88,7 +90,7 @@ class DigArchive:
         struct.pack_into('<I', self.buf, toc + 4, len(comp))
         struct.pack_into('<I', self.buf, toc + 12, decomp_size)
 
-    def to_bytes(self):
+    def to_bytes(self) -> bytes:
         return bytes(self.buf)
 
 
@@ -96,7 +98,7 @@ class DigArchive:
 # Entry Mapping
 # =============================================================================
 
-def build_mapping(usa_iso, jp_iso):
+def build_mapping(usa_iso: bytes, jp_iso: bytes) -> dict[int, int]:
     """Build the USA→JP CDDATA entry index mapping.
 
     Combines two sources:
@@ -111,7 +113,8 @@ def build_mapping(usa_iso, jp_iso):
         Dict mapping USA entry indices to JP entry indices.
     """
     # Read game executables
-    usa_exe = jp_exe = None
+    usa_exe: bytes | None = None
+    jp_exe: bytes | None = None
     for search, target in [(b'SLUS_209.94;1', 'usa'), (b'SLPM_654.73;1', 'jp')]:
         iso = usa_iso if target == 'usa' else jp_iso
         info = find_file_in_iso(iso, search)
@@ -127,11 +130,15 @@ def build_mapping(usa_iso, jp_iso):
         raise RuntimeError("Could not find game executables in ISOs")
 
     # Read lookup tables from both executables
-    mapping = {}
-    usa_map = [struct.unpack('<I', usa_exe[USA_TABLE_OFFSET + i * 4:USA_TABLE_OFFSET + i * 4 + 4])[0]
-               for i in range(TABLE_ENTRY_COUNT)]
-    jp_map = [struct.unpack('<I', jp_exe[JP_TABLE_OFFSET + i * 4:JP_TABLE_OFFSET + i * 4 + 4])[0]
-              for i in range(TABLE_ENTRY_COUNT)]
+    mapping: dict[int, int] = {}
+    usa_map = [
+        struct.unpack('<I', usa_exe[USA_TABLE_OFFSET + i * 4:USA_TABLE_OFFSET + i * 4 + 4])[0]
+        for i in range(TABLE_ENTRY_COUNT)
+    ]
+    jp_map = [
+        struct.unpack('<I', jp_exe[JP_TABLE_OFFSET + i * 4:JP_TABLE_OFFSET + i * 4 + 4])[0]
+        for i in range(TABLE_ENTRY_COUNT)
+    ]
     for i in range(TABLE_ENTRY_COUNT):
         mapping[usa_map[i]] = jp_map[i]
 
@@ -147,7 +154,9 @@ def build_mapping(usa_iso, jp_iso):
 # Main Patching Function
 # =============================================================================
 
-def patch_cddata(usa_dig, jp_dig, mapping):
+def patch_cddata(
+    usa_dig: bytes, jp_dig: bytes, mapping: dict[int, int],
+) -> tuple[bytes, int, int, int]:
     """Patch CDDATA.DIG by replacing USA entries with their JP equivalents.
 
     For each (usa_entry, jp_entry) pair in the mapping: skip if already

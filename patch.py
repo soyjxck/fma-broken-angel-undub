@@ -20,30 +20,38 @@ Options:
     --dump-mkv <dir>    Export subtitled cutscenes as MKV files to <dir>
 """
 
-import struct
+from __future__ import annotations
+
 import os
-import sys
 import shutil
+import struct
 import subprocess
+import sys
 import tempfile
 
-from lib.constants import (
-    SECTOR, EXPECTED_HASHES, DSI_NAMES, SUBS_DIR,
-)
-from lib.iso import (
-    find_file_in_iso, read_file_from_iso, write_file_to_iso, verify_iso,
-)
-from lib.cddata import build_mapping, patch_cddata
-from lib.video import build_subtitled_dsi, dump_mkv
-from lib.ffmpeg import find_or_build_ffmpeg
 from dsi_muxer import DSI
 
+from lib.cddata import build_mapping, patch_cddata
+from lib.constants import (
+    DSI_NAMES,
+    EXPECTED_HASHES,
+    SECTOR,
+    SUBS_DIR,
+)
+from lib.ffmpeg import find_or_build_ffmpeg
+from lib.iso import (
+    find_file_in_iso,
+    read_file_from_iso,
+    verify_iso,
+    write_file_to_iso,
+)
+from lib.video import build_subtitled_dsi, dump_mkv
 
 # =============================================================================
 # xdelta
 # =============================================================================
 
-def find_xdelta():
+def find_xdelta() -> str | None:
     """Find xdelta3 binary on PATH or in standard Homebrew/system locations."""
     if found := shutil.which('xdelta3') or shutil.which('xdelta'):
         return found
@@ -53,7 +61,7 @@ def find_xdelta():
     return None
 
 
-def do_xdelta(args):
+def do_xdelta(args: list[str]) -> None:
     """Apply an xdelta patch to a USA ISO."""
     usa_path = args[0]
     xdelta_path = args[1]
@@ -76,7 +84,7 @@ def do_xdelta(args):
     print(f"Done! {out_path} ({os.path.getsize(out_path):,} bytes)")
 
 
-def generate_xdelta(usa_iso_path, out_iso_path):
+def generate_xdelta(usa_iso_path: str, out_iso_path: str) -> None:
     """Generate an xdelta patch file from the patched ISO."""
     xdelta_bin = find_xdelta()
     if not xdelta_bin:
@@ -96,7 +104,7 @@ def generate_xdelta(usa_iso_path, out_iso_path):
 # Audio-only mode
 # =============================================================================
 
-def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
+def do_audio(usa_iso_path: str, jp_iso_path: str, out_iso_path: str) -> None:
     """Audio-only undub: JP CDDATA + JP DSIs, all relocated at end of ISO."""
     print("Reading ISOs...")
     with open(usa_iso_path, 'rb') as f:
@@ -110,14 +118,19 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
     print(f"  Mapping: {len(mapping)} entries")
 
     print("Patching CDDATA.DIG...")
-    usa_dig, cddata_dir = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
-    jp_dig, _ = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    usa_cd = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
+    jp_cd = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    if usa_cd is None or jp_cd is None:
+        raise RuntimeError("CDDATA.DIG not found in ISO")
+    usa_dig, cddata_dir = usa_cd
+    jp_dig, _ = jp_cd
     patched_dig, replaced, skipped_same, grown = patch_cddata(usa_dig, jp_dig, mapping)
     print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Grown: {grown}")
 
     # Relocate CDDATA + DSIs + DATA0 to end of ISO. Reusing the original
     # CDDATA region as the staging area for the new layout.
     usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
+    assert usa_cddata_info is not None  # proven by the read above
     write_sector = usa_cddata_info[0]
 
     with open(out_iso_path, 'r+b') as f:
@@ -146,7 +159,9 @@ def do_audio(usa_iso_path, jp_iso_path, out_iso_path):
 # Full mode (audio + subtitles)
 # =============================================================================
 
-def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
+def do_full(
+    usa_iso_path: str, jp_iso_path: str, out_iso_path: str, dump_mkv_dir: str | None = None,
+) -> None:
     """Full pipeline: JP audio + burned English subtitles on all cutscenes."""
     print("Reading ISOs...")
     with open(usa_iso_path, 'rb') as f:
@@ -160,8 +175,12 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
     print(f"  Mapping: {len(mapping)} entries")
 
     print("Patching CDDATA.DIG...")
-    usa_dig, cddata_dir = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
-    jp_dig, _ = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    usa_cd = read_file_from_iso(usa_iso, b'CDDATA.DIG;1')
+    jp_cd = read_file_from_iso(jp_iso, b'CDDATA.DIG;1')
+    if usa_cd is None or jp_cd is None:
+        raise RuntimeError("CDDATA.DIG not found in ISO")
+    usa_dig, cddata_dir = usa_cd
+    jp_dig, _ = jp_cd
     patched_dig, replaced, skipped_same, grown = patch_cddata(usa_dig, jp_dig, mapping)
     print(f"  Replaced: {replaced}, Skipped (identical): {skipped_same}, Grown: {grown}")
 
@@ -173,6 +192,7 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
         os.makedirs(dump_mkv_dir, exist_ok=True)
 
     usa_cddata_info = find_file_in_iso(usa_iso, b'CDDATA.DIG;1')
+    assert usa_cddata_info is not None  # proven by the read above
     write_sector = usa_cddata_info[0]
 
     with open(out_iso_path, 'r+b') as f:
@@ -193,7 +213,7 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
                     has_subs = 'Dialogue:' in af.read()
 
             sub_dsi = None
-            if has_subs:
+            if ffmpeg_bin and has_subs:
                 sub_dsi = build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path)
 
                 if dump_mkv_dir and sub_dsi is not None:
@@ -226,7 +246,7 @@ def do_full(usa_iso_path, jp_iso_path, out_iso_path, dump_mkv_dir=None):
 # CLI
 # =============================================================================
 
-def main():
+def main() -> None:
     if len(sys.argv) < 3:
         print(__doc__)
         sys.exit(1)

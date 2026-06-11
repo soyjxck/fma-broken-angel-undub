@@ -7,14 +7,17 @@ to a sector and updating the directory entry. All sector arithmetic is
 contained in this module — callers operate on file names and byte buffers.
 """
 
-import struct
-import os
+from __future__ import annotations
+
 import hashlib
+import os
+import struct
+from typing import BinaryIO
 
-from .constants import SECTOR
+from .constants import SECTOR, IsoSpec
 
 
-def find_file_in_iso(iso_data, filename):
+def find_file_in_iso(iso_data: bytes, filename: bytes | str) -> tuple[int, int, int] | None:
     """Find a file's sector, size, and directory entry offset in an ISO.
 
     The search is a raw byte scan for the ISO9660-encoded filename
@@ -37,7 +40,7 @@ def find_file_in_iso(iso_data, filename):
     return sector, size, entry
 
 
-def read_file_from_iso(iso_data, filename):
+def read_file_from_iso(iso_data: bytes, filename: bytes | str) -> tuple[bytes, int] | None:
     """Locate and slice a file's bytes out of the ISO.
 
     Returns:
@@ -51,7 +54,7 @@ def read_file_from_iso(iso_data, filename):
     return iso_data[sector * SECTOR:sector * SECTOR + size], dir_offset
 
 
-def write_file_to_iso(f, dir_offset, sector, data):
+def write_file_to_iso(f: BinaryIO, dir_offset: int, sector: int, data: bytes) -> int:
     """Write a file at the given sector, pad to sector boundary, and update
     its directory entry to match the new sector and size.
 
@@ -73,7 +76,7 @@ def write_file_to_iso(f, dir_offset, sector, data):
     return sector + (len(data) + SECTOR - 1) // SECTOR
 
 
-def update_dir_entry(f, entry_offset, sector, size):
+def update_dir_entry(f: BinaryIO, entry_offset: int, sector: int, size: int) -> None:
     """Update an ISO9660 directory entry's sector and size (both LE and BE).
 
     Args:
@@ -90,7 +93,7 @@ def update_dir_entry(f, entry_offset, sector, size):
     f.write(struct.pack('>I', size))
 
 
-def verify_iso(path, label, expected, skip=False):
+def verify_iso(path: str, label: str, expected: IsoSpec, skip: bool = False) -> bool:
     """Verify an ISO file's size and MD5 hash.
 
     Args:
@@ -120,5 +123,5 @@ def verify_iso(path, label, expected, skip=False):
         return True
     else:
         print(f"MISMATCH (got {md5})")
-        print(f"  Your ISO may be a different dump. Proceeding anyway...")
+        print("  Your ISO may be a different dump. Proceeding anyway...")
         return False

@@ -5,13 +5,15 @@ Finds an existing ffmpeg with libass support, or compiles one from source.
 Required for burning ASS subtitles onto MPEG-2 video.
 """
 
+from __future__ import annotations
+
 import os
 import platform
 import shutil
 import subprocess
 
 
-def find_or_build_ffmpeg():
+def find_or_build_ffmpeg() -> str | None:
     """Find an ffmpeg with libass support, or build one from source.
 
     Tries the custom build path first (the one this script produced
@@ -44,16 +46,18 @@ def find_or_build_ffmpeg():
 
     if system == 'Darwin':
         for dep in ['libass', 'libx264', 'pkgconf']:
-            r = subprocess.run(['brew', 'list', dep], capture_output=True)
-            if r.returncode != 0:
+            check = subprocess.run(['brew', 'list', dep], capture_output=True)
+            if check.returncode != 0:
                 print(f"  Installing {dep}...")
                 subprocess.run(['brew', 'install', dep], capture_output=True)
     elif system == 'Linux':
-        r = subprocess.run(['pkg-config', '--exists', 'libass'], capture_output=True)
-        if r.returncode != 0:
+        check = subprocess.run(['pkg-config', '--exists', 'libass'], capture_output=True)
+        if check.returncode != 0:
             print("  ERROR: libass not found. Install dependencies first:")
-            print("    Debian/Ubuntu: sudo apt install libass-dev libx264-dev pkg-config build-essential")
-            print("    Fedora: sudo dnf install libass-devel x264-devel pkgconf-pkg-config gcc make")
+            print("    Debian/Ubuntu: sudo apt install"
+                  " libass-dev libx264-dev pkg-config build-essential")
+            print("    Fedora: sudo dnf install"
+                  " libass-devel x264-devel pkgconf-pkg-config gcc make")
             return None
 
     # Download ffmpeg source

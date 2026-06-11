@@ -7,6 +7,8 @@ This module handles:
 3. MKV export with JP audio
 """
 
+from __future__ import annotations
+
 import os
 import re
 import shutil
@@ -29,7 +31,7 @@ _FONT_DIRS = [
 ]
 
 
-def _find_fontsdir():
+def _find_fontsdir() -> str | None:
     for d in _FONT_DIRS:
         if os.path.isdir(d):
             return d
@@ -40,7 +42,7 @@ def _find_fontsdir():
 # MPEG-2 Encoding
 # =============================================================================
 
-def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
+def encode_subtitled_video(ffmpeg_bin: str, m2v_path: str, ass_path: str, output_path: str) -> bool:
     """Encode video with burned ASS subtitles as PS2-compatible MPEG-2.
 
     The flag set below was tuned to match the original game's MPEG-2
@@ -105,7 +107,7 @@ def encode_subtitled_video(ffmpeg_bin, m2v_path, ass_path, output_path):
     return True
 
 
-def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
+def build_subtitled_dsi(ffmpeg_bin: str, jp_dsi_bytes: bytes, ass_path: str) -> bytes | None:
     """Build a subtitled DSI from JP DSI bytes and an ASS subtitle file.
 
     Pipeline:
@@ -140,7 +142,7 @@ def build_subtitled_dsi(ffmpeg_bin, jp_dsi_bytes, ass_path):
 # MKV Export
 # =============================================================================
 
-def dump_mkv(ffmpeg_bin, m2v_path, jp_audio, mkv_path):
+def dump_mkv(ffmpeg_bin: str, m2v_path: str, jp_audio: bytes, mkv_path: str) -> None:
     """Export a subtitled cutscene as MKV with squeezed JP audio.
 
     The DSI audio is ~8.9% longer than the video due to block padding

@@ -3,6 +3,7 @@ Constants, lookup tables, and expected hashes for the FMA Undub Patcher.
 """
 
 import os
+from typing import TypedDict
 
 # =============================================================================
 # DSI Container
@@ -27,7 +28,12 @@ TABLE_ENTRY_COUNT = 101      # entries in each lookup table
 # Expected ISO hashes for verification
 # =============================================================================
 
-EXPECTED_HASHES = {
+class IsoSpec(TypedDict):
+    size: int
+    md5: str
+
+
+EXPECTED_HASHES: dict[str, IsoSpec] = {
     'usa': {'size': 1927217152, 'md5': 'e074fae418feff31ee9b4c6422527cab'},
     'jp':  {'size': 1732345856, 'md5': '39ee7c7c9773731b9aa6dae943faaec3'},
 }

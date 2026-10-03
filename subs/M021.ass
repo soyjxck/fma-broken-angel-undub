@@ -10,14 +10,12 @@ PlayResX: 512
 PlayResY: 448
 
 [Aegisub Project by GXZ95]
-Last Style Storage: Default
 Audio File: M021.mkv
 Video File: M021.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Scroll Position: 74
-Active Line: 75
-Video Position: 2525
+Active Line: 3
+Video Position: 1897
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -30,76 +28,76 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
 Dialogue: 0,0:00:02.40,0:00:05.73,Serifa Std,,0,0,0,,It's finally time. Finally.
 Dialogue: 0,0:00:11.41,0:00:13.68,Serifa Std,,0,0,0,,Dad, Ed...
 Dialogue: 0,0:00:14.41,0:00:18.41,Serifa Std,,0,0,0,,Now, give me the Philosopher’s Catalyst.
-Dialogue: 0,0:00:58.99,0:01:04.36,Serifa Std,,0,0,2,,{\fs22.5}As my assistant, you should already know the catalytic effect of that flower!
+Dialogue: 0,0:00:58.99,0:01:04.36,Serifa Std,,0,0,2,,{\fs22.5}If you really are my assistant, you should know about that flower's catalytic effect!
 Dialogue: 0,0:01:12.17,0:01:16.94,Serifa Std,,0,0,0,,My... My...
-Dialogue: 0,0:01:21.87,0:01:21.90,Serifa Std,,0,0,0,,{\pos(257.4,437.76)}Curse you!
-Dialogue: 0,0:01:21.90,0:01:21.93,Serifa Std,,0,0,0,,{\pos(255.64,437.6)}Curse you!
-Dialogue: 0,0:01:21.93,0:01:21.97,Serifa Std,,0,0,0,,{\pos(255.25,439.28)}Curse you!
-Dialogue: 0,0:01:21.97,0:01:22.00,Serifa Std,,0,0,0,,{\pos(256.77,438.11)}Curse you!
-Dialogue: 0,0:01:22.00,0:01:22.03,Serifa Std,,0,0,0,,{\pos(256.29,436.85)}Curse you!
-Dialogue: 0,0:01:22.03,0:01:22.07,Serifa Std,,0,0,0,,{\pos(257.26,436.68)}Curse you!
-Dialogue: 0,0:01:22.07,0:01:22.10,Serifa Std,,0,0,0,,{\pos(256.84,439.32)}Curse you!
-Dialogue: 0,0:01:22.10,0:01:22.13,Serifa Std,,0,0,0,,{\pos(255.97,439.41)}Curse you!
-Dialogue: 0,0:01:22.13,0:01:22.17,Serifa Std,,0,0,0,,{\pos(254.59,437.69)}Curse you!
-Dialogue: 0,0:01:22.17,0:01:22.20,Serifa Std,,0,0,0,,{\pos(256.08,437.61)}Curse you!
-Dialogue: 0,0:01:22.20,0:01:22.23,Serifa Std,,0,0,0,,{\pos(255.51,438.69)}Curse you!
-Dialogue: 0,0:01:22.23,0:01:22.27,Serifa Std,,0,0,0,,{\pos(257.29,437.69)}Curse you!
-Dialogue: 0,0:01:22.27,0:01:22.30,Serifa Std,,0,0,0,,{\pos(255,437.16)}Curse you!
-Dialogue: 0,0:01:22.30,0:01:22.33,Serifa Std,,0,0,0,,{\pos(255.85,439.08)}Curse you!
-Dialogue: 0,0:01:22.33,0:01:22.37,Serifa Std,,0,0,0,,{\pos(255.96,438)}Curse you!
-Dialogue: 0,0:01:22.37,0:01:22.40,Serifa Std,,0,0,0,,{\pos(257.21,438.23)}Curse you!
-Dialogue: 0,0:01:22.40,0:01:22.43,Serifa Std,,0,0,0,,{\pos(254.5,438.23)}Curse you!
-Dialogue: 0,0:01:22.43,0:01:22.47,Serifa Std,,0,0,0,,{\pos(255.79,438.99)}Curse you!
-Dialogue: 0,0:01:22.47,0:01:22.50,Serifa Std,,0,0,0,,{\pos(254.89,438.89)}Curse you!
-Dialogue: 0,0:01:22.50,0:01:22.53,Serifa Std,,0,0,0,,{\pos(257.49,439.07)}Curse you!
-Dialogue: 0,0:01:22.53,0:01:22.57,Serifa Std,,0,0,0,,{\pos(255.24,439.26)}Curse you!
-Dialogue: 0,0:01:22.57,0:01:22.60,Serifa Std,,0,0,0,,{\pos(255.03,437.4)}Curse you!
-Dialogue: 0,0:01:22.60,0:01:22.63,Serifa Std,,0,0,0,,{\pos(257.08,438.89)}Curse you!
-Dialogue: 0,0:01:22.63,0:01:22.67,Serifa Std,,0,0,0,,{\pos(256.71,439.02)}Curse you!
-Dialogue: 0,0:01:22.67,0:01:22.70,Serifa Std,,0,0,0,,{\pos(255.75,437.79)}Curse you!
-Dialogue: 0,0:01:22.70,0:01:22.73,Serifa Std,,0,0,0,,{\pos(256.4,438.74)}Curse you!
-Dialogue: 0,0:01:22.73,0:01:22.77,Serifa Std,,0,0,0,,{\pos(254.59,438.38)}Curse you!
-Dialogue: 0,0:01:22.77,0:01:22.80,Serifa Std,,0,0,0,,{\pos(257.33,437.96)}Curse you!
-Dialogue: 0,0:01:22.80,0:01:22.83,Serifa Std,,0,0,0,,{\pos(254.89,439.04)}Curse you!
-Dialogue: 0,0:01:22.83,0:01:22.87,Serifa Std,,0,0,0,,{\pos(256.75,438.08)}Curse you!
-Dialogue: 0,0:01:22.87,0:01:22.90,Serifa Std,,0,0,0,,{\pos(255.7,439.43)}Curse you!
-Dialogue: 0,0:01:22.90,0:01:22.93,Serifa Std,,0,0,0,,{\pos(254.7,438.89)}Curse you!
-Dialogue: 0,0:01:22.93,0:01:22.97,Serifa Std,,0,0,0,,{\pos(254.95,438.65)}Curse you!
-Dialogue: 0,0:01:22.97,0:01:23.00,Serifa Std,,0,0,0,,{\pos(254.97,439.04)}Curse you!
-Dialogue: 0,0:01:23.00,0:01:23.03,Serifa Std,,0,0,0,,{\pos(255.61,437.42)}Curse you!
-Dialogue: 0,0:01:23.03,0:01:23.07,Serifa Std,,0,0,0,,{\pos(256.14,438.8)}Curse you!
-Dialogue: 0,0:01:23.07,0:01:23.10,Serifa Std,,0,0,0,,{\pos(257.21,438.5)}Curse you!
-Dialogue: 0,0:01:23.10,0:01:23.13,Serifa Std,,0,0,0,,{\pos(256.6,438.27)}Curse you!
-Dialogue: 0,0:01:23.13,0:01:23.17,Serifa Std,,0,0,0,,{\pos(255.84,438.72)}Curse you!
-Dialogue: 0,0:01:23.17,0:01:23.20,Serifa Std,,0,0,0,,{\pos(255.33,439.22)}Curse you!
-Dialogue: 0,0:01:23.20,0:01:23.23,Serifa Std,,0,0,0,,{\pos(256.95,437.52)}Curse you!
-Dialogue: 0,0:01:23.23,0:01:23.27,Serifa Std,,0,0,0,,{\pos(254.68,437.79)}Curse you!
-Dialogue: 0,0:01:23.27,0:01:23.30,Serifa Std,,0,0,0,,{\pos(255.31,437.57)}Curse you!
-Dialogue: 0,0:01:23.30,0:01:23.33,Serifa Std,,0,0,0,,{\pos(256.71,438.74)}Curse you!
-Dialogue: 0,0:01:23.33,0:01:23.37,Serifa Std,,0,0,0,,{\pos(257.17,437.28)}Curse you!
-Dialogue: 0,0:01:23.37,0:01:23.40,Serifa Std,,0,0,0,,{\pos(257.46,437.55)}Curse you!
-Dialogue: 0,0:01:23.40,0:01:23.43,Serifa Std,,0,0,0,,{\pos(255.39,436.59)}Curse you!
-Dialogue: 0,0:01:23.43,0:01:23.47,Serifa Std,,0,0,0,,{\pos(256.02,438.65)}Curse you!
-Dialogue: 0,0:01:23.47,0:01:23.50,Serifa Std,,0,0,0,,{\pos(256.45,438.78)}Curse you!
-Dialogue: 0,0:01:23.50,0:01:23.53,Serifa Std,,0,0,0,,{\pos(257.05,439.32)}Curse you!
-Dialogue: 0,0:01:23.53,0:01:23.57,Serifa Std,,0,0,0,,{\pos(256.06,439.5)}Curse you!
-Dialogue: 0,0:01:23.57,0:01:23.60,Serifa Std,,0,0,0,,{\pos(255.88,438.93)}Curse you!
-Dialogue: 0,0:01:23.60,0:01:23.63,Serifa Std,,0,0,0,,{\pos(255.25,438.18)}Curse you!
-Dialogue: 0,0:01:23.63,0:01:23.67,Serifa Std,,0,0,0,,{\pos(255.33,438.71)}Curse you!
-Dialogue: 0,0:01:23.67,0:01:23.70,Serifa Std,,0,0,0,,{\pos(256.57,437.46)}Curse you!
-Dialogue: 0,0:01:23.70,0:01:23.73,Serifa Std,,0,0,0,,{\pos(256.44,437.78)}Curse you!
-Dialogue: 0,0:01:23.73,0:01:23.77,Serifa Std,,0,0,0,,{\pos(256.18,438.9)}Curse you!
-Dialogue: 0,0:01:23.77,0:01:23.80,Serifa Std,,0,0,0,,{\pos(255.85,440.04)}Curse you!
-Dialogue: 0,0:01:23.80,0:01:23.83,Serifa Std,,0,0,0,,{\pos(253.06,440.67)}Curse you!
-Dialogue: 0,0:01:23.83,0:01:23.87,Serifa Std,,0,0,0,,{\pos(258.52,440.19)}Curse you!
-Dialogue: 0,0:01:23.87,0:01:23.90,Serifa Std,,0,0,0,,{\pos(254.59,435.78)}Curse you!
-Dialogue: 0,0:01:23.90,0:01:23.93,Serifa Std,,0,0,0,,{\pos(258.04,438.51)}Curse you!
-Dialogue: 0,0:01:23.93,0:01:23.97,Serifa Std,,0,0,0,,{\pos(255.7,436.77)}Curse you!
-Dialogue: 0,0:01:23.97,0:01:24.00,Serifa Std,,0,0,0,,{\pos(255.79,438.36)}Curse you!
-Dialogue: 0,0:01:24.00,0:01:24.03,Serifa Std,,0,0,0,,{\pos(255.97,439.83)}Curse you!
-Dialogue: 0,0:01:24.03,0:01:24.07,Serifa Std,,0,0,0,,{\pos(257.86,440.01)}Curse you!
-Dialogue: 0,0:01:24.07,0:01:24.10,Serifa Std,,0,0,0,,{\pos(258.16,438.33)}Curse you!
-Dialogue: 0,0:01:24.10,0:01:24.13,Serifa Std,,0,0,0,,{\pos(258.79,435.9)}Curse you!
-Dialogue: 0,0:01:24.13,0:01:24.17,Serifa Std,,0,0,0,,{\pos(255.37,440.52)}Curse you!
-Dialogue: 0,0:01:24.17,0:01:24.20,Serifa Std,,0,0,0,,{\pos(256.12,438.21)}Curse you!
-Dialogue: 0,0:01:24.20,0:01:24.23,Serifa Std,,0,0,0,,{\pos(253.69,437.97)}Curse you!
+Dialogue: 0,0:01:21.87,0:01:21.90,Serifa Std,,0,0,0,,{\pos(257.4,437.76)}Curse you!!!
+Dialogue: 0,0:01:21.90,0:01:21.93,Serifa Std,,0,0,0,,{\pos(255.64,437.6)}Curse you!!!
+Dialogue: 0,0:01:21.93,0:01:21.97,Serifa Std,,0,0,0,,{\pos(255.25,439.28)}Curse you!!!
+Dialogue: 0,0:01:21.97,0:01:22.00,Serifa Std,,0,0,0,,{\pos(256.77,438.11)}Curse you!!!
+Dialogue: 0,0:01:22.00,0:01:22.03,Serifa Std,,0,0,0,,{\pos(256.29,436.85)}Curse you!!!
+Dialogue: 0,0:01:22.03,0:01:22.07,Serifa Std,,0,0,0,,{\pos(257.26,436.68)}Curse you!!!
+Dialogue: 0,0:01:22.07,0:01:22.10,Serifa Std,,0,0,0,,{\pos(256.84,439.32)}Curse you!!!
+Dialogue: 0,0:01:22.10,0:01:22.13,Serifa Std,,0,0,0,,{\pos(255.97,439.41)}Curse you!!!
+Dialogue: 0,0:01:22.13,0:01:22.17,Serifa Std,,0,0,0,,{\pos(254.59,437.69)}Curse you!!!
+Dialogue: 0,0:01:22.17,0:01:22.20,Serifa Std,,0,0,0,,{\pos(256.08,437.61)}Curse you!!!
+Dialogue: 0,0:01:22.20,0:01:22.23,Serifa Std,,0,0,0,,{\pos(255.51,438.69)}Curse you!!!
+Dialogue: 0,0:01:22.23,0:01:22.27,Serifa Std,,0,0,0,,{\pos(257.29,437.69)}Curse you!!!
+Dialogue: 0,0:01:22.27,0:01:22.30,Serifa Std,,0,0,0,,{\pos(255,437.16)}Curse you!!!
+Dialogue: 0,0:01:22.30,0:01:22.33,Serifa Std,,0,0,0,,{\pos(255.85,439.08)}Curse you!!!
+Dialogue: 0,0:01:22.33,0:01:22.37,Serifa Std,,0,0,0,,{\pos(255.96,438)}Curse you!!!
+Dialogue: 0,0:01:22.37,0:01:22.40,Serifa Std,,0,0,0,,{\pos(257.21,438.23)}Curse you!!!
+Dialogue: 0,0:01:22.40,0:01:22.43,Serifa Std,,0,0,0,,{\pos(254.5,438.23)}Curse you!!!
+Dialogue: 0,0:01:22.43,0:01:22.47,Serifa Std,,0,0,0,,{\pos(255.79,438.99)}Curse you!!!
+Dialogue: 0,0:01:22.47,0:01:22.50,Serifa Std,,0,0,0,,{\pos(254.89,438.89)}Curse you!!!
+Dialogue: 0,0:01:22.50,0:01:22.53,Serifa Std,,0,0,0,,{\pos(257.49,439.07)}Curse you!!!
+Dialogue: 0,0:01:22.53,0:01:22.57,Serifa Std,,0,0,0,,{\pos(255.24,439.26)}Curse you!!!
+Dialogue: 0,0:01:22.57,0:01:22.60,Serifa Std,,0,0,0,,{\pos(255.03,437.4)}Curse you!!!
+Dialogue: 0,0:01:22.60,0:01:22.63,Serifa Std,,0,0,0,,{\pos(257.08,438.89)}Curse you!!!
+Dialogue: 0,0:01:22.63,0:01:22.67,Serifa Std,,0,0,0,,{\pos(256.71,439.02)}Curse you!!!
+Dialogue: 0,0:01:22.67,0:01:22.70,Serifa Std,,0,0,0,,{\pos(255.75,437.79)}Curse you!!!
+Dialogue: 0,0:01:22.70,0:01:22.73,Serifa Std,,0,0,0,,{\pos(256.4,438.74)}Curse you!!!
+Dialogue: 0,0:01:22.73,0:01:22.77,Serifa Std,,0,0,0,,{\pos(254.59,438.38)}Curse you!!!
+Dialogue: 0,0:01:22.77,0:01:22.80,Serifa Std,,0,0,0,,{\pos(257.33,437.96)}Curse you!!!
+Dialogue: 0,0:01:22.80,0:01:22.83,Serifa Std,,0,0,0,,{\pos(254.89,439.04)}Curse you!!!
+Dialogue: 0,0:01:22.83,0:01:22.87,Serifa Std,,0,0,0,,{\pos(256.75,438.08)}Curse you!!!
+Dialogue: 0,0:01:22.87,0:01:22.90,Serifa Std,,0,0,0,,{\pos(255.7,439.43)}Curse you!!!
+Dialogue: 0,0:01:22.90,0:01:22.93,Serifa Std,,0,0,0,,{\pos(254.7,438.89)}Curse you!!!
+Dialogue: 0,0:01:22.93,0:01:22.97,Serifa Std,,0,0,0,,{\pos(254.95,438.65)}Curse you!!!
+Dialogue: 0,0:01:22.97,0:01:23.00,Serifa Std,,0,0,0,,{\pos(254.97,439.04)}Curse you!!!
+Dialogue: 0,0:01:23.00,0:01:23.03,Serifa Std,,0,0,0,,{\pos(255.61,437.42)}Curse you!!!
+Dialogue: 0,0:01:23.03,0:01:23.07,Serifa Std,,0,0,0,,{\pos(256.14,438.8)}Curse you!!!
+Dialogue: 0,0:01:23.07,0:01:23.10,Serifa Std,,0,0,0,,{\pos(257.21,438.5)}Curse you!!!
+Dialogue: 0,0:01:23.10,0:01:23.13,Serifa Std,,0,0,0,,{\pos(256.6,438.27)}Curse you!!!
+Dialogue: 0,0:01:23.13,0:01:23.17,Serifa Std,,0,0,0,,{\pos(255.84,438.72)}Curse you!!!
+Dialogue: 0,0:01:23.17,0:01:23.20,Serifa Std,,0,0,0,,{\pos(255.33,439.22)}Curse you!!!
+Dialogue: 0,0:01:23.20,0:01:23.23,Serifa Std,,0,0,0,,{\pos(256.95,437.52)}Curse you!!!
+Dialogue: 0,0:01:23.23,0:01:23.27,Serifa Std,,0,0,0,,{\pos(254.68,437.79)}Curse you!!!
+Dialogue: 0,0:01:23.27,0:01:23.30,Serifa Std,,0,0,0,,{\pos(255.31,437.57)}Curse you!!!
+Dialogue: 0,0:01:23.30,0:01:23.33,Serifa Std,,0,0,0,,{\pos(256.71,438.74)}Curse you!!!
+Dialogue: 0,0:01:23.33,0:01:23.37,Serifa Std,,0,0,0,,{\pos(257.17,437.28)}Curse you!!!
+Dialogue: 0,0:01:23.37,0:01:23.40,Serifa Std,,0,0,0,,{\pos(257.46,437.55)}Curse you!!!
+Dialogue: 0,0:01:23.40,0:01:23.43,Serifa Std,,0,0,0,,{\pos(255.39,436.59)}Curse you!!!
+Dialogue: 0,0:01:23.43,0:01:23.47,Serifa Std,,0,0,0,,{\pos(256.02,438.65)}Curse you!!!
+Dialogue: 0,0:01:23.47,0:01:23.50,Serifa Std,,0,0,0,,{\pos(256.45,438.78)}Curse you!!!
+Dialogue: 0,0:01:23.50,0:01:23.53,Serifa Std,,0,0,0,,{\pos(257.05,439.32)}Curse you!!!
+Dialogue: 0,0:01:23.53,0:01:23.57,Serifa Std,,0,0,0,,{\pos(256.06,439.5)}Curse you!!!
+Dialogue: 0,0:01:23.57,0:01:23.60,Serifa Std,,0,0,0,,{\pos(255.88,438.93)}Curse you!!!
+Dialogue: 0,0:01:23.60,0:01:23.63,Serifa Std,,0,0,0,,{\pos(255.25,438.18)}Curse you!!!
+Dialogue: 0,0:01:23.63,0:01:23.67,Serifa Std,,0,0,0,,{\pos(255.33,438.71)}Curse you!!!
+Dialogue: 0,0:01:23.67,0:01:23.70,Serifa Std,,0,0,0,,{\pos(256.57,437.46)}Curse you!!!
+Dialogue: 0,0:01:23.70,0:01:23.73,Serifa Std,,0,0,0,,{\pos(256.44,437.78)}Curse you!!!
+Dialogue: 0,0:01:23.73,0:01:23.77,Serifa Std,,0,0,0,,{\pos(256.18,438.9)}Curse you!!!
+Dialogue: 0,0:01:23.77,0:01:23.80,Serifa Std,,0,0,0,,{\pos(255.85,440.04)}Curse you!!!
+Dialogue: 0,0:01:23.80,0:01:23.83,Serifa Std,,0,0,0,,{\pos(253.06,440.67)}Curse you!!!
+Dialogue: 0,0:01:23.83,0:01:23.87,Serifa Std,,0,0,0,,{\pos(258.52,440.19)}Curse you!!!
+Dialogue: 0,0:01:23.87,0:01:23.90,Serifa Std,,0,0,0,,{\pos(254.59,435.78)}Curse you!!!
+Dialogue: 0,0:01:23.90,0:01:23.93,Serifa Std,,0,0,0,,{\pos(258.04,438.51)}Curse you!!!
+Dialogue: 0,0:01:23.93,0:01:23.97,Serifa Std,,0,0,0,,{\pos(255.7,436.77)}Curse you!!!
+Dialogue: 0,0:01:23.97,0:01:24.00,Serifa Std,,0,0,0,,{\pos(255.79,438.36)}Curse you!!!
+Dialogue: 0,0:01:24.00,0:01:24.03,Serifa Std,,0,0,0,,{\pos(255.97,439.83)}Curse you!!!
+Dialogue: 0,0:01:24.03,0:01:24.07,Serifa Std,,0,0,0,,{\pos(257.86,440.01)}Curse you!!!
+Dialogue: 0,0:01:24.07,0:01:24.10,Serifa Std,,0,0,0,,{\pos(258.16,438.33)}Curse you!!!
+Dialogue: 0,0:01:24.10,0:01:24.13,Serifa Std,,0,0,0,,{\pos(258.79,435.9)}Curse you!!!
+Dialogue: 0,0:01:24.13,0:01:24.17,Serifa Std,,0,0,0,,{\pos(255.37,440.52)}Curse you!!!
+Dialogue: 0,0:01:24.17,0:01:24.20,Serifa Std,,0,0,0,,{\pos(256.12,438.21)}Curse you!!!
+Dialogue: 0,0:01:24.20,0:01:24.23,Serifa Std,,0,0,0,,{\pos(253.69,437.97)}Curse you!!!

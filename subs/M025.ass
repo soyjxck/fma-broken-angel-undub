@@ -10,14 +10,12 @@ PlayResX: 512
 PlayResY: 448
 
 [Aegisub Project by GXZ95]
-Last Style Storage: Default
 Audio File: M025.mkv
 Video File: M025.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Scroll Position: 48
-Active Line: 51
-Video Position: 3001
+Active Line: 6
+Video Position: 780
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -33,7 +31,7 @@ Dialogue: 0,0:00:09.30,0:00:13.01,Serifa Std,,0,0,0,,The library's not going any
 Dialogue: 0,0:00:14.28,0:00:16.81,Serifa Std,,0,0,0,,Just hurry up already!
 Dialogue: 0,0:00:16.81,0:00:20.02,Serifa Std,,0,0,0,,He's such a child.
 Dialogue: 0,0:00:20.02,0:00:23.55,Serifa Std,,0,0,0,,No, pardon me. He really is a child.
-Dialogue: 0,0:00:23.55,0:00:25.82,Serifa Std,,0,0,0,,Well...
+Dialogue: 0,0:00:23.55,0:00:25.02,Serifa Std,,0,0,0,,Well...
 Dialogue: 0,0:00:26.15,0:00:28.16,Serifa Std,,0,0,0,,Brother!
 Dialogue: 0,0:00:28.16,0:00:28.18,Serifa Std,,0,0,0,,{\pos(252.2,433.75)}Brother!
 Dialogue: 0,0:00:28.18,0:00:28.21,Serifa Std,,0,0,0,,{\pos(252.15,440.15)}Brother!
@@ -68,12 +66,12 @@ Dialogue: 0,0:00:29.11,0:00:29.15,Serifa Std,,0,0,0,,{\pos(255.72,438.59)}Brothe
 Dialogue: 0,0:00:29.15,0:00:29.73,Serifa Std,,0,0,0,,Brother!
 Dialogue: 0,0:00:30.63,0:00:34.13,Serifa Std,,0,0,0,,{\fs26}This is what happens when you run without looking ahead.
 Dialogue: 0,0:00:36.33,0:00:38.00,Serifa Std,,0,0,0,,Are you okay?
-Dialogue: 0,0:00:38.00,0:00:39.64,Serifa Std,,0,0,0,,Yes!
+Dialogue: 0,0:00:38.00,0:00:39.64,Serifa Std,,0,0,0,,Yes.
 Dialogue: 0,0:00:48.91,0:00:50.21,Serifa Std,,0,0,0,,Sorry about that.
 Dialogue: 0,0:00:50.21,0:00:54.18,Serifa Std,,0,0,0,,No, it's fine.
-Dialogue: 0,0:00:54.18,0:00:57.29,Serifa Std,,0,0,0,,Here, I'm really sorry...
+Dialogue: 0,0:00:54.18,0:00:57.29,Serifa Std,,0,0,0,,Here, I'm really sorry—
 Dialogue: 0,0:01:03.59,0:01:05.69,Serifa Std,,0,0,0,,Thanks.
-Dialogue: 0,0:01:12.23,0:01:14.90,Serifa Std,,0,0,0,,Um... are you alright?
+Dialogue: 0,0:01:12.23,0:01:14.90,Serifa Std,,0,0,0,,Um, are you alright?
 Dialogue: 0,0:01:19.44,0:01:23.15,Serifa Std,,0,0,0,,Me? I'm totally fine.
 Dialogue: 0,0:01:23.15,0:01:26.15,Serifa Std,,0,0,0,,Come on! Let's go, Al!
 Dialogue: 0,0:01:26.85,0:01:29.18,Serifa Std,,0,0,0,,Wait up, brother!

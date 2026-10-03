@@ -14,9 +14,8 @@ Audio File: M002.mkv
 Video File: M002.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Scroll Position: 12
-Active Line: 17
-Video Position: 2346
+Active Line: 9
+Video Position: 1467
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -32,25 +31,25 @@ Dialogue: 0,0:00:12.04,0:00:13.21,Serifa Std,,0,0,0,,I repeat...
 Dialogue: 0,0:00:13.21,0:00:18.48,Serifa Std,,0,0,2,,{\fs21.2}People's Eastern Revolutionary Front?\NThat name sounds like they just cut and pasted a bunch of words together.
 Dialogue: 0,0:00:18.48,0:00:20.85,Serifa Std,,0,0,0,,{\fs30}It’s certainly a name I’ve never heard before.
 Dialogue: 0,0:00:20.85,0:00:26.09,Serifa Std,,0,0,2,,{\fs22}...Probably just another new extremist group or something.\NThe world's really going to hell.
-Dialogue: 0,0:00:33.10,0:00:35.00,Serifa Std,,0,0,0,,Aren’t you going to do something about it?
-Dialogue: 0,0:00:35.00,0:00:36.83,Serifa Std,,0,0,0,,Huh? Why me?
-Dialogue: 0,0:00:41.84,0:00:47.78,Serifa Std,,0,0,0,,{\fs28.5}I-I mean, look, you can handle those guys alone, Major.
+Dialogue: 0,0:00:33.10,0:00:35.06,Serifa Std,,0,0,0,,Aren’t you going to do something about it?
+Dialogue: 0,0:00:35.06,0:00:36.83,Serifa Std,,0,0,0,,Huh...? Why me?
+Dialogue: 0,0:00:41.84,0:00:47.78,Serifa Std,,0,0,1,,{\fs23.5}I-I mean, look, one Major is more than enough to handle those guys, right?
 Dialogue: 0,0:00:49.01,0:00:50.45,Serifa Std,,0,0,0,,Indeed!
 Dialogue: 0,0:00:50.45,0:00:59.15,Serifa Std,,0,0,2,,{\fs22.5}To think they'd dare to hijack a train carrying the Strong Arm Alchemist, Alex Louis Armstrong!
-Dialogue: 0,0:00:59.15,0:01:04.19,Serifa Std,,0,0,2,,{\fs22.5}You small fry, I shall teach your very bodies what misfortune awaits you!
-Dialogue: 0,0:01:04.19,0:01:08.13,Serifa Std,,0,0,2,,{\fs22.5}Hey, you grown-ups!\NWhat do you think you're doing?
-Dialogue: 0,0:01:08.13,0:01:12.63,Serifa Std,,0,0,2,,{\fs22.5}Didn't you hear the announcement?\NThis train now belongs to the Eastern Liberation Front!
+Dialogue: 0,0:00:59.15,0:01:04.19,Serifa Std,,0,0,2,,{\fs22.5}You small fries! I shall teach your very bodies what misfortune awaits you!
+Dialogue: 0,0:01:04.19,0:01:06.19,Serifa Std,,0,0,0,,You goddamn adults!
+Dialogue: 0,0:01:06.19,0:01:12.63,Serifa Std,,0,0,2,,{\fs22.5}What the hell are you doing?! Did you hear the announcement!?\NThis train has been taken over by the Eastern Liberation Front!
 Dialogue: 0,0:01:12.63,0:01:15.50,Serifa Std,,0,0,0,,The name's different from the last announcement.
-Dialogue: 0,0:01:15.50,0:01:18.27,Serifa Std,,0,0,0,,I really can’t keep up with these guys...
-Dialogue: 0,0:01:18.27,0:01:22.48,Serifa Std,,0,0,0,,{\fs25.6}Hm? Hasn't something like this happened to us not long ago?
+Dialogue: 0,0:01:15.50,0:01:18.01,Serifa Std,,0,0,0,,I really can’t keep up with this...
+Dialogue: 0,0:01:18.01,0:01:22.48,Serifa Std,,0,0,2,,{\fs23}Hm? Come to think of it, hasn't something like this happened to us not long ago?
 Dialogue: 0,0:01:21.61,0:01:22.48,Serifa Std,,0,0,410,,Yeah, it has.
-Dialogue: 0,0:01:22.48,0:01:24.51,Serifa Std,,0,0,0,,Maybe we're cursed...
-Dialogue: 0,0:01:24.51,0:01:26.92,Serifa Std,,0,0,0,,Hey, you in the armor and you over there!
-Dialogue: 0,0:01:26.92,0:01:30.55,Serifa Std,,0,0,2,,{\fs22.5}Quit talking among yourselves!\NHand over your valuables quietly!
+Dialogue: 0,0:01:22.48,0:01:24.51,Serifa Std,,0,0,0,,Could it be that we're cursed...?
+Dialogue: 0,0:01:24.51,0:01:26.92,Serifa Std,,0,0,0,,Hey! You in the armor and you there!
+Dialogue: 0,0:01:26.92,0:01:30.55,Serifa Std,,0,0,2,,{\fs22.5}Stop talking without permission!\NHand over your valuables quietly!
 Dialogue: 0,0:01:30.55,0:01:31.45,Serifa Std,,0,0,0,,Perfect.
-Dialogue: 0,0:01:31.45,0:01:36.12,Serifa Std,,0,0,3,,{\fs22}You, gather up the valuables from that big guy and the armored one, and bring them over here. Shorty!
-Dialogue: 0,0:01:36.12,0:01:36.83,Serifa Std,,0,0,3,,{\fs22}{\move(256,445,-410,445)\i1}You, gather up the valuables from that big guy and the armored one, and bring them over here. Shorty!
-Dialogue: 0,0:01:36.83,0:01:39.60,Serifa Std,,0,0,0,,Who are you calling Shorty?
+Dialogue: 0,0:01:31.45,0:01:36.12,Serifa Std,,0,0,3,,{\fs22}You, gather up the valuables from that big guy and the armored one and bring them over here, Shorty!
+Dialogue: 0,0:01:36.12,0:01:36.83,Serifa Std,,0,0,3,,{\fs22}{\move(256,445,-410,445)\i1}You, gather up the valuables from that big guy and the armored one and bring them over here, Shorty!
+Dialogue: 0,0:01:36.83,0:01:39.60,Serifa Std,,0,0,0,,Who are you calling Shorty...?
 Dialogue: 0,0:01:39.60,0:01:41.20,Serifa Std,,0,0,0,,You, obviously!
 Dialogue: 0,0:01:41.20,0:01:43.93,Serifa Std,,0,0,0,,Who else could it be? Shorty!
 Dialogue: 0,0:01:43.93,0:01:44.50,Serifa Std,,0,0,0,,{\fs26}Shorty!
@@ -66,7 +65,7 @@ Dialogue: 0,0:02:06.62,0:02:07.99,Serifa Std,,0,0,0,,How naive.
 Dialogue: 0,0:02:07.99,0:02:11.46,Serifa Std,,0,0,0,,What in the world is up with these people, anyway?
 Dialogue: 0,0:02:11.46,0:02:14.50,Serifa Std,,0,0,0,,As I thought, we're definitely cursed.
 Dialogue: 0,0:02:14.50,0:02:15.96,Serifa Std,,0,0,0,,Aren't you just tired?
-Dialogue: 0,0:02:15.96,0:02:17.13,Serifa Std,,0,0,0,,Huh? Tired of what?
+Dialogue: 0,0:02:15.96,0:02:17.13,Serifa Std,,0,0,0,,Huh?! Tired of what?
 Dialogue: 0,0:02:17.13,0:02:18.87,Serifa Std,,0,0,0,,What's going on? What happened?
 Dialogue: 0,0:02:18.87,0:02:20.60,Serifa Std,,0,0,0,,{\move(256,438,256,472)}What's going on? What happened?
 Dialogue: 0,0:02:23.11,0:02:26.78,Serifa Std,,0,0,0,,Of dealing with people like this?

@@ -14,9 +14,9 @@ Audio File: M005.mkv
 Video File: M005.mkv
 Video AR Mode: 4
 Video AR Value: 1.333333
-Video Zoom Percent: 0.875000
-Active Line: 2
-Video Position: 972
+Scroll Position: 18
+Active Line: 22
+Video Position: 1715
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
@@ -47,30 +47,30 @@ Dialogue: 0,0:00:46.23,0:00:46.26,Serifa Std,,0,0,0,,{\pos(256.6,438.81)}Al!
 Dialogue: 0,0:00:46.26,0:00:46.30,Serifa Std,,0,0,0,,{\pos(255.23,439.13)}Al!
 Dialogue: 0,0:00:46.30,0:00:46.33,Serifa Std,,0,0,0,,{\pos(255.72,437.99)}Al!
 Dialogue: 0,0:00:46.34,0:00:47.04,Serifa Std,,0,0,0,,Al!
-Dialogue: 0,0:00:55.97,0:00:56.01,Serifa Std,,0,0,0,,{\pos(256.26,439.68)}Brother!
-Dialogue: 0,0:00:56.01,0:00:56.04,Serifa Std,,0,0,0,,{\pos(257.05,435.98)}Brother!
-Dialogue: 0,0:00:56.04,0:00:56.07,Serifa Std,,0,0,0,,{\pos(256.7,439.91)}Brother!
-Dialogue: 0,0:00:56.07,0:00:56.11,Serifa Std,,0,0,0,,{\pos(253.64,437.61)}Brother!
-Dialogue: 0,0:00:56.11,0:00:56.14,Serifa Std,,0,0,0,,{\pos(257.69,436.95)}Brother!
-Dialogue: 0,0:00:56.14,0:00:56.17,Serifa Std,,0,0,0,,{\pos(257.91,439.38)}Brother!
-Dialogue: 0,0:00:56.17,0:00:56.21,Serifa Std,,0,0,0,,{\pos(256.82,438.68)}Brother!
-Dialogue: 0,0:00:56.21,0:00:56.24,Serifa Std,,0,0,0,,{\pos(257.09,439.48)}Brother!
-Dialogue: 0,0:00:56.24,0:00:56.27,Serifa Std,,0,0,0,,{\pos(255.54,438.28)}Brother!
-Dialogue: 0,0:00:56.27,0:00:56.31,Serifa Std,,0,0,0,,{\pos(257.61,437.89)}Brother!
-Dialogue: 0,0:00:56.31,0:00:56.34,Serifa Std,,0,0,0,,{\pos(253.9,440.1)}Brother!
-Dialogue: 0,0:00:56.34,0:00:56.37,Serifa Std,,0,0,0,,{\pos(254.71,438.62)}Brother!
-Dialogue: 0,0:00:56.37,0:00:56.41,Serifa Std,,0,0,0,,{\pos(255.41,437.44)}Brother!
-Dialogue: 0,0:00:56.41,0:00:56.44,Serifa Std,,0,0,0,,{\pos(258.57,436.7)}Brother!
-Dialogue: 0,0:00:56.44,0:00:56.47,Serifa Std,,0,0,0,,{\pos(256.99,438.67)}Brother!
-Dialogue: 0,0:00:56.47,0:00:56.51,Serifa Std,,0,0,0,,{\pos(254.3,437.05)}Brother!
-Dialogue: 0,0:00:56.51,0:00:56.54,Serifa Std,,0,0,0,,{\pos(254.8,436.88)}Brother!
-Dialogue: 0,0:00:56.54,0:00:56.57,Serifa Std,,0,0,0,,{\pos(258.72,439.39)}Brother!
-Dialogue: 0,0:00:56.57,0:00:56.61,Serifa Std,,0,0,0,,{\pos(255.22,438.3)}Brother!
-Dialogue: 0,0:00:56.61,0:00:56.64,Serifa Std,,0,0,0,,{\pos(255.71,435.08)}Brother!
-Dialogue: 0,0:00:56.64,0:00:56.67,Serifa Std,,0,0,0,,{\pos(256.62,439.81)}Brother!
-Dialogue: 0,0:00:56.67,0:00:56.71,Serifa Std,,0,0,0,,{\pos(257.71,437.67)}Brother!
-Dialogue: 0,0:00:56.71,0:00:56.74,Serifa Std,,0,0,0,,{\pos(255.51,437.85)}Brother!
-Dialogue: 0,0:00:56.74,0:00:56.77,Serifa Std,,0,0,0,,{\pos(255.98,439.85)}Brother!
+Dialogue: 0,0:00:55.97,0:00:56.01,Serifa Std,,0,0,0,,{\pos(255.86,437.9)}Brother...!
+Dialogue: 0,0:00:56.01,0:00:56.04,Serifa Std,,0,0,0,,{\pos(255.5,437.59)}Brother...!
+Dialogue: 0,0:00:56.04,0:00:56.07,Serifa Std,,0,0,0,,{\pos(256.25,438.14)}Brother...!
+Dialogue: 0,0:00:56.07,0:00:56.11,Serifa Std,,0,0,0,,{\pos(256.15,437.92)}Brother...!
+Dialogue: 0,0:00:56.11,0:00:56.14,Serifa Std,,0,0,0,,{\pos(256.28,438.29)}Brother...!
+Dialogue: 0,0:00:56.14,0:00:56.17,Serifa Std,,0,0,0,,{\pos(256.24,437.79)}Brother...!
+Dialogue: 0,0:00:56.17,0:00:56.21,Serifa Std,,0,0,0,,{\pos(256.43,437.91)}Brother...!
+Dialogue: 0,0:00:56.21,0:00:56.24,Serifa Std,,0,0,0,,{\pos(255.52,437.53)}Brother...!
+Dialogue: 0,0:00:56.24,0:00:56.27,Serifa Std,,0,0,0,,{\pos(255.59,437.81)}Brother...!
+Dialogue: 0,0:00:56.27,0:00:56.31,Serifa Std,,0,0,0,,{\pos(255.8,438.23)}Brother...!
+Dialogue: 0,0:00:56.31,0:00:56.34,Serifa Std,,0,0,0,,{\pos(255.66,437.91)}Brother...!
+Dialogue: 0,0:00:56.34,0:00:56.37,Serifa Std,,0,0,0,,{\pos(256.44,437.81)}Brother...!
+Dialogue: 0,0:00:56.37,0:00:56.41,Serifa Std,,0,0,0,,{\pos(256.4,438.21)}Brother...!
+Dialogue: 0,0:00:56.41,0:00:56.44,Serifa Std,,0,0,0,,{\pos(255.61,438.35)}Brother...!
+Dialogue: 0,0:00:56.44,0:00:56.47,Serifa Std,,0,0,0,,{\pos(255.94,438.09)}Brother...!
+Dialogue: 0,0:00:56.47,0:00:56.51,Serifa Std,,0,0,0,,{\pos(255.71,438.26)}Brother...!
+Dialogue: 0,0:00:56.51,0:00:56.54,Serifa Std,,0,0,0,,{\pos(256.48,438.08)}Brother...!
+Dialogue: 0,0:00:56.54,0:00:56.57,Serifa Std,,0,0,0,,{\pos(256.39,438.47)}Brother...!
+Dialogue: 0,0:00:56.57,0:00:56.61,Serifa Std,,0,0,0,,{\pos(256.39,437.91)}Brother...!
+Dialogue: 0,0:00:56.61,0:00:56.64,Serifa Std,,0,0,0,,{\pos(256.3,437.55)}Brother...!
+Dialogue: 0,0:00:56.64,0:00:56.67,Serifa Std,,0,0,0,,{\pos(256.03,438.23)}Brother...!
+Dialogue: 0,0:00:56.67,0:00:56.71,Serifa Std,,0,0,0,,{\pos(256.07,438.36)}Brother...!
+Dialogue: 0,0:00:56.71,0:00:56.74,Serifa Std,,0,0,0,,{\pos(255.97,438.15)}Brother...!
+Dialogue: 0,0:00:56.74,0:00:56.77,Serifa Std,,0,0,0,,{\pos(256.01,437.56)}Brother...!
 Dialogue: 0,0:00:57.41,0:00:57.44,Serifa Std,,0,0,1,,{\fs45\pos(253.52,445.63)}BROTHER!
 Dialogue: 0,0:00:57.44,0:00:57.47,Serifa Std,,0,0,1,,{\fs45\pos(253.63,445.42)}BROTHER!
 Dialogue: 0,0:00:57.47,0:00:57.51,Serifa Std,,0,0,1,,{\fs45\pos(253.49,448.02)}BROTHER!
